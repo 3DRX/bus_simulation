@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "readfile.h"
+#include "input.h"
 
 // #variables (global)
 ENVIRONMENT * env;
