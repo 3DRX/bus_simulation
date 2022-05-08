@@ -6,6 +6,7 @@
 // #variables (global)
 ENVIRONMENT * env;
 CAR * car;
+STATION * station;
 
 // #functions
 
@@ -15,7 +16,7 @@ void initGame(void)
     FILE* fPtr= fopen("dict.dic", "r");
     readfile(fPtr);
     // init car
-    car->CURRENT_STATION = 0;
+    car->position = 0;
 }
 
 // #main

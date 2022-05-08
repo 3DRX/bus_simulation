@@ -8,8 +8,14 @@ typedef struct{
 } ENVIRONMENT;
 
 typedef struct{
-    int CURRENT_STATION;
+    int position;
+    int target;
 } CAR;
+
+typedef struct{
+    int clockwise;
+    int counterclockwise;
+} STATION;
 
 #endif
 
