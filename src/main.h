@@ -8,7 +8,7 @@ typedef struct{
 } ENVIRONMENT;
 
 typedef struct{
-    int position[10];
+    int position;
     int target[10];
 } CAR;
 
