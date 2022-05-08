@@ -8,13 +8,13 @@ typedef struct{
 } ENVIRONMENT;
 
 typedef struct{
-    int position;
-    int target;
+    int position[10];
+    int target[10];
 } CAR;
 
 typedef struct{
-    int clockwise;
-    int counterclockwise;
+    int clockwise[10];
+    int counterclockwise[10];
 } STATION;
 
 #endif

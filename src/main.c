@@ -23,6 +23,7 @@ void initGame(void)
 
 int main(int argc, char**argv)
 {
+    int TIME = 0;
     initGame();
     return 0;
 }
