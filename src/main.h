@@ -21,5 +21,9 @@ typedef struct{
 
 } digitalOrder;
 
+typedef struct{
+
+} order;
+
 #endif
 
