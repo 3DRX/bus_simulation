@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "main.h"
 #include "input.h"
+#include "output.h"
+#include "strategy.h"
+#include "control.h"
 
 // #variables (global)
 ENVIRONMENT * env;

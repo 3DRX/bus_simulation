@@ -3,8 +3,8 @@
 
 #include "main.h"
 
-void FCFS(digitalOrder * ORDER);
-void SSTF(digitalOrder * ORDER);
-void SCAN(digitalOrder * ORDER);
+void modeFCFS(digitalOrder * ORDER);
+void modeSSTF(digitalOrder * ORDER);
+void modeSCAN(digitalOrder * ORDER);
 
 #endif

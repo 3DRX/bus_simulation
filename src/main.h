@@ -17,13 +17,17 @@ typedef struct{
     int counterclockwise[10];
 } STATION;
 
-typedef struct{
-
+typedef struct DigitalOrder{
+    struct DigitalOrder * before;
+    struct DigitalOrder * next;
 } digitalOrder;
 
-typedef struct{
-
+typedef struct Order{
+    struct aorder * before;
+    struct aorder * next;
 } order;
+
+// TODO: 这里和文档的不一样，确定好不改了之后把文档里的数据结构定义换成此处的
 
 #endif
 
