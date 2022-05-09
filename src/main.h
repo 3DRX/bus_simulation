@@ -17,5 +17,9 @@ typedef struct{
     int counterclockwise[10];
 } STATION;
 
+typedef struct{
+
+} digitalOrder;
+
 #endif
 
