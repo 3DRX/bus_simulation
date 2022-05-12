@@ -34,7 +34,11 @@ void initGame(int TIME)
 int main(int argc, char**argv)
 {
     int TIME;
+    order * headNode;
     initGame(TIME);
+
+    while (1) { // main loop
+    }
     return 0;
 }
 

@@ -23,8 +23,8 @@ typedef struct DigitalOrder{
 } digitalOrder;
 
 typedef struct Order{
-    struct aorder * before;
-    struct aorder * next;
+    struct Order * before;
+    struct Order * next;
 } order;
 
 // TODO: 这里和文档的不一样，确定好不改了之后把文档里的数据结构定义换成此处的
