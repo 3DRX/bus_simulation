@@ -24,10 +24,14 @@ void output(int ifOutPut)
     /*
      * 参数：ifOutPut
      * 为TRUE则输出
-     * 否则不输出
+     * 为FALSE不输出
+     * 为END输出结束行
      */
     if (ifOutPut == TRUE) {
         printLines();
+    }
+    else if (ifOutPut == END) {
+        printf("end\n");
     }
 }
 
