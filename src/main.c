@@ -32,6 +32,11 @@ int main(void)
     int TIME = 0;
     order * headNode;
     initGame();
+    // test
+    printf("TOTAL_STATION:%d\n",env.TOTAL_STATION);
+    printf("STRATEGY:%d\n",env.STRATEGY);
+    printf("DISTANCE:%d\n",env.DISTANCE);
+    // endtest
 
     while (1) { // main loop
     }

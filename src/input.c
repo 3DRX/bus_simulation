@@ -6,11 +6,9 @@ extern ENVIRONMENT env;
 
 void readfile(FILE * fPtr) // 从文件中读取环境初始配置
 {
-    char station[] = "TOTAL_STATION";
-    char strategy[] = "STRATEGY";
-    char distance[] = "DISTANCE";
     int workingIndex = 0;
-    enum {COMMENT, NORMAL} state;
+    int temp = 0;
+    enum {COMMENT, NORMAL, TOTAL_STATION, STRATEGY, DISTANCE} state;
     char * lineBuffer = (char *)malloc(sizeof(char)* 100);
 
     env.TOTAL_STATION = 5;
@@ -21,15 +19,65 @@ void readfile(FILE * fPtr) // 从文件中读取环境初始配置
     state = NORMAL;
     while (1) {
         if ((fscanf(fPtr, "%c", &ipt)) == EOF) {
+            printf("!! file end\n");
+            printf("!! TOTAL_STATION is %d\n",env.TOTAL_STATION);
+            printf("!! DISTANCE is %d\n",env.DISTANCE);
             break;
         }
+        else {
+            workingIndex++;
+        }
         if (state == NORMAL) {
-            if (workingIndex == 0 && ipt == '#') {
+            printf("!! enter state: NORMAL\n");
+            if (workingIndex == 1 && ipt == '#') {
                 state = COMMENT;
+            }
+            else if (workingIndex == 1 && ipt == 'T') {
+                state = TOTAL_STATION;
+            }
+            else if (workingIndex == 1 && ipt == 'S') {
+                state = STRATEGY;
+            }
+            else if (workingIndex == 1 && ipt == 'D') {
+                state = DISTANCE;
+            }
+            else if (ipt == '\n') {
+                workingIndex = 0;
             }
         }
         else if (state == COMMENT) {
+            printf("!! enter state: COMMENT\n");
             if (ipt == '\n') {
+                state = NORMAL;
+                workingIndex = 0;
+            }
+        }
+        else if (state == TOTAL_STATION) {
+            printf("!! enter state: TOTAL_STATION\n");
+            if (temp == 0 && ipt == '=') {
+                fscanf(fPtr, "%d", &env.TOTAL_STATION);
+                printf("!! TOTAL_STATION changed to %d\n",env.TOTAL_STATION);
+                temp = 0;
+                state = NORMAL;
+            }
+        }
+        else if (state == STRATEGY) {
+            printf("!! enter state: STRATEGY\n");
+            //if (temp == 0 && ipt == '=') {
+                //int temp = workingIndex;
+            //}
+            //else if (workingIndex == temp+1) {
+                //fscanf(fPtr, "%d", &env.STRATEGY);
+                //temp = 0;
+                //state = NORMAL;
+            //}
+        }
+        else if (state == DISTANCE) {
+            printf("!! enter state: DISTANCE\n");
+            if (temp == 0 && ipt == '=') {
+                fscanf(fPtr, "%d", &env.DISTANCE);
+                printf("!! DISTANCE changed to %d\n",env.DISTANCE);
+                temp = 0;
                 state = NORMAL;
             }
         }
@@ -37,3 +85,4 @@ void readfile(FILE * fPtr) // 从文件中读取环境初始配置
 
     // end read file
 }
+
