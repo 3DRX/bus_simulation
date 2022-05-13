@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/out.dir/src/control.c.o CMakeFiles/out.dir/src/input.c.o CMakeFiles/out.dir/src/main.c.o CMakeFiles/out.dir/src/output.c.o CMakeFiles/out.dir/src/strategy.c.o  -o ../out 

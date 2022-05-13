@@ -1,3 +1,0 @@
-/home/kangjingyang/Documents/Bus_Operation/build/CMakeFiles/rebuild_cache.dir
-/home/kangjingyang/Documents/Bus_Operation/build/CMakeFiles/edit_cache.dir
-/home/kangjingyang/Documents/Bus_Operation/build/CMakeFiles/out.dir
