@@ -34,7 +34,15 @@ int main(void)
     initGame();
     // test
     printf("TOTAL_STATION:%d\n",env.TOTAL_STATION);
-    printf("STRATEGY:%d\n",env.STRATEGY);
+    if (env.STRATEGY == FCFS) {
+        printf("STRATEGY: FCFS\n");
+    }
+    else if (env.STRATEGY == SSTF) {
+        printf("STRATEGY: SSTF\n");
+    }
+    else if (env.STRATEGY == SCAN) {
+        printf("STRATEGY: SCAN\n");
+    }
     printf("DISTANCE:%d\n",env.DISTANCE);
     // endtest
 
