@@ -1,0 +1,29 @@
+# a comment
+    # another comment
+# 不知道上面这样的算不算#出现在开头，保险起见还是要做判断
+
+TOTAL_STATION = 9
+
+# a comment
+STRATEGY = SSTF
+
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+# a comment
+DISTANCE = 3
+
+# overwrite strategy
+STRATEGY = SCAN
