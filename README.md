@@ -92,6 +92,7 @@ main.c input.c output.c strategy.c control.c
 
 1. 控制移动
    `void car_control(int destination, int * buf);`
+- [ ] 瞿嘉辰
 
 2. 改变station数据
    `void station_control(int * buf);`
