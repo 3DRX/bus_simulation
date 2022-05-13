@@ -78,6 +78,7 @@ main.c input.c output.c strategy.c control.c
 
 1. 输出车状态、输出站台状态、输出时间
    `void output();`
+- [ ] 康京旸
 
 **strategy**
 
