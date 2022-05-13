@@ -1,6 +1,9 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#define TRUE (1)
+#define FALSE (0)
+
 typedef struct{
     int TOTAL_STATION;
     int DISTANCE;
@@ -9,12 +12,12 @@ typedef struct{
 
 typedef struct{
     int position;
-    int target[10];
+    char target[11];
 } CAR;
 
 typedef struct{
-    int clockwise[10];
-    int counterclockwise[10];
+    char clockwise[11];
+    char counterclockwise[11];
 } STATION;
 
 typedef struct DigitalOrder{

@@ -3,6 +3,7 @@
 
 #include "main.h"
 
-void output();
+
+void output(int ifOutPut);
 
 #endif

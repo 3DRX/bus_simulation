@@ -10,11 +10,19 @@
 ENVIRONMENT env;
 CAR car;
 STATION station;
+int TIME = 0;
 // TODO: 这三个将来可以放进main函数
 
 // #functions
 void initGame(void)
 {
+    /*
+     * 初始化：
+     * 配置参数
+     * car position
+     * car target
+     * station clockwise & counterclockwise
+     */
     // init environment
     FILE* fPtr = NULL;
     if ((fPtr = fopen("dict.dic", "r")) == NULL) {
@@ -22,31 +30,39 @@ void initGame(void)
         exit(EXIT_FAILURE);
     }
     readfile(fPtr);
-    // init car
+    // init car & station
+    // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
+    // 就把所有的 env.TOTAL_STATION 替换为10
     car.position = 0;
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        car.target[i] = '0';
+        station.clockwise[i] = '0';
+        station.counterclockwise[i] = '0';
+    }
+    car.target[env.TOTAL_STATION+1] = '\0';
+    station.clockwise[env.TOTAL_STATION+1] = '\0';
+    station.counterclockwise[env.TOTAL_STATION+1] = '\0';
+}
+
+void mainLoop(void)
+{
+    // output
+
+    // test
+    short penis = FALSE;
+    if (getchar() == 'a') {
+        penis = TRUE;
+    }
+    output(penis);
+    // endtest
 }
 
 // #main
 int main(void)
 {
-    int TIME = 0;
-    order * headNode;
     initGame();
-    // test
-    printf("TOTAL_STATION:%d\n",env.TOTAL_STATION);
-    if (env.STRATEGY == FCFS) {
-        printf("STRATEGY: FCFS\n");
-    }
-    else if (env.STRATEGY == SSTF) {
-        printf("STRATEGY: SSTF\n");
-    }
-    else if (env.STRATEGY == SCAN) {
-        printf("STRATEGY: SCAN\n");
-    }
-    printf("DISTANCE:%d\n",env.DISTANCE);
-    // endtest
-
     while (1) { // main loop
+        mainLoop();
     }
     return 0;
 }
