@@ -32,7 +32,7 @@ void initGame(void)
     readfile(fPtr);
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
-    // 就把所有的 env.TOTAL_STATION 替换为10
+    // 就把所有的 env.TOTAL_STATION 替换为10）
     car.position = 0;
     for (int i = 0; i < env.TOTAL_STATION; i++) {
         car.target[i] = '0';
@@ -47,7 +47,7 @@ void initGame(void)
 void mainLoop(void)
 {
     // output
-
+    // 输出应在每一个 mainLoop 的开头进行
     // test
     short penis = FALSE;
     if (getchar() == 'a') {

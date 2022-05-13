@@ -11,12 +11,12 @@ void printLines(void)
     printf("BUS:\n");
     printf("position:%d\n",car.position);
     car.target[10] = '\0'; // 防越界
-    printf("target: %s\n",car.target); // TODO print target sequence
+    printf("target: %s\n",car.target);
     printf("STATION:\n");
     station.clockwise[10] = '\0'; // 防越界
     station.counterclockwise[10] = '\0'; // 防越界
-    printf("clockwise: %s\n",station.clockwise); // TODO print clockwise sequence
-    printf("counterclockwise: %s\n",station.counterclockwise); // TODO print counterclockwise sequence
+    printf("clockwise: %s\n",station.clockwise);
+    printf("counterclockwise: %s\n",station.counterclockwise);
 }
 
 void output(int ifOutPut)
