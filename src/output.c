@@ -19,13 +19,13 @@ void printLines(void)
     printf("counterclockwise: %s\n",station.counterclockwise);
 }
 
-void output(int ifOutPut)
+void outPut(int ifOutPut)
 {
-    /*
+    /**
      * 参数：ifOutPut
-     * 为TRUE则输出
-     * 为FALSE不输出
-     * 为END输出结束行
+     * 为 TRUE 输出
+     * 为 FALSE 不输出
+     * 为 END 输出结束行
      */
     if (ifOutPut == TRUE) {
         printLines();

@@ -53,7 +53,7 @@ void mainLoop(void)
     if (getchar() == 'a') {
         penis = TRUE;
     }
-    output(penis);
+    outPut(penis);
     // endtest
 }
 

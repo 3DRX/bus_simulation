@@ -3,6 +3,6 @@
 
 #include "main.h"
 
-void output(int ifOutPut);
+void outPut(int ifOutPut);
 
 #endif

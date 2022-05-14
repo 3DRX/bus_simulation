@@ -21,6 +21,11 @@ typedef struct{
     char counterclockwise[11];
 } STATION;
 
+// DISCUSSTION:
+// 有必要将order单独作为结构体存储吗？
+// 既然策略的判断都不依赖后面的指令，
+// 是否可以在读入请求后直接存在 CAR 和 STATION
+// 的 target 和 clock/counterclockwise 中（怎么输出就怎么存）？
 typedef struct DigitalOrder{
     struct DigitalOrder * before;
     struct DigitalOrder * next;
@@ -31,7 +36,8 @@ typedef struct Order{
     struct Order * next;
 } order;
 
-// TODO: 这里和文档的不一样，确定好不改了之后把文档里的数据结构定义换成此处的
+// TODO: 这里和文档的不一样，确定好不改了之后
+// 把文档里的数据结构定义换成此处的。
 
 #endif
 
