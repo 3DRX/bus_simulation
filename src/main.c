@@ -29,7 +29,7 @@ void initGame(void)
         printf("Can't open file \"dict.dic\"\n");
         exit(EXIT_FAILURE);
     }
-    readfile(fPtr);
+    readfile( fPtr );
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
     // 就把所有的 env.TOTAL_STATION 替换为10）
@@ -50,7 +50,7 @@ void mainLoop(void)
     // 输出应在每一个 mainLoop 的开头进行
     // test
     short penis = FALSE;
-    if (getchar() == 'a') {
+    if ( getchar() == 'a' ) {
         penis = TRUE;
     }
     outPut(penis);

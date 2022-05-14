@@ -4,11 +4,11 @@
 #include "main.h"
 #include <stdio.h>
 
-void readfile(FILE * fPtr);
+void readfile( FILE* fPtr );
 
-order * readOrder();
+order* readOrder();
 
-digitalOrder * getMemory();
+digitalOrder* getMemory();
 
 void createList();
 
