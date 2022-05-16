@@ -47,21 +47,27 @@ void initGame( void )
 
 void mainLoop( void )
 {
-    // output
+    // 1: output
     // 输出应在每一个 mainLoop 的开头进行
     // test
     short penis = FALSE;
     if ( getchar() == 'a' ) {
         TIME++;
-        if (TIME == 5) {
-            car.target[0][1] = 1;
+        if ( TIME == 5 ) {
+            car.target[ 0 ][ 1 ] = 1;
         }
-        if (TIME == 8) {
-            car.target[0][1] = 0;
+        if ( TIME == 8 ) {
+            car.target[ 0 ][ 1 ] = 0;
         }
         penis = TRUE;
     }
     outPut( penis );
+    // endtest
+
+    // 2: input
+    // 3: strategy
+    // test
+    strategy();
     // endtest
 }
 

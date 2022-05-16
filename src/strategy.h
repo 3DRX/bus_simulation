@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-void modeFCFS();
-void modeSSTF();
-void modeSCAN();
+void strategy( void );
 
 #endif

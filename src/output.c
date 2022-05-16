@@ -42,15 +42,10 @@ void printLines( void )
 
 void outPut( int ifOutPut )
 {
-    /**
-     * 参数：ifOutPut
-     * 为 TRUE 输出
-     * 为 FALSE 不输出
-     * 为 END 输出结束行
-     */
     if ( ifOutPut == TRUE ) {
         printLines();
-    } else if ( ifOutPut == END ) {
+    }
+    else if ( ifOutPut == END ) {
         printf( "end\n" );
     }
 }
