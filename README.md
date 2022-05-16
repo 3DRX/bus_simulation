@@ -74,6 +74,8 @@ main.c input.c output.c strategy.c control.c
    `void createList();`
 - [ ] 盛泽桓
 
+用car和station存数据的话，3和4就不需要做了
+
 **output**
 
 1. 输出车状态、输出站台状态、输出时间
