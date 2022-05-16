@@ -1,20 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
+#include "control.h"
 #include "input.h"
 #include "output.h"
 #include "strategy.h"
-#include "control.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // #variables (global)
 ENVIRONMENT env;
-CAR car;
-STATION station;
-int TIME = 0;
+CAR         car;
+STATION     station;
+int         TIME = 0;
 // TODO: 这三个将来可以放进main函数
 
 // #functions
-void initGame(void)
+void initGame( void )
 {
     /*
      * 初始化：
@@ -25,43 +25,51 @@ void initGame(void)
      */
     // init environment
     FILE* fPtr = NULL;
-    if ((fPtr = fopen("dict.dic", "r")) == NULL) {
-        printf("Can't open file \"dict.dic\"\n");
-        exit(EXIT_FAILURE);
+    if ( ( fPtr = fopen( "dict.dic", "r" ) ) == NULL ) {
+        printf( "Can't open file \"dict.dic\"\n" );
+        exit( EXIT_FAILURE );
     }
     readfile( fPtr );
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
-    // 就把所有的 env.TOTAL_STATION 替换为10）
+    // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
     car.position = 0;
-    for (int i = 0; i < env.TOTAL_STATION; i++) {
-        car.target[i] = '0';
-        station.clockwise[i] = '0';
-        station.counterclockwise[i] = '0';
+    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
+        car.target[ 0 ][ i ] = 0;
+        station.clockwise[ 0 ][ i ] = 0;
+        station.counterclockwise[ 0 ][ i ] = 0;
     }
-    car.target[env.TOTAL_STATION+1] = '\0';
-    station.clockwise[env.TOTAL_STATION+1] = '\0';
-    station.counterclockwise[env.TOTAL_STATION+1] = '\0';
+    car.target[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
+    // 上面三行中 -1 表示行结束（类似'\0'）
 }
 
-void mainLoop(void)
+void mainLoop( void )
 {
     // output
     // 输出应在每一个 mainLoop 的开头进行
     // test
     short penis = FALSE;
     if ( getchar() == 'a' ) {
+        TIME++;
+        if (TIME == 5) {
+            car.target[0][1] = 1;
+        }
+        if (TIME == 8) {
+            car.target[0][1] = 0;
+        }
         penis = TRUE;
     }
-    outPut(penis);
+    outPut( penis );
     // endtest
 }
 
 // #main
-int main(void)
+int main( void )
 {
     initGame();
-    while (1) { // main loop
+    while ( 1 ) { // main loop
         mainLoop();
     }
     return 0;

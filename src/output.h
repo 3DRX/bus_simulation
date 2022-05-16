@@ -3,6 +3,12 @@
 
 #include "main.h"
 
+/**
+ * @参数：ifOutPut
+ * 为 TRUE 输出，
+ * 为 FALSE 不输出，
+ * 为 END 输出结束行。
+ */
 void outPut( int ifOutPut );
 
 #endif
