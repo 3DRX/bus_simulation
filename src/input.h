@@ -6,9 +6,9 @@
 
 void readfile( FILE* fPtr );
 
-//order* readOrder();
+// order* readOrder();
 
-//digitalOrder* getMemory();
+// digitalOrder* getMemory();
 
 void createList();
 

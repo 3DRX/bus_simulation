@@ -50,7 +50,8 @@ void outPut( int ifOutPut )
      */
     if ( ifOutPut == TRUE ) {
         printLines();
-    } else if ( ifOutPut == END ) {
+    }
+    else if ( ifOutPut == END ) {
         printf( "end\n" );
     }
 }
