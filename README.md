@@ -98,3 +98,6 @@ main.c input.c output.c strategy.c control.c
 
 2. 改变station数据
    `void station_control(int * buf);`
+
+这个应由input控制还是由control控制？
+
