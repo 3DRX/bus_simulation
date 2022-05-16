@@ -4,39 +4,39 @@
 
 ### 常量定义
 
-> 开发时按需添加
-
-### 全局变量定义
-
 ```c
-ENVIRONMENT * env;
-CAR * car;
-STATION * station;
+#define TRUE ( 1 )
+#define FALSE ( 0 )
+#define END ( -1 )
 ```
 
-### 数据结构定义
+### 全局变量
 
-```C
-typedef struct{
+```c
+ENVIRONMENT env;
+CAR         car;
+STATION     station;
+int         TIME = 0;
+```
+
+### 结构定义
+
+```c
+typedef struct {
     int TOTAL_STATION;
     int DISTANCE;
-    enum {FCFS, SSTF, SCAN} STRATEGY;
+    enum { FCFS, SSTF, SCAN } STRATEGY;
 } ENVIRONMENT;
-// 配置文件中的环境
 
-typedef struct{
+typedef struct {
     int position;
-    int target;
+    int target[ 2 ][ 11 ];
 } CAR;
-// 车对象
 
-typedef struct{
-    int clockwise;
-    int counterclockwise;
+typedef struct {
+    int clockwise[ 2 ][ 11 ];
+    int counterclockwise[ 2 ][ 11 ];
 } STATION;
-// 站台对象
-
-// 链表：digitalOrder
 ```
 
 ## 系统模块划分
@@ -66,38 +66,76 @@ main.c input.c output.c strategy.c control.c
    `order * readOrder();`
 - [ ] 盛泽桓
 
-3. 为命令申请内存
-   `digitalOrder * getMemory();`
-- [ ] 盛泽桓
-
-4. 将命令储存为链表
-   `void createList();`
-- [ ] 盛泽桓
-
-用car和station存数据的话，3和4就不需要做了
-
 **output**
 
 1. 输出车状态、输出站台状态、输出时间
-   `void output();`
+```c
+/**
+ * 参数：ifOutPut
+ * 为 TRUE 输出，
+ * 为 FALSE 不输出，
+ * 为 END 输出结束行。
+ */
+void outPut( int ifOutPut );
+```
+- [x] 康京旸
+
+内部函数：
+
+```c
+void printLines( void );
+```
 - [x] 康京旸
 
 **strategy**
 
+外部函数：
+
 1. `void FCFS(digitalOrder * ORDER);`
 
 2. `void SSTF(digitalOrder * ORDER);`
+- [ ] 康京旸
 
 3. `void SCAN(digitalOrder * ORDER);`
 
-**control**
+内部函数：
 
-1. 控制移动
-   `void car_control(int destination, int * buf);`
-- [ ] 瞿嘉辰
+> **stationNumber**: 站点的序号，从 1 开始  
+> **positionIndex**: 位置的索引，从 0 开始  
+> 一个 station 中间会有若干个 position ，本问题涉及两个序列。在此对命名进行规范。
 
-2. 改变station数据
-   `void station_control(int * buf);`
+1. 
 
-这个应由input控制还是由control控制？
+```c
+/**计算当前位置与目标位置之间的距离。
+ * stationNumber：目标站号（从1开始）
+ */
+int stationDistance( int stationNumber );
+```
+
+2. 
+```c
+/**寻找当前所有请求中最短的那个，
+ * 返回到达用时最短的站台编号（从1开始）。
+ * 如果无请求，就返回-1
+ */
+int findNearestStationNumber( void );
+```
+- [x] 康京旸
+
+3. 
+```c
+/**通过positionIndex计算对应的stationNumber，
+ * 如果position在站点上，返回站台编号，
+ * 如果所在position不是站点，返回-1。
+ */
+int getStationNumber( int positionIndex );
+```
+
+4. 
+```c
+/**通过stationNumber计算对应的positionIndex，
+ */
+int getPositionIndex( int stationNumber );
+```
 

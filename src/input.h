@@ -6,10 +6,6 @@
 
 void readfile( FILE* fPtr );
 
-// order* readOrder();
-
-// digitalOrder* getMemory();
-
-void createList();
+void readOrder();
 
 #endif
