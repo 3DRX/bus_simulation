@@ -50,7 +50,7 @@ void strategy( void )
 void modeSSTF( void )
 {
     // 状态变量，初始化为NO_TASK
-    static enum { NO_TASK, CLOCKWISE, COUNTERCLOCKWISE } state = NO_TASK;
+    static enum { NO_TASK, CLOCKWISE, COUNTERCLOCKWISE, STOP } state = NO_TASK;
     static int s_dest_stationNumber = -1;
     if ( state == NO_TASK ) {
         // 找到距离最近的请求，确定行驶方向
@@ -71,16 +71,19 @@ void modeSSTF( void )
     else if ( state == CLOCKWISE ) {
         // TODO
         // 这里实际上是SCAN顺便服务策略
-        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明完成了请求
-            state = NO_TASK;
+        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
+            state = STOP;
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {
         // TODO
         // 这里实际上是SCAN顺便服务策略
-        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明完成了请求
-            state = NO_TASK;
+        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
+            state = STOP;
         }
+    }
+    else if ( state == STOP ) {
+        state = NO_TASK;
     }
 }
 
