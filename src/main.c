@@ -14,15 +14,16 @@ int         TIME = 0;
 // TODO: 这三个将来可以放进main函数
 
 // #functions
+
+/*
+ * 初始化：
+ * 配置参数
+ * car position
+ * car target
+ * station clockwise & counterclockwise
+ */
 void initGame( void )
 {
-    /*
-     * 初始化：
-     * 配置参数
-     * car position
-     * car target
-     * station clockwise & counterclockwise
-     */
     // init environment
     FILE* fPtr = NULL;
     if ( ( fPtr = fopen( "dict.dic", "r" ) ) == NULL ) {
