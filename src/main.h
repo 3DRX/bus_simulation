@@ -22,5 +22,12 @@ typedef struct {
     int counterclockwise[ 2 ][ 11 ];
 } STATION;
 
+typedef struct Node{
+    struct Node *prev;
+    int where;
+    int stationNumber;
+    struct Node *next;
+} NODE;
+
 #endif
 

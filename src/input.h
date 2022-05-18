@@ -8,4 +8,6 @@ void readfile( FILE* fPtr );
 
 void readOrder();
 
+void FCFS_readOrder();
+
 #endif

@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 extern int     TIME;
 extern CAR     car;
@@ -43,6 +44,10 @@ void printLines( void )
 
 void outPut( int ifOutPut )
 {
+    if (TIME == -1) {
+        printf("end\n");
+        exit(EXIT_SUCCESS);
+    }
     if ( ifOutPut == TRUE ) {
         printLines();
     }
