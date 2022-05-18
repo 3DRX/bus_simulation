@@ -129,32 +129,10 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
     }
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
-        //命令为clock时需调用或给strategy模块传值
     }
     else {
         printf( "宁写错了\n" );
         printf( "AKA: you fucked up\n" );
-        //printf( "
-//_______AAAA__you fucked upAAAA________\n
-       //VVVV               VVVV        \n
-       //(__)               (__)\n
-        //\ \               / /\n
-         //\ \   \\|||//   / /\n
-          //> \   _   _   / <\n
-           //> \ / \ / \ / <\n
-            //> \\_o_o_// <\n
-             //> ( (_) ) <\n
-              //>|     |<\n
-             /// |\___/| \\n
-             /// (_____) \\n
-             ///         \\n
-              ///   o   \\n
-               //)   _ (   \n
-              /// /0I0\ \  \n
-             //( /  I  \ )\n
-             //><   ω   ><\n
-            /////\     /\\\\n
-            //'''       '''\n" );
     }
 }
 

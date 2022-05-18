@@ -51,24 +51,29 @@ void mainLoop( void )
     // 1: output
     // 输出应在每一个 mainLoop 的开头进行
     // test
-    short penis = FALSE;
-    if ( getchar() == 'a' ) {
-        TIME++;
-        if ( TIME == 5 ) {
-            car.target[ 0 ][ 1 ] = 1;
-        }
-        if ( TIME == 8 ) {
-            car.target[ 0 ][ 1 ] = 0;
-        }
-        penis = TRUE;
-    }
-    outPut( penis );
+    //short penis = FALSE;
+    //if ( getchar() == 'a' ) {
+        //TIME++;
+        //if ( TIME == 5 ) {
+            //car.target[ 0 ][ 1 ] = 1;
+        //}
+        //if ( TIME == 8 ) {
+            //car.target[ 0 ][ 1 ] = 0;
+        //}
+        //penis = TRUE;
+    //}
+    //outPut( penis );
     // endtest
 
     // 2: input
+    readOrder();
     // 3: strategy
     // test
-    strategy();
+    outPut(TRUE);
+    printf("-----------------------------------------------\n");
+    // endtest
+    // test
+    //strategy();
     // endtest
 }
 
