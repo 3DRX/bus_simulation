@@ -4,9 +4,9 @@
 #include <string.h>
 
 extern ENVIRONMENT env;
-extern CAR car;
-extern STATION station;
-extern int TIME;
+extern CAR         car;
+extern STATION     station;
+extern int         TIME;
 
 void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
 {
@@ -92,11 +92,11 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
 
 void readOrder() //为读入的命令排序是否需要添加全局变量orderCount
 {
-    char orderType[ 17 ];
-    char c;
-    int  targetPosition;
+    char       orderType[ 17 ];
+    char       c;
+    int        targetPosition;
     static int orderCount = 1;
-    int  count = 0;
+    int        count = 0;
     while ( 1 ) //读取命令
     {
         c = getchar();
@@ -104,7 +104,7 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
         {
             orderType[ count ] = '\0';
             scanf( "%d", &targetPosition );
-            getchar();//用于吞掉本行'\n'
+            getchar(); //用于吞掉本行'\n'
             break;
         }
         else if ( c == '\n' ) {
@@ -117,24 +117,24 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
         count++;
     }
     if ( strcmp( orderType, "target" ) == 0 ) {
-        car.target[ 0 ][ targetPosition-1 ] = 1;
-        car.target[ 1 ][ targetPosition-1 ] = orderCount;
+        car.target[ 0 ][ targetPosition - 1 ] = 1;
+        car.target[ 1 ][ targetPosition - 1 ] = orderCount;
         orderCount++;
     }
     else if ( strcmp( orderType, "clockwise" ) == 0 ) {
-        station.clockwise[ 0 ][ targetPosition-1 ] = 1;
-        station.clockwise[ 1 ][ targetPosition-1 ] = orderCount;
+        station.clockwise[ 0 ][ targetPosition - 1 ] = 1;
+        station.clockwise[ 1 ][ targetPosition - 1 ] = orderCount;
         orderCount++;
     }
     else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
-        station.counterclockwise[ 0 ][ targetPosition-1 ] = 1;
-        station.counterclockwise[ 1 ][ targetPosition-1 ] = orderCount;
+        station.counterclockwise[ 0 ][ targetPosition - 1 ] = 1;
+        station.counterclockwise[ 1 ][ targetPosition - 1 ] = orderCount;
         orderCount++;
     }
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
     }
-    else if ( strcmp( orderType, "end" ) ==0 ){
+    else if ( strcmp( orderType, "end" ) == 0 ) {
         TIME = -1;
     }
     else {

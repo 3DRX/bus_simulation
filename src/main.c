@@ -44,37 +44,16 @@ void initGame( void )
     station.clockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
     station.counterclockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
     // 上面三行中 -1 表示行结束（类似'\0'）
+
+    // 输出TIME: 0
+    outPut(TRUE);
 }
 
 void mainLoop( void )
 {
-    // 1: output
-    // 输出应在每一个 mainLoop 的开头进行
-    // test
-    //short penis = FALSE;
-    //if ( getchar() == 'a' ) {
-        //TIME++;
-        //if ( TIME == 5 ) {
-            //car.target[ 0 ][ 1 ] = 1;
-        //}
-        //if ( TIME == 8 ) {
-            //car.target[ 0 ][ 1 ] = 0;
-        //}
-        //penis = TRUE;
-    //}
-    //outPut( penis );
-    // endtest
-
-    // 2: input
     readOrder();
-    // 3: strategy
-    // test
     outPut(DBG);
-    printf("-----------------------------------------------\n");
-    // endtest
-    // test
     //strategy();
-    // endtest
 }
 
 // #main
