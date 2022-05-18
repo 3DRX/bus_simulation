@@ -134,9 +134,6 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
     }
-    else if ( strcmp(orderType, "end") == 0 ) {
-        TIME = -1;
-    }
     else {
         printf( "宁写错了\n" );
         printf( "AKA: you fucked up\n" );
