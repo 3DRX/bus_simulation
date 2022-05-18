@@ -4,6 +4,7 @@
 #define TRUE ( 1 )
 #define FALSE ( 0 )
 #define END ( -1 )
+#define DBG (-2)
 
 typedef struct {
     int TOTAL_STATION;

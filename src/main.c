@@ -69,7 +69,7 @@ void mainLoop( void )
     readOrder();
     // 3: strategy
     // test
-    outPut(TRUE);
+    outPut(DBG);
     printf("-----------------------------------------------\n");
     // endtest
     // test
