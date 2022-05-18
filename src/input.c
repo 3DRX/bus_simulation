@@ -4,6 +4,9 @@
 #include <string.h>
 
 extern ENVIRONMENT env;
+extern CAR car;
+extern STATION station;
+extern int TIME;
 
 void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
 {
@@ -87,55 +90,71 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
     // end read file
 }
 
-void readOrder()//为读入的命令排序是否需要添加全局变量orderCount
+void readOrder() //为读入的命令排序是否需要添加全局变量orderCount
 {
-    char orderType[17];
+    char orderType[ 17 ];
     char c;
-    int targetPosition;
-    int count=0;
-    while (1)//读取命令
+    int  targetPosition;
+    static int orderCount = 1;
+    int  count = 0;
+    while ( 1 ) //读取命令
     {
-        c=getchar();
-        if (c==' ')//命令类型已读完
+        c = getchar();
+        if ( c == ' ' ) //命令类型已读完
         {
-            orderType[count]='\0';
-            scanf("%d",&targetPosition);
+            orderType[ count ] = '\0';
+            scanf( "%d", &targetPosition );
             break;
         }
-        else if (c=='\n')
-        {
-            orderType[count]='\0';
+        else if ( c == '\n' ) {
+            orderType[ count ] = '\0';
             break;
         }
-        else 
-        {
-            orderType[count]=c
+        else {
+            orderType[ count ] = c;
         }
         count++;
     }
-    if (strcmp(orderType,"target")==0)
-    {
-        car->target[0][targetPosition]=1;
-        car->target[1][targetPosition]=orderCount;
+    if ( strcmp( orderType, "target" ) == 0 ) {
+        car.target[ 0 ][ targetPosition ] = 1;
+        car.target[ 1 ][ targetPosition ] = orderCount;
     }
-    else if (strcmp(orderType,"clockwise")==0)
-    {
-        station->clockwise[0][targetPosition]=1;
-        station->clockwise[1][targetPosition]=orderCount;
+    else if ( strcmp( orderType, "clockwise" ) == 0 ) {
+        station.clockwise[ 0 ][ targetPosition ] = 1;
+        station.clockwise[ 1 ][ targetPosition ] = orderCount;
     }
-    else if (strcmp(orderType,"counterclockwise")==0)
-    {
-        station->counterclockwise[0][targetPosition]=1;
-        station->counterclockwise[1][targetPosition]=orderCount;
+    else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
+        station.counterclockwise[ 0 ][ targetPosition ] = 1;
+        station.counterclockwise[ 1 ][ targetPosition ] = orderCount;
     }
-    else if (strcmp(orderType,"clock")==0)
-    {
-        time++;
+    else if ( strcmp( orderType, "clock" ) == 0 ) {
+        TIME++;
         //命令为clock时需调用或给strategy模块传值
     }
-    else 
-    {
-        printf("宁写错了\n");
+    else {
+        printf( "宁写错了\n" );
+        printf( "AKA: you fucked up\n" );
+        //printf( "
+//_______AAAA__you fucked upAAAA________\n
+       //VVVV               VVVV        \n
+       //(__)               (__)\n
+        //\ \               / /\n
+         //\ \   \\|||//   / /\n
+          //> \   _   _   / <\n
+           //> \ / \ / \ / <\n
+            //> \\_o_o_// <\n
+             //> ( (_) ) <\n
+              //>|     |<\n
+             /// |\___/| \\n
+             /// (_____) \\n
+             ///         \\n
+              ///   o   \\n
+               //)   _ (   \n
+              /// /0I0\ \  \n
+             //( /  I  \ )\n
+             //><   ω   ><\n
+            /////\     /\\\\n
+            //'''       '''\n" );
     }
 }
 

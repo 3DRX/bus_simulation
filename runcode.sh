@@ -1,3 +1,4 @@
+rm ./out
 cd ./build
 rm -rf *
 cmake ..

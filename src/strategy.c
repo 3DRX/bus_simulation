@@ -4,6 +4,7 @@
 extern ENVIRONMENT env;
 extern CAR         car;
 extern STATION     station;
+extern int         TIME;
 
 void modeFCFS();
 void modeSSTF();
@@ -36,14 +37,24 @@ int getPositionIndex( int stationNumber );
 
 void strategy( void )
 {
-    if ( env.STRATEGY == FCFS ) {
-        modeFCFS();
+    // 判断是否是新的一秒，只有在新的一秒的时候
+    // （即一秒之内的所有指令全部写入结构体），
+    // 才进行strategy的判断
+    static int lastTime = 0;
+    if ( lastTime == TIME ) {
+        return;
     }
-    else if ( env.STRATEGY == SSTF ) {
-        modeSSTF();
-    }
-    else if ( env.STRATEGY == SCAN ) {
-        modeSCAN();
+    else {
+        lastTime = TIME;
+        if ( env.STRATEGY == FCFS ) {
+            modeFCFS();
+        }
+        else if ( env.STRATEGY == SSTF ) {
+            modeSSTF();
+        }
+        else if ( env.STRATEGY == SCAN ) {
+            modeSCAN();
+        }
     }
 }
 
@@ -54,7 +65,7 @@ void modeSSTF( void )
     static int s_dest_stationNumber = -1;
     if ( state == NO_TASK ) {
         // 找到距离最近的请求，确定行驶方向
-        if (findNearestStationNumber() == -1) { // 如果不存在请求，直接退出函数
+        if ( findNearestStationNumber() == -1 ) { // 如果不存在请求，直接退出函数
             return;
         }
         s_dest_stationNumber = findNearestStationNumber();
@@ -71,14 +82,14 @@ void modeSSTF( void )
     else if ( state == CLOCKWISE ) {
         // TODO
         // 这里实际上是SCAN顺便服务策略
-        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             state = STOP;
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {
         // TODO
         // 这里实际上是SCAN顺便服务策略
-        if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             state = STOP;
         }
     }
