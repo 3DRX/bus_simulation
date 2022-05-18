@@ -87,3 +87,55 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
     // end read file
 }
 
+void readOrder()//为读入的命令排序是否需要添加全局变量orderCount
+{
+    char orderType[17];
+    char c;
+    int targetPosition;
+    int count=0;
+    while (1)//读取命令
+    {
+        c=getchar();
+        if (c==' ')//命令类型已读完
+        {
+            orderType[count]='\0';
+            scanf("%d",&targetPosition);
+            break;
+        }
+        else if (c=='\n')
+        {
+            orderType[count]='\0';
+            break;
+        }
+        else 
+        {
+            orderType[count]=c
+        }
+        count++;
+    }
+    if (strcmp(orderType,"target")==0)
+    {
+        car->target[0][targetPosition]=1;
+        car->target[1][targetPosition]=orderCount;
+    }
+    else if (strcmp(orderType,"clockwise")==0)
+    {
+        station->clockwise[0][targetPosition]=1;
+        station->clockwise[1][targetPosition]=orderCount;
+    }
+    else if (strcmp(orderType,"counterclockwise")==0)
+    {
+        station->counterclockwise[0][targetPosition]=1;
+        station->counterclockwise[1][targetPosition]=orderCount;
+    }
+    else if (strcmp(orderType,"clock")==0)
+    {
+        time++;
+        //命令为clock时需调用或给strategy模块传值
+    }
+    else 
+    {
+        printf("宁写错了\n");
+    }
+}
+
