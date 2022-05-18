@@ -104,6 +104,7 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
         {
             orderType[ count ] = '\0';
             scanf( "%d", &targetPosition );
+            getchar();//用于吞掉本行'\n'
             break;
         }
         else if ( c == '\n' ) {
@@ -115,7 +116,6 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
         }
         count++;
     }
-    getchar();
     if ( strcmp( orderType, "target" ) == 0 ) {
         car.target[ 0 ][ targetPosition-1 ] = 1;
         car.target[ 1 ][ targetPosition-1 ] = orderCount;
@@ -133,6 +133,9 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
     }
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
+    }
+    else if ( strcmp( orderType, "end" ) ==0 ){
+        TIME = -1;
     }
     else {
         printf( "宁写错了\n" );
