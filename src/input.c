@@ -115,17 +115,18 @@ void readOrder() //为读入的命令排序是否需要添加全局变量orderCo
         }
         count++;
     }
+    getchar();
     if ( strcmp( orderType, "target" ) == 0 ) {
-        car.target[ 0 ][ targetPosition ] = 1;
-        car.target[ 1 ][ targetPosition ] = orderCount;
+        car.target[ 0 ][ targetPosition-1 ] = 1;
+        car.target[ 1 ][ targetPosition-1 ] = orderCount;
     }
     else if ( strcmp( orderType, "clockwise" ) == 0 ) {
-        station.clockwise[ 0 ][ targetPosition ] = 1;
-        station.clockwise[ 1 ][ targetPosition ] = orderCount;
+        station.clockwise[ 0 ][ targetPosition-1 ] = 1;
+        station.clockwise[ 1 ][ targetPosition-1 ] = orderCount;
     }
     else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
-        station.counterclockwise[ 0 ][ targetPosition ] = 1;
-        station.counterclockwise[ 1 ][ targetPosition ] = orderCount;
+        station.counterclockwise[ 0 ][ targetPosition-1 ] = 1;
+        station.counterclockwise[ 1 ][ targetPosition-1 ] = orderCount;
     }
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
