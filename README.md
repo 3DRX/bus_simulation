@@ -64,7 +64,7 @@ main.c input.c output.c strategy.c control.c
 
 2. 读取输入的字符串
    `order * readOrder();`
-- [ ] 盛泽桓
+- [x] 盛泽桓
 
 **output**
 
@@ -112,6 +112,7 @@ void printLines( void );
  */
 int stationDistance( int stationNumber );
 ```
+- [ ] 瞿嘉辰
 
 2. 
 ```c
@@ -131,6 +132,7 @@ int findNearestStationNumber( void );
  */
 int getStationNumber( int positionIndex );
 ```
+- [ ] 瞿嘉辰
 
 4. 
 ```c
@@ -138,4 +140,5 @@ int getStationNumber( int positionIndex );
  */
 int getPositionIndex( int stationNumber );
 ```
+- [ ] 瞿嘉辰
 
