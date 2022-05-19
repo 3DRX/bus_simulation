@@ -53,7 +53,7 @@ void mainLoop( void )
 {
     readOrder();
     outPut(DBG);
-    //strategy();
+    strategy();
 }
 
 // #main

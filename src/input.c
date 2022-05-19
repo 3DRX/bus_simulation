@@ -90,7 +90,11 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
     // end read file
 }
 
-void readOrder() //为读入的命令排序是否需要添加全局变量orderCount
+/**从命令行中读取指令，
+ * 函数运行一次只读取一行，
+ * 读取到clock之后将TIME加一。
+ */
+void readOrder()
 {
     char       orderType[ 17 ];
     char       c;

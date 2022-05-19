@@ -44,34 +44,41 @@ void printLines( void )
 
 void outPut( int ifOutPut )
 {
-    if ( TIME == -1 ) {
-        printf( "end\n" );
-        exit( EXIT_SUCCESS );
+    // 判断是否是新的一秒，只有在新的一秒的时候
+    // （即一秒之内的所有指令全部写入结构体），
+    // 才输出
+    static int lastTime = 0;
+    if ( lastTime == TIME && TIME != 0 ) {
+        return;
     }
-    if ( ifOutPut == TRUE ) {
-        printLines();
-    }
-    else if ( ifOutPut == END ) {
-        printf( "end\n" );
-    }
-    else if ( ifOutPut == DBG ) {
-        printLines();
-        printf( "target [1] : " );
-        for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-            printf( "%d", car.target[ 1 ][ i ] );
+    else {
+        lastTime = TIME;
+        if ( TIME == -1 ) {
+            printf( "end\n" );
+            exit( EXIT_SUCCESS );
         }
-        printf( "\n" );
-        printf( "clockwise [1] : " );
-        for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-            printf( "%d", station.clockwise[ 1 ][ i ] );
+        if ( ifOutPut == TRUE ) {
+            printLines();
         }
-        printf( "\n" );
-        printf( "counterclockwise [1] : " );
-        for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-            printf( "%d", station.counterclockwise[ 1 ][ i ] );
+        else if ( ifOutPut == DBG ) {
+            printLines();
+            printf( "target [1] : " );
+            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
+                printf( "%d", car.target[ 1 ][ i ] );
+            }
+            printf( "\n" );
+            printf( "clockwise [1] : " );
+            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
+                printf( "%d", station.clockwise[ 1 ][ i ] );
+            }
+            printf( "\n" );
+            printf( "counterclockwise [1] : " );
+            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
+                printf( "%d", station.counterclockwise[ 1 ][ i ] );
+            }
+            printf( "\n" );
+            printf( "-----------------------------------------------\n" );
         }
-        printf( "\n" );
-        printf( "-----------------------------------------------\n" );
     }
 }
 
