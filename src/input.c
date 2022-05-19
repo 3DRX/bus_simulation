@@ -142,8 +142,20 @@ void readOrder()
         TIME = -1;
     }
     else {
-        printf( "宁写错了\n" );
-        printf( "AKA: you fucked up\n" );
+        printf("     _     you fucked up !     _\n");
+        printf("    |_|                       |_|\n");
+        printf("    | |         /^^^\\         | |\n");
+        printf("   _| |_      (| \"o\" |)      _| |_\n");
+        printf(" _| | | | _    (_---_)    _ | | | |_\n");
+        printf("| | | | |' |    _| |_    | `| | | | |\n");
+        printf("|          |   /     \\   |          |\n");
+        printf(" \\        /  / /(. .)\\ \\  \\        /\n");
+        printf("   \\    /  / /  | . |  \\ \\  \\    /\n");
+        printf("     \\  \\/ /    ||Y||    \\ \\/  /\n");
+        printf("      \\__/      || ||      \\__/\n");
+        printf("                () ()\n");
+        printf("                || ||\n");
+        printf("               ooO Ooo\n");
     }
 }
 
