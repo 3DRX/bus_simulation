@@ -10,6 +10,7 @@ typedef struct {
     int TOTAL_STATION;
     int DISTANCE;
     enum { FCFS, SSTF, SCAN } STRATEGY;
+    struct Node * headnode;
 } ENVIRONMENT;
 
 typedef struct {
@@ -23,9 +24,9 @@ typedef struct {
 } STATION;
 
 typedef struct Node{
-    struct Node *prev;
-    int where;
-    int stationNumber;
+    struct Node *prev; // always NULL in headnode
+    int where; // -1 not FCFS; 1 car.target; 2 clockwise; 3 counterclockwise
+    int stationNumber; // -1 not FCFS
     struct Node *next;
 } NODE;
 

@@ -162,5 +162,7 @@ void readOrder()
 void FCFS_readOrder()
 {
     // TODO
+    // 链表的定义在main.c
+    // 链表头节点的初始化在main.c initGame()中
 }
 
