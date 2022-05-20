@@ -13,7 +13,7 @@ void printLines( void )
     printf( "BUS:\n" );
     printf( "position:%d\n", car.position );
     car.target[ 0 ][ 10 ] = -1; // 防越界
-    printf( "target: " );
+    printf( "target:" );
     for ( int i = 0; i < 10; i++ ) {
         if ( car.target[ 0 ][ i ] == -1 ) {
             break;
@@ -24,7 +24,7 @@ void printLines( void )
     printf( "STATION:\n" );
     station.clockwise[ 0 ][ 10 ] = -1;        // 防越界
     station.counterclockwise[ 0 ][ 10 ] = -1; // 防越界
-    printf( "clockwise: " );
+    printf( "clockwise:" );
     for ( int i = 0; i < 10; i++ ) {
         if ( station.clockwise[ 0 ][ i ] == -1 ) {
             break;
@@ -32,7 +32,7 @@ void printLines( void )
         printf( "%d", station.clockwise[ 0 ][ i ] );
     }
     printf( "\n" );
-    printf( "counterclockwise: " );
+    printf( "counterclockwise:" );
     for ( int i = 0; i < 10; i++ ) {
         if ( station.counterclockwise[ 0 ][ i ] == -1 ) {
             break;
@@ -62,6 +62,7 @@ void outPut( int ifOutPut )
         }
         else if ( ifOutPut == DBG ) {
             printLines();
+            printf("###--debug info:\n");
             printf( "target [1] : " );
             for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
                 printf( "%d", car.target[ 1 ][ i ] );

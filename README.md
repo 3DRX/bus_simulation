@@ -142,3 +142,13 @@ int getPositionIndex( int stationNumber );
 ```
 - [ ] 瞿嘉辰
 
+5.
+```c
+/**完成输入stationNumber的请求
+ * （把数组中的1改成0）
+ */
+void finishRequest(int stationNumber);
+```
+
+- [x] 康京旸
+

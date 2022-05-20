@@ -33,6 +33,11 @@ int getStationNumber( int positionIndex );
  */
 int getPositionIndex( int stationNumber );
 
+/**完成输入stationNumber的请求
+ * （把数组中的1改成0）
+ */
+void finishRequest(int stationNumber);
+
 //------------------------}}}内部函数声明
 
 void strategy( void )
@@ -94,6 +99,8 @@ void modeSSTF( void )
         }
     }
     else if ( state == STOP ) {
+        finishRequest(s_dest_stationNumber);
+        s_dest_stationNumber = -1;
         state = NO_TASK;
     }
 }
@@ -163,6 +170,20 @@ int getStationNumber( int positionIndex )
 int getPositionIndex( int stationNumber )
 {
     // TODO
+}
+
+void finishRequest(int stationNumber)
+{
+    if (car.target[0][stationNumber-1] == 1) {
+        car.target[0][stationNumber-1] = 0;
+    }
+    if (station.clockwise[0][stationNumber-1] == 1) {
+        station.clockwise[0][stationNumber-1] = 0;
+    }
+    if (station.counterclockwise[0][stationNumber-1] == 1) {
+        station.counterclockwise[0][stationNumber-1] = 0;
+    }
+    // TODO: 修改数组的第二行
 }
 
 //------------------------}}}内部函数实现
