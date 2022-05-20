@@ -62,8 +62,8 @@ void initGame( void )
 void mainLoop( void )
 {
     readOrder();
-    outPut(DBG);
     strategy();
+    outPut(TRUE);
 }
 
 // #main

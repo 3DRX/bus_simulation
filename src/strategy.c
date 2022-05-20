@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 extern ENVIRONMENT env;
@@ -51,6 +52,7 @@ void strategy( void )
     }
     else {
         lastTime = TIME;
+        printf("do strategy\n");
         if ( env.STRATEGY == FCFS ) {
             modeFCFS();
         }
