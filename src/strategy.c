@@ -1,7 +1,7 @@
 #include "main.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 extern ENVIRONMENT env;
 extern CAR         car;
@@ -39,7 +39,7 @@ int getPositionIndex( int stationNumber );
 /**完成输入stationNumber的请求
  * （把数组中的1改成0）
  */
-void finishRequest(int stationNumber);
+void finishRequest( int stationNumber );
 
 //------------------------}}}内部函数声明
 
@@ -54,7 +54,7 @@ void strategy( void )
     }
     else {
         lastTime = TIME;
-        printf("do strategy\n");
+        printf( "do strategy\n" );
         if ( env.STRATEGY == FCFS ) {
             modeFCFS();
         }
@@ -103,7 +103,7 @@ void modeSSTF( void )
         }
     }
     else if ( state == STOP ) {
-        finishRequest(s_dest_stationNumber);
+        finishRequest( s_dest_stationNumber );
         s_dest_stationNumber = -1;
         state = NO_TASK;
     }
@@ -163,26 +163,25 @@ int findNearestStationNumber( void )
 
 int stationDistance( int stationNumber )
 {
-    int temp = getStationNumber(stationNumber);
-    int temp1 = abs(car.position - temp);
-    if(env.TOTAL_STATION>=2*temp1)
-    {
+    int temp = getPositionIndex( stationNumber );
+    int temp1 = abs( car.position - temp );
+    if ( env.TOTAL_STATION * env.DISTANCE >= 2 * temp1 ) {
         return temp1;
     }
-    else
-    {
-        return env.TOTAL_STATION - temp1;
+    else {
+        return env.TOTAL_STATION * env.DISTANCE - temp1;
     }
 }
 
 int getStationNumber( int positionIndex )
 {
-    if (positionIndex % env.DISTANCE == 0)
-    {
+    if ( positionIndex % env.DISTANCE == 0 ) {
         int temp = positionIndex / env.DISTANCE;
         return temp + 1;
     }
-    else { return -1; }
+    else {
+        return -1;
+    }
     // TODO
 }
 
@@ -193,16 +192,16 @@ int getPositionIndex( int stationNumber )
     // TODO
 }
 
-void finishRequest(int stationNumber)
+void finishRequest( int stationNumber )
 {
-    if (car.target[0][stationNumber-1] == 1) {
-        car.target[0][stationNumber-1] = 0;
+    if ( car.target[ 0 ][ stationNumber - 1 ] == 1 ) {
+        car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
-    if (station.clockwise[0][stationNumber-1] == 1) {
-        station.clockwise[0][stationNumber-1] = 0;
+    if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+        station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
     }
-    if (station.counterclockwise[0][stationNumber-1] == 1) {
-        station.counterclockwise[0][stationNumber-1] = 0;
+    if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+        station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
     }
     // TODO: 修改数组的第二行
 }
