@@ -4,8 +4,6 @@ rm -rf *
 cmake ..
 make
 cd ..
-./out
-rm ./out
-cd ./build
-rm -rf *
+#./out
+./out > ./output.io < ./input.io
 
