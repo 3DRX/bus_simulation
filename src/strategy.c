@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 extern ENVIRONMENT env;
 extern CAR         car;
@@ -161,16 +162,33 @@ int findNearestStationNumber( void )
 
 int stationDistance( int stationNumber )
 {
-    // TODO
+    int temp = getStationNumber(car.position)-stationNumber;
+    temp = abs(temp);
+    if(env.TOTAL_STATION>=2*temp)
+    {
+        return getPositionIndex(temp);
+    }
+    else
+    {
+        return getPositionIndex(env.TOTAL_STATION - temp);
+    }
 }
-//1
+
 int getStationNumber( int positionIndex )
 {
+    if (positionIndex % env.DISTANCE == 0)
+    {
+        int temp = positionIndex / env.DISTANCE;
+        return temp + 1;
+    }
+    else { return -1; }
     // TODO
 }
 
 int getPositionIndex( int stationNumber )
 {
+    int temp = stationNumber - 1;
+    return temp * env.DISTANCE;
     // TODO
 }
 
