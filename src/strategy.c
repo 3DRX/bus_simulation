@@ -55,6 +55,9 @@ void strategy( void )
     else {
         lastTime = TIME;
         printf( "do strategy\n" );
+        printf("-----------------DBG:\n");
+        printf("%d\n",stationDistance(6));
+        printf("-----------------end DBG\n");
         if ( env.STRATEGY == FCFS ) {
             modeFCFS();
         }

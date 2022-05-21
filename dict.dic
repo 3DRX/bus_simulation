@@ -1,6 +1,6 @@
 # a comment
 
-TOTAL_STATION = 6
+TOTAL_STATION = 10
 
 # a comment
 
@@ -21,10 +21,9 @@ TOTAL_STATION = 6
 # a comment
 # a comment
 DISTANCE = 3
-DISTANCE = 4
+DISTANCE = 3
 
 # overwrite strategy
 
 STRATEGY = SSTF
 STRATEGY = FCFS
-STRATEGY = SCAN
