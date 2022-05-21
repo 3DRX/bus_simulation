@@ -22,6 +22,7 @@ int findNearestStationNumber( void );
 
 /**计算当前位置与目标位置之间的距离。
  * stationNumber：目标站号（从1开始）
+ * 返回positionIndex
  */
 int stationDistance( int stationNumber );
 
