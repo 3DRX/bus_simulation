@@ -162,15 +162,15 @@ int findNearestStationNumber( void )
 
 int stationDistance( int stationNumber )
 {
-    int temp = getStationNumber(car.position)-stationNumber;
-    temp = abs(temp);
-    if(env.TOTAL_STATION>=2*temp)
+    int temp = getStationNumber(stationNumber);
+    int temp1 = abs(car.position - temp);
+    if(env.TOTAL_STATION>=2*temp1)
     {
-        return getPositionIndex(temp);
+        return temp1;
     }
     else
     {
-        return getPositionIndex(env.TOTAL_STATION - temp);
+        return env.TOTAL_STATION - temp1;
     }
 }
 
