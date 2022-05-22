@@ -161,5 +161,17 @@ void finishRequest(int stationNumber);
 ```
 - [x] 康京旸
 
+6.
+```c
+/**车辆顺时针移动一个单位长度
+ */
+void carClockwise();
+
+/**车辆拟时针移动一个单位长度
+ */
+void carCounterClockwise();
+```
+- [x] 康京旸
+
 
 
