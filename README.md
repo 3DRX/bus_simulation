@@ -59,16 +59,26 @@ main.c input.c output.c strategy.c control.c
 **input**
 
 1. 读取配置文件
-   `void readfile(FILE * fPtr);`
+```c
+void readfile(FILE * fPtr);
+```
 - [x] 康京旸
 
 2. 读取输入的字符串
-   `order * readOrder();`
+```c
+order * readOrder();
+```
 - [x] 盛泽桓
+
+3. FCFS模式下的读取输入字符串
+```c
+void FCFS_readOrder();
+```
+- [ ] 盛泽桓
 
 **output**
 
-1. 输出车状态、输出站台状态、输出时间
+1. 输出车状态、输出站台状态、输出时间（包括FCFS模式）
 ```c
 /**
  * 参数：ifOutPut
@@ -112,7 +122,7 @@ void printLines( void );
  */
 int stationDistance( int stationNumber );
 ```
-- [ ] 瞿嘉辰
+- [x] 瞿嘉辰
 
 2. 
 ```c
@@ -132,7 +142,7 @@ int findNearestStationNumber( void );
  */
 int getStationNumber( int positionIndex );
 ```
-- [ ] 瞿嘉辰
+- [x] 瞿嘉辰
 
 4. 
 ```c
@@ -140,7 +150,7 @@ int getStationNumber( int positionIndex );
  */
 int getPositionIndex( int stationNumber );
 ```
-- [ ] 瞿嘉辰
+- [x] 瞿嘉辰
 
 5.
 ```c
@@ -149,7 +159,6 @@ int getPositionIndex( int stationNumber );
  */
 void finishRequest(int stationNumber);
 ```
-
 - [x] 康京旸
 
 
