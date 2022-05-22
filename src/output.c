@@ -83,23 +83,6 @@ void outPut( int ifOutPut )
         }
         else if ( ifOutPut == DBG ) {
             printLines();
-            printf("###--debug info:\n");
-            printf( "target [1] : " );
-            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-                printf( "%d", car.target[ 1 ][ i ] );
-            }
-            printf( "\n" );
-            printf( "clockwise [1] : " );
-            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-                printf( "%d", station.clockwise[ 1 ][ i ] );
-            }
-            printf( "\n" );
-            printf( "counterclockwise [1] : " );
-            for ( int i = 0; i < env.TOTAL_STATION + 1; i++ ) {
-                printf( "%d", station.counterclockwise[ 1 ][ i ] );
-            }
-            printf( "\n" );
-            printf( "-----------------------------------------------\n" );
         }
     }
 }
