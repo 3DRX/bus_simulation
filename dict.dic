@@ -26,4 +26,3 @@ DISTANCE = 3
 # overwrite strategy
 
 STRATEGY = SSTF
-STRATEGY = FCFS
