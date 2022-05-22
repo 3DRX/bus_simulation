@@ -66,7 +66,7 @@ void strategy( void )
             modeFCFS();
         }
         else if ( env.STRATEGY == SSTF ) {
-           //printf( "###--debug info:\n" );
+            //printf( "###--debug info:\n" );
             modeSSTF();
             //printf( "-----------------------------------------------\n" );
         }
