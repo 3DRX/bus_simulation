@@ -74,9 +74,7 @@ void strategy( void )
             modeFCFS();
         }
         else if ( env.STRATEGY == SSTF ) {
-            // printf( "###--debug info:\n" );
             modeSSTF();
-            // printf( "-----------------------------------------------\n" );
         }
         else if ( env.STRATEGY == SCAN ) {
             modeSCAN();
@@ -288,7 +286,7 @@ short haveRequest( short direction )
                     return FALSE;
                 }
             }
-            else if (direction == 2)//逆时针
+            else//逆时针
             {
                 if (station.counterclockwise[0][temp] == 1)
                 { 
@@ -301,10 +299,6 @@ short haveRequest( short direction )
             }
         }
     }
-    
-
-   
-    // TODO
 }
 
 //------------------------}}}内部函数实现
