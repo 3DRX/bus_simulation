@@ -1,28 +1,5 @@
-# a comment
-
-TOTAL_STATION = 10
-
-# a comment
-
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
+TOTAL_STATION = 5
 DISTANCE = 3
-DISTANCE = 3
-
-# overwrite strategy
-
+# shortest seek time first
 STRATEGY = SSTF
+
