@@ -264,6 +264,46 @@ void carCounterClockwise()
 
 short haveRequest( short direction )
 {
+    int temp = getStationNumber(car.position);
+    if (temp == -1) 
+    { 
+        return -1;
+    }
+    else
+    {
+        if (car.target[0][temp] == 1)//判断车上是否有请求
+        {
+            return TRUE;
+        }
+        else
+        {
+            if (direction == 1)//顺时针
+            {
+                if (station.clockwise[0][temp] == 1)
+                { 
+                    return TRUE;
+                }
+                else 
+                { 
+                    return FALSE;
+                }
+            }
+            else if (direction == 2)//逆时针
+            {
+                if (station.counterclockwise[0][temp] == 1)
+                { 
+                    return TRUE;
+                }
+                else 
+                {
+                    return FALSE;
+                }
+            }
+        }
+    }
+    
+
+   
     // TODO
 }
 
