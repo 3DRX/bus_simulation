@@ -142,27 +142,108 @@ void readOrder()
         TIME = -1;
     }
     else {
-        printf("     _     you fucked up !     _\n");
-        printf("    |_|                       |_|\n");
-        printf("    | |         /^^^\\         | |\n");
-        printf("   _| |_      (| \"o\" |)      _| |_\n");
-        printf(" _| | | | _    (_---_)    _ | | | |_\n");
-        printf("| | | | |' |    _| |_    | `| | | | |\n");
-        printf("|          |   /     \\   |          |\n");
-        printf(" \\        /  / /(. .)\\ \\  \\        /\n");
-        printf("   \\    /  / /  | . |  \\ \\  \\    /\n");
-        printf("     \\  \\/ /    ||Y||    \\ \\/  /\n");
-        printf("      \\__/      || ||      \\__/\n");
-        printf("                () ()\n");
-        printf("                || ||\n");
-        printf("               ooO Ooo\n");
+        printf( "     _     you fucked up !     _\n" );
+        printf( "    |_|                       |_|\n" );
+        printf( "    | |         /^^^\\         | |\n" );
+        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
+        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
+        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
+        printf( "|          |   /     \\   |          |\n" );
+        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
+        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
+        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
+        printf( "      \\__/      || ||      \\__/\n" );
+        printf( "                () ()\n" );
+        printf( "                || ||\n" );
+        printf( "               ooO Ooo\n" );
     }
 }
 
 void FCFS_readOrder()
 {
-    // TODO
-    // 链表的定义在main.c
-    // 链表头节点的初始化在main.c initGame()中
+    char orderType[ 17 ];
+    char c;
+    int  targetPosition;
+    int  count = 0;
+    while ( 1 ) //读取命令
+    {
+        c = getchar();
+        if ( c == ' ' ) //命令类型已读完
+        {
+            orderType[ count ] = '\0';
+            scanf( "%d", &targetPosition );
+            getchar(); //用于吞掉本行'\n'
+            break;
+        }
+        else if ( c == '\n' ) {
+            orderType[ count ] = '\0';
+            break;
+        }
+        else {
+            orderType[ count ] = c;
+        }
+        count++;
+    }
+    if ( strcmp( orderType, "target" ) == 0 ) {
+        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+        env.presentPtr->next = prePtr;
+        prePtr->prev = env.presentPtr;
+        prePtr->next = NULL;
+        env.presentPtr = env.presentPtr->next;
+        env.presentPtr->where = 1;
+        env.presentPtr->stationNumber = targetPosition;
+        car.target[ 0 ][ targetPosition - 1 ] = 1;
+    }
+    else if ( strcmp( orderType, "clockwise" ) == 0 ) {
+        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+        env.presentPtr->next = prePtr;
+        prePtr->prev = env.presentPtr;
+        prePtr->next = NULL;
+        env.presentPtr = env.presentPtr->next;
+        env.presentPtr->where = 2;
+        env.presentPtr->stationNumber = targetPosition;
+        station.clockwise[0][ targetPosition - 1 ] = 1;
+    }
+    else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
+        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+        env.presentPtr->next = prePtr;
+        prePtr->prev = env.presentPtr;
+        prePtr->next = NULL;
+        env.presentPtr = env.presentPtr->next;
+        env.presentPtr->where = 3;
+        env.presentPtr->stationNumber = targetPosition;
+        station.counterclockwise[0][ targetPosition - 1 ] = 1;
+    }
+    else if ( strcmp( orderType, "clock" ) == 0 ) {
+        TIME++;
+    }
+    else if ( strcmp( orderType, "end" ) == 0 ) {
+        TIME = -1;
+    }
+    else {
+        printf( "     _     you fucked up !     _\n" );
+        printf( "    |_|                       |_|\n" );
+        printf( "    | |         /^^^\\         | |\n" );
+        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
+        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
+        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
+        printf( "|          |   /     \\   |          |\n" );
+        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
+        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
+        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
+        printf( "      \\__/      || ||      \\__/\n" );
+        printf( "                () ()\n" );
+        printf( "                || ||\n" );
+        printf( "               ooO Ooo\n" );
+    }
 }
 
+void FCFS_freeList( NODE* headPtr )
+{
+    NODE* ptr = headPtr;
+    while ( headPtr ) {
+        ptr = headPtr;
+        headPtr = headPtr->next;
+        free( ptr );
+    }
+}
