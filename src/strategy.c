@@ -103,12 +103,16 @@ void modeSSTF( void )
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
         }
-        else if ( abs( getPositionIndex( s_dest_stationNumber ) - car.position ) * 2
-                  < env.DISTANCE * env.TOTAL_STATION ) { // 这里要不要<=?
+        // else if ( abs( getPositionIndex( s_dest_stationNumber ) - car.position ) * 2
+        //< env.DISTANCE * env.TOTAL_STATION ) { // 这里要不要<=?
+        // state = CLOCKWISE;
+        // carClockwise();
+        //}
+        else if ( orient( s_dest_stationNumber ) == 1 ) {
             state = CLOCKWISE;
             carClockwise();
         }
-        else {
+        else if ( orient( s_dest_stationNumber ) == 2 ) {
             state = COUNTERCLOCKWISE;
             carCounterClockwise();
         }
@@ -172,11 +176,11 @@ void modeFCFS()
             {
                 state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
                 while ( presentWorkingPtr->next ) {
-                    if (presentWorkingPtr->next->stationNumber
-                        == presentWorkingPtr->stationNumber){
+                    if ( presentWorkingPtr->next->stationNumber
+                         == presentWorkingPtr->stationNumber ) {
                         presentWorkingPtr = presentWorkingPtr->next;
                         FCFS_finishRequest( presentWorkingPtr->where,
-                                        presentWorkingPtr->stationNumber );
+                                            presentWorkingPtr->stationNumber );
                     }
                     else {
                         break;
@@ -205,7 +209,7 @@ void modeFCFS()
             state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
             FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
             while ( presentWorkingPtr->next ) {
-                if (presentWorkingPtr->next->stationNumber == presentWorkingPtr->stationNumber){
+                if ( presentWorkingPtr->next->stationNumber == presentWorkingPtr->stationNumber ) {
                     presentWorkingPtr = presentWorkingPtr->next;
                 }
                 else {
@@ -223,13 +227,13 @@ void modeFCFS()
             }
         }
     }
-    NODE * temp = env.headnode->next;
-    //while (temp) {
-        //printf("======\n");
-        //printf("where:%d\n", temp->where);
-        //printf("stationNumber:%d\n", temp->stationNumber);
-        //printf("======\n");
-        //temp = temp->next;
+    NODE* temp = env.headnode->next;
+    // while (temp) {
+    // printf("======\n");
+    // printf("where:%d\n", temp->where);
+    // printf("stationNumber:%d\n", temp->stationNumber);
+    // printf("======\n");
+    // temp = temp->next;
     //}
 }
 
@@ -394,9 +398,8 @@ int orient( int stationPosition )
 {
     int clockwiseDistence;
     int counterclockwiseDistence;
-    if (car.position>stationPosition)
-    {
-        stationPosition+=env.TOTAL_STATION * env.DISTANCE;
+    if ( car.position > stationPosition ) {
+        stationPosition += env.TOTAL_STATION * env.DISTANCE;
     }
     clockwiseDistence = abs( stationPosition - car.position );
     counterclockwiseDistence = env.TOTAL_STATION * env.DISTANCE - clockwiseDistence;
