@@ -11,6 +11,7 @@ typedef struct {
     int DISTANCE;
     enum { FCFS, SSTF, SCAN } STRATEGY;
     struct Node * headnode;
+    struct Node * presentPtr;
 } ENVIRONMENT;
 
 typedef struct {

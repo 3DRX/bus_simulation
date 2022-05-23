@@ -1,28 +1,5 @@
-# a comment
-
+# first come first serve
+STRATEGY = FCFS
 TOTAL_STATION = 10
+DISTANCE = 2
 
-# a comment
-
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-# a comment
-DISTANCE = 3
-DISTANCE = 3
-
-# overwrite strategy
-
-STRATEGY = SSTF

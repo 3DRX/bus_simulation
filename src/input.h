@@ -14,4 +14,6 @@ void readOrder();
 
 void FCFS_readOrder();
 
+void FCFS_freeList( NODE* headPtr );
+
 #endif
