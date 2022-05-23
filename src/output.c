@@ -1,3 +1,4 @@
+#include "input.h"
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,18 +43,19 @@ void printLines( void )
     printf( "\n" );
 }
 
-void updateBuf(void){
+void updateBuf( void )
+{
     // 疑问：这里需不需要把链表中没有提到的位置都清零？
-    NODE * Nptr = env.headnode->next;
-    while (Nptr) {
-        if (Nptr->where == 1) {
-            car.target[0][Nptr->stationNumber-1] = 1;
+    NODE* Nptr = env.headnode->next;
+    while ( Nptr ) {
+        if ( Nptr->where == 1 ) {
+            car.target[ 0 ][ Nptr->stationNumber - 1 ] = 1;
         }
-        else if (Nptr->where == 2) {
-            station.clockwise[0][Nptr->stationNumber-1] = 1;
+        else if ( Nptr->where == 2 ) {
+            station.clockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
         }
-        else if (Nptr->where == 3) {
-            station.counterclockwise[0][Nptr->stationNumber-1] = 1;
+        else if ( Nptr->where == 3 ) {
+            station.counterclockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
         }
         Nptr = Nptr->next;
     }
@@ -62,9 +64,11 @@ void updateBuf(void){
 void outPut( int ifOutPut )
 {
     // 判断是否是FCFS模式，如果是，则updateBuf
-    if (env.STRATEGY == FCFS) {
+    /*
+    if ( env.STRATEGY == FCFS ) {
         updateBuf();
     }
+    */
     // 判断是否是新的一秒，只有在新的一秒的时候
     // （即一秒之内的所有指令全部写入结构体），
     // 才输出
@@ -77,12 +81,20 @@ void outPut( int ifOutPut )
         if ( TIME == -1 ) {
             printf( "end\n" );
             exit( EXIT_SUCCESS );
+            if ( env.STRATEGY == FCFS ) {
+                FCFS_freeList( env.headnode );
+            }
         }
         if ( ifOutPut == TRUE ) {
             printLines();
         }
         else if ( ifOutPut == DBG ) {
             printLines();
+            /*printf("DBG:====================================\n");*/
+            /*NODE * temp;*/
+            /*while (env.) {*/
+            /*statements*/
+            /*}*/
         }
     }
 }
