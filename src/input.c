@@ -99,7 +99,6 @@ void readOrder()
     char       orderType[ 17 ];
     char       c;
     int        targetPosition = -1;
-    static int orderCount = 1;
     int        count = 0;
     while ( 1 ) //读取命令
     {
@@ -122,18 +121,15 @@ void readOrder()
     }
     if ( strcmp( orderType, "target" ) == 0 ) {
         car.target[ 0 ][ targetPosition - 1 ] = 1;
-        car.target[ 1 ][ targetPosition - 1 ] = orderCount;
-        orderCount++;
+        car.target[ 1 ][ targetPosition - 1 ] = 1;
     }
     else if ( strcmp( orderType, "clockwise" ) == 0 ) {
         station.clockwise[ 0 ][ targetPosition - 1 ] = 1;
-        station.clockwise[ 1 ][ targetPosition - 1 ] = orderCount;
-        orderCount++;
+        station.clockwise[ 1 ][ targetPosition - 1 ] = 1;
     }
     else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
         station.counterclockwise[ 0 ][ targetPosition - 1 ] = 1;
-        station.counterclockwise[ 1 ][ targetPosition - 1 ] = orderCount;
-        orderCount++;
+        station.counterclockwise[ 1 ][ targetPosition - 1 ] = 1;
     }
     else if ( strcmp( orderType, "clock" ) == 0 ) {
         TIME++;
@@ -157,7 +153,6 @@ void readOrder()
         printf( "                || ||\n" );
         printf( "               ooO Ooo\n" );
     }
-    /*printf("%s: %d\n",orderType,targetPosition);*/
 }
 
 void FCFS_readOrder()

@@ -39,6 +39,10 @@ void initGame( void )
         car.target[ 0 ][ i ] = 0;
         station.clockwise[ 0 ][ i ] = 0;
         station.counterclockwise[ 0 ][ i ] = 0;
+        // 将数组的第二行全部置0
+        car.target[ 1 ][ i ] = 0;
+        station.clockwise[ 1 ][ i ] = 0;
+        station.counterclockwise[ 1 ][ i ] = 0;
     }
     car.target[ 0 ][ env.TOTAL_STATION] = -1;
     station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;

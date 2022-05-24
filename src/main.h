@@ -14,14 +14,17 @@ typedef struct {
     struct Node * presentPtr;
 } ENVIRONMENT;
 
+// 数组第二行定义：
+// 为0则代表不是这一秒的新增请求
+// 为1代表是这一秒的新增请求
 typedef struct {
     int position;
-    int target[ 2 ][ 11 ];
+    int target[ 2 ][ 21 ];
 } CAR;
 
 typedef struct {
-    int clockwise[ 2 ][ 11 ];
-    int counterclockwise[ 2 ][ 11 ];
+    int clockwise[ 2 ][ 21 ];
+    int counterclockwise[ 2 ][ 21 ];
 } STATION;
 
 typedef struct Node{
