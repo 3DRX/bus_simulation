@@ -40,9 +40,9 @@ void initGame( void )
         station.clockwise[ 0 ][ i ] = 0;
         station.counterclockwise[ 0 ][ i ] = 0;
     }
-    car.target[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
-    station.clockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
-    station.counterclockwise[ 0 ][ env.TOTAL_STATION + 1 ] = -1;
+    car.target[ 0 ][ env.TOTAL_STATION] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
     // 上面三行中 -1 表示行结束（类似'\0'）
     // 如果是FCFS模式，初始化链表
     if ( env.STRATEGY == FCFS ) {

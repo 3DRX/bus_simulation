@@ -98,7 +98,7 @@ void readOrder()
 {
     char       orderType[ 17 ];
     char       c;
-    int        targetPosition;
+    int        targetPosition = -1;
     static int orderCount = 1;
     int        count = 0;
     while ( 1 ) //读取命令
@@ -157,6 +157,7 @@ void readOrder()
         printf( "                || ||\n" );
         printf( "               ooO Ooo\n" );
     }
+    /*printf("%s: %d\n",orderType,targetPosition);*/
 }
 
 void FCFS_readOrder()
