@@ -103,11 +103,6 @@ void modeSSTF( void )
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
         }
-        // else if ( abs( getPositionIndex( s_dest_stationNumber ) - car.position ) * 2
-        //< env.DISTANCE * env.TOTAL_STATION ) { // 这里要不要<=?
-        // state = CLOCKWISE;
-        // carClockwise();
-        //}
         else if ( orient( s_dest_stationNumber ) == 1 ) {
             state = CLOCKWISE;
             carClockwise();
@@ -122,13 +117,25 @@ void modeSSTF( void )
             state = STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
+            //test
+            if (TIME == 12 && TIME == 13) {
+            }
+            //end test
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = STOP;
             finishRequest( getStationNumber( car.position ) );
+            //test
+            if (TIME == 12 && TIME == 13) {
+            }
+            //end test
         }
         else {
             carClockwise();
+            //test
+            if (TIME == 12 && TIME == 13) {
+            }
+            //end test
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {

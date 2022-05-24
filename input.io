@@ -13,7 +13,7 @@ clockwise 3
 clock
 clock
 clock
-clock 
+clock
 clock
 clock
 clock

@@ -75,20 +75,6 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
-     _     you fucked up !     _
-    |_|                       |_|
-    | |         /^^^\         | |
-   _| |_      (| "o" |)      _| |_
- _| | | | _    (_---_)    _ | | | |_
-| | | | |' |    _| |_    | `| | | | |
-|          |   /     \   |          |
- \        /  / /(. .)\ \  \        /
-   \    /  / /  | . |  \ \  \    /
-     \  \/ /    ||Y||    \ \/  /
-      \__/      || ||      \__/
-                () ()
-                || ||
-               ooO Ooo
 TIME:11
 BUS:
 position:2
@@ -106,14 +92,14 @@ counterclockwise:00010
 TIME:13
 BUS:
 position:3
-target:00001
+target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
 TIME:14
 BUS:
 position:4
-target:00101
+target:00001
 STATION:
 clockwise:00110
 counterclockwise:00010
@@ -169,7 +155,7 @@ counterclockwise:00010
 TIME:22
 BUS:
 position:1
-target:10011
+target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
@@ -260,6 +246,13 @@ counterclockwise:00000
 TIME:35
 BUS:
 position:4
+target:10001
+STATION:
+clockwise:00000
+counterclockwise:00000
+TIME:36
+BUS:
+position:3
 target:10001
 STATION:
 clockwise:00000
