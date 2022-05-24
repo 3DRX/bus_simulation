@@ -392,28 +392,43 @@ short haveRequest( short direction )
         return -1;
     }
     else {
-        if ( car.target[ 0 ][ temp - 1 ] == 1 && car.target[1][temp-1] == 1) //判断车上是否有请求
+        if ( car.target[ 0 ][ temp - 1 ] == 1 ) //判断车上是否有请求
         {
-            return TRUE;
+            if (car.target[1][temp-1] == 1) { // 如果该请求是这一秒新增的，则忽略
+                car.target[1][temp -1 ] = 0;
+            }
+            else { // 不是这一秒新增的请求，不忽略
+                return TRUE;
+            }
         }
-        else {
-            if ( direction == 1 ) //顺时针
-            {
-                if ( station.clockwise[ 0 ][ temp - 1 ] == 1 ) {
-                    return TRUE;
-                }
-                else {
+        if ( direction == 1 ) // 顺时针
+        {
+            if ( station.clockwise[ 0 ][ temp - 1 ] == 1 ) {
+                if (station.clockwise[1][temp-1] == 1) { // 如果该请求是这一秒新增的，则忽略
+                    station.clockwise[1][temp -1 ] = 0; // 重置
                     return FALSE;
+                }
+                else { // 不是这一秒新增的请求，不忽略
+                    return TRUE;
                 }
             }
-            else //逆时针
-            {
-                if ( station.counterclockwise[ 0 ][ temp - 1 ] == 1 ) {
-                    return TRUE;
-                }
-                else {
+            else {
+                return FALSE;
+            }
+        }
+        else // 逆时针
+        {
+            if ( station.counterclockwise[ 0 ][ temp - 1 ] == 1 ) {
+                if (station.counterclockwise[1][temp-1] == 1) { // 如果该请求是这一秒新增的，则忽略
+                    station.counterclockwise[1][temp -1 ] = 0; // 重置
                     return FALSE;
                 }
+                else { // 不是这一秒新增的请求，不忽略
+                    return TRUE;
+                }
+            }
+            else {
+                return FALSE;
             }
         }
     }
