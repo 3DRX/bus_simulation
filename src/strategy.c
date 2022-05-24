@@ -97,10 +97,10 @@ void modeSSTF( void )
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if ( state == STOP ) {
+        finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = findNearestStationNumber();
-            /*printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);*/
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
@@ -149,8 +149,15 @@ void modeSSTF( void )
     else {
         printf("sth wrong\n");
     }
+    // 重置数组第二行
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        car.target[1][i] = 0;
+        station.clockwise[1][i] = 0;
+        station.counterclockwise[1][i] = 0;
+    }
+    // start DBG
     /*if ( state == STOP ) {*/
-        /*printf( "NO_TASK\n" );*/
+        /*printf( "STOP\n" );*/
     /*}*/
     /*else if ( state == CLOCKWISE ) {*/
         /*printf( "CLOCKWISE\n" );*/
@@ -158,6 +165,7 @@ void modeSSTF( void )
     /*else if ( state == COUNTERCLOCKWISE ) {*/
         /*printf( "COUNTERCLOCKWISE\n" );*/
     /*}*/
+    /*printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);*/
     /*printf("=============================\n");*/
 }
 
@@ -395,7 +403,7 @@ short haveRequest( short direction )
         if ( car.target[ 0 ][ temp - 1 ] == 1 ) //判断车上是否有请求
         {
             if (car.target[1][temp-1] == 1) { // 如果该请求是这一秒新增的，则忽略
-                car.target[1][temp -1 ] = 0;
+                car.target[1][temp -1 ] = 0; // 重置
             }
             else { // 不是这一秒新增的请求，不忽略
                 return TRUE;
