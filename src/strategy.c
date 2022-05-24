@@ -97,6 +97,7 @@ void modeSSTF( void )
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if ( state == STOP ) {
+        finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = findNearestStationNumber();
