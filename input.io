@@ -1,5 +1,8 @@
 clock
 target 1
+target 1
+target 1
+target 1
 clockwise 2
 clock
 clockwise 4
