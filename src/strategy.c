@@ -117,25 +117,13 @@ void modeSSTF( void )
             state = STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
-            //test
-            if (TIME == 12 && TIME == 13) {
-            }
-            //end test
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = STOP;
             finishRequest( getStationNumber( car.position ) );
-            //test
-            if (TIME == 12 && TIME == 13) {
-            }
-            //end test
         }
         else {
             carClockwise();
-            //test
-            if (TIME == 12 && TIME == 13) {
-            }
-            //end test
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {
@@ -152,16 +140,22 @@ void modeSSTF( void )
             carCounterClockwise();
         }
     }
-    // printf( "state: " );
-    // if ( state == NO_TASK ) {
-    // printf( "NO_TASK\n" );
-    //}
-    // else if ( state == CLOCKWISE ) {
-    // printf( "CLOCKWISE\n" );
-    //}
-    // else if ( state == COUNTERCLOCKWISE ) {
-    // printf( "COUNTERCLOCKWISE\n" );
-    //}
+    else {
+        printf("sth wrong\n");
+    }
+    //test
+    printf("=============================\n");
+    if ( state == STOP ) {
+        printf( "NO_TASK\n" );
+    }
+    else if ( state == CLOCKWISE ) {
+        printf( "CLOCKWISE\n" );
+    }
+    else if ( state == COUNTERCLOCKWISE ) {
+        printf( "COUNTERCLOCKWISE\n" );
+    }
+    printf("=============================\n");
+    //end test
 }
 
 void modeFCFS()

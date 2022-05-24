@@ -5,6 +5,9 @@ target:00000
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+NO_TASK
+=============================
 TIME:1
 BUS:
 position:0
@@ -12,6 +15,9 @@ target:00000
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+CLOCKWISE
+=============================
 TIME:2
 BUS:
 position:1
@@ -19,6 +25,9 @@ target:00000
 STATION:
 clockwise:01010
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:3
 BUS:
 position:2
@@ -26,6 +35,9 @@ target:00000
 STATION:
 clockwise:01010
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:4
 BUS:
 position:3
@@ -33,6 +45,9 @@ target:00000
 STATION:
 clockwise:01010
 counterclockwise:00010
+=============================
+NO_TASK
+=============================
 TIME:5
 BUS:
 position:3
@@ -40,6 +55,9 @@ target:00000
 STATION:
 clockwise:00010
 counterclockwise:10010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:6
 BUS:
 position:2
@@ -47,6 +65,9 @@ target:00000
 STATION:
 clockwise:00010
 counterclockwise:10010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:7
 BUS:
 position:1
@@ -54,6 +75,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:10010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:8
 BUS:
 position:0
@@ -61,6 +85,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:10010
+=============================
+NO_TASK
+=============================
 TIME:9
 BUS:
 position:0
@@ -68,6 +95,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:10
 BUS:
 position:1
@@ -75,6 +105,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:11
 BUS:
 position:2
@@ -82,6 +115,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:12
 BUS:
 position:3
@@ -89,6 +125,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+NO_TASK
+=============================
 TIME:13
 BUS:
 position:3
@@ -96,6 +135,9 @@ target:00000
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:14
 BUS:
 position:4
@@ -103,6 +145,9 @@ target:00001
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:15
 BUS:
 position:5
@@ -110,6 +155,9 @@ target:00101
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+CLOCKWISE
+=============================
 TIME:16
 BUS:
 position:6
@@ -117,6 +165,9 @@ target:00101
 STATION:
 clockwise:00110
 counterclockwise:00010
+=============================
+NO_TASK
+=============================
 TIME:17
 BUS:
 position:6
@@ -124,6 +175,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:18
 BUS:
 position:5
@@ -131,6 +185,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:19
 BUS:
 position:4
@@ -138,6 +195,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:20
 BUS:
 position:3
@@ -145,6 +205,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:21
 BUS:
 position:2
@@ -152,6 +215,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:22
 BUS:
 position:1
@@ -159,6 +225,9 @@ target:00001
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:23
 BUS:
 position:0
@@ -166,6 +235,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:24
 BUS:
 position:14
@@ -173,6 +245,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:25
 BUS:
 position:13
@@ -180,6 +255,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:26
 BUS:
 position:12
@@ -187,6 +265,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:27
 BUS:
 position:11
@@ -194,6 +275,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:28
 BUS:
 position:10
@@ -201,6 +285,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:29
 BUS:
 position:9
@@ -208,6 +295,9 @@ target:10011
 STATION:
 clockwise:00010
 counterclockwise:00010
+=============================
+NO_TASK
+=============================
 TIME:30
 BUS:
 position:9
@@ -215,6 +305,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:31
 BUS:
 position:8
@@ -222,6 +315,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:32
 BUS:
 position:7
@@ -229,6 +325,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:33
 BUS:
 position:6
@@ -236,6 +335,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:34
 BUS:
 position:5
@@ -243,6 +345,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:35
 BUS:
 position:4
@@ -250,6 +355,9 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 TIME:36
 BUS:
 position:3
@@ -257,4 +365,7 @@ target:10001
 STATION:
 clockwise:00000
 counterclockwise:00000
+=============================
+COUNTERCLOCKWISE
+=============================
 end
