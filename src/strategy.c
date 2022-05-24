@@ -210,7 +210,6 @@ void modeFCFS()
                 {
                     state=NO_TASK;
                 }
-
             }
             else {
                 if ( orient( dest_positionIndex ) == 1 ) {
@@ -393,7 +392,7 @@ short haveRequest( short direction )
         return -1;
     }
     else {
-        if ( car.target[ 0 ][ temp - 1 ] == 1 ) //判断车上是否有请求
+        if ( car.target[ 0 ][ temp - 1 ] == 1 && car.target[1][temp-1] == 1) //判断车上是否有请求
         {
             return TRUE;
         }

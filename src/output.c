@@ -63,12 +63,6 @@ void updateBuf( void )
 
 void outPut( int ifOutPut )
 {
-    // 判断是否是FCFS模式，如果是，则updateBuf
-    /*
-    if ( env.STRATEGY == FCFS ) {
-        updateBuf();
-    }
-    */
     // 判断是否是新的一秒，只有在新的一秒的时候
     // （即一秒之内的所有指令全部写入结构体），
     // 才输出
@@ -85,17 +79,7 @@ void outPut( int ifOutPut )
                 FCFS_freeList( env.headnode );
             }
         }
-        if ( ifOutPut == TRUE ) {
-            printLines();
-        }
-        else if ( ifOutPut == DBG ) {
-            printLines();
-            /*printf("DBG:====================================\n");*/
-            /*NODE * temp;*/
-            /*while (env.) {*/
-            /*statements*/
-            /*}*/
-        }
+        printLines();
     }
 }
 

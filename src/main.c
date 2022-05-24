@@ -69,7 +69,7 @@ void mainLoop( void )
         readOrder();
     }
     strategy();
-    outPut( DBG );
+    outPut();
 }
 
 // #main
