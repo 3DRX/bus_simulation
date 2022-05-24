@@ -92,6 +92,7 @@ void strategy( void )
 
 void modeSSTF( void )
 {
+    printf("=============================\n");
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
@@ -114,11 +115,13 @@ void modeSSTF( void )
     }
     else if ( state == CLOCKWISE ) {
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            printf("到站了\n");
             state = STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+            printf("途径站点\n");
             state = STOP;
             finishRequest( getStationNumber( car.position ) );
         }
@@ -128,11 +131,13 @@ void modeSSTF( void )
     }
     else if ( state == COUNTERCLOCKWISE ) {
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            printf("到站了\n");
             state = STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+            printf("途径站点\n");
             state = STOP;
             finishRequest( getStationNumber( car.position ) );
         }
@@ -143,8 +148,6 @@ void modeSSTF( void )
     else {
         printf("sth wrong\n");
     }
-    //test
-    printf("=============================\n");
     if ( state == STOP ) {
         printf( "NO_TASK\n" );
     }
@@ -156,7 +159,6 @@ void modeSSTF( void )
     }
     printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);
     printf("=============================\n");
-    //end test
 }
 
 void modeFCFS()
@@ -249,8 +251,8 @@ void modeSCAN()
 int findNearestStationNumber( void )
 {
     int   res = -1;
-    int   minDistance = 10;
-    short i = 0;
+    int   minDistance = env.DISTANCE * env.TOTAL_STATION;
+    int i = 0;
     // 遍历 car.target 中的所有请求
     while ( car.target[ 0 ][ i ] != -1 ) {
         if ( car.target[ 0 ][ i ] == 1 ) {
@@ -288,13 +290,19 @@ int findNearestStationNumber( void )
 
 int stationDistance( int stationNumber )
 {
-    int temp = getPositionIndex( stationNumber );
-    int temp1 = abs( car.position - temp );
-    if ( env.TOTAL_STATION * env.DISTANCE >= 2 * temp1 ) {
-        return temp1;
+    int stationPosition = getPositionIndex(stationNumber);
+    int clockwiseDistence;
+    int counterclockwiseDistence;
+    if ( car.position > stationPosition ) {
+        stationPosition += env.TOTAL_STATION * env.DISTANCE;
+    }
+    clockwiseDistence = abs( stationPosition - car.position );
+    counterclockwiseDistence = env.TOTAL_STATION * env.DISTANCE - clockwiseDistence;
+    if ( clockwiseDistence > counterclockwiseDistence ) {
+        return counterclockwiseDistence;
     }
     else {
-        return env.TOTAL_STATION * env.DISTANCE - temp1;
+        return clockwiseDistence;
     }
 }
 
@@ -320,11 +328,20 @@ void finishRequest( int stationNumber )
     if ( car.target[ 0 ][ stationNumber - 1 ] == 1 ) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
+    else {
+        printf("!!! target error\n");
+    }
     if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
         station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
     }
+    else {
+        printf("!!! clockwise error\n");
+    }
     if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
         station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
+    }
+    else {
+        printf("!!! counterclockwise error\n");
     }
     // TODO: 修改数组的第二行
 }
@@ -356,14 +373,14 @@ short haveRequest( short direction )
         return -1;
     }
     else {
-        if ( car.target[ 0 ][ temp ] == 1 ) //判断车上是否有请求
+        if ( car.target[ 0 ][ temp - 1 ] == 1 ) //判断车上是否有请求
         {
             return TRUE;
         }
         else {
             if ( direction == 1 ) //顺时针
             {
-                if ( station.clockwise[ 0 ][ temp ] == 1 ) {
+                if ( station.clockwise[ 0 ][ temp - 1 ] == 1 ) {
                     return TRUE;
                 }
                 else {
@@ -372,7 +389,7 @@ short haveRequest( short direction )
             }
             else //逆时针
             {
-                if ( station.counterclockwise[ 0 ][ temp ] == 1 ) {
+                if ( station.counterclockwise[ 0 ][ temp - 1 ] == 1 ) {
                     return TRUE;
                 }
                 else {
