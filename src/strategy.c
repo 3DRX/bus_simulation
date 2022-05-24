@@ -154,6 +154,7 @@ void modeSSTF( void )
     else if ( state == COUNTERCLOCKWISE ) {
         printf( "COUNTERCLOCKWISE\n" );
     }
+    printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);
     printf("=============================\n");
     //end test
 }

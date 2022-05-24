@@ -7,6 +7,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 NO_TASK
+s_dest_stationNumber: -1
 =============================
 TIME:1
 BUS:
@@ -17,6 +18,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 CLOCKWISE
+s_dest_stationNumber: 2
 =============================
 TIME:2
 BUS:
@@ -27,6 +29,7 @@ clockwise:01010
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 2
 =============================
 TIME:3
 BUS:
@@ -37,6 +40,7 @@ clockwise:01010
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 2
 =============================
 TIME:4
 BUS:
@@ -47,6 +51,7 @@ clockwise:01010
 counterclockwise:00010
 =============================
 NO_TASK
+s_dest_stationNumber: -1
 =============================
 TIME:5
 BUS:
@@ -57,6 +62,7 @@ clockwise:00010
 counterclockwise:10010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 1
 =============================
 TIME:6
 BUS:
@@ -67,6 +73,7 @@ clockwise:00010
 counterclockwise:10010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 1
 =============================
 TIME:7
 BUS:
@@ -77,6 +84,7 @@ clockwise:00110
 counterclockwise:10010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 1
 =============================
 TIME:8
 BUS:
@@ -87,6 +95,7 @@ clockwise:00110
 counterclockwise:10010
 =============================
 NO_TASK
+s_dest_stationNumber: -1
 =============================
 TIME:9
 BUS:
@@ -97,6 +106,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:10
 BUS:
@@ -107,6 +117,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:11
 BUS:
@@ -117,6 +128,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:12
 BUS:
@@ -127,6 +139,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 NO_TASK
+s_dest_stationNumber: 3
 =============================
 TIME:13
 BUS:
@@ -137,6 +150,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:14
 BUS:
@@ -147,6 +161,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:15
 BUS:
@@ -157,6 +172,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 CLOCKWISE
+s_dest_stationNumber: 3
 =============================
 TIME:16
 BUS:
@@ -167,6 +183,7 @@ clockwise:00110
 counterclockwise:00010
 =============================
 NO_TASK
+s_dest_stationNumber: -1
 =============================
 TIME:17
 BUS:
@@ -177,6 +194,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:18
 BUS:
@@ -187,6 +205,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:19
 BUS:
@@ -197,6 +216,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:20
 BUS:
@@ -207,6 +227,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:21
 BUS:
@@ -217,6 +238,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:22
 BUS:
@@ -227,6 +249,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:23
 BUS:
@@ -237,6 +260,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:24
 BUS:
@@ -247,6 +271,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:25
 BUS:
@@ -257,6 +282,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:26
 BUS:
@@ -267,6 +293,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:27
 BUS:
@@ -277,6 +304,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:28
 BUS:
@@ -287,6 +315,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 4
 =============================
 TIME:29
 BUS:
@@ -297,6 +326,7 @@ clockwise:00010
 counterclockwise:00010
 =============================
 NO_TASK
+s_dest_stationNumber: -1
 =============================
 TIME:30
 BUS:
@@ -307,6 +337,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:31
 BUS:
@@ -317,6 +348,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:32
 BUS:
@@ -327,6 +359,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:33
 BUS:
@@ -337,6 +370,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:34
 BUS:
@@ -347,6 +381,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:35
 BUS:
@@ -357,6 +392,7 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 TIME:36
 BUS:
@@ -367,5 +403,6 @@ clockwise:00000
 counterclockwise:00000
 =============================
 COUNTERCLOCKWISE
+s_dest_stationNumber: 5
 =============================
 end
