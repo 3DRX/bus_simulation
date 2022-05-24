@@ -159,6 +159,8 @@ void modeFCFS()
             直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
             若无其他请求则仍回到NO_TASK状态*/
             {
+                FCFS_finishRequest( presentWorkingPtr->where,
+                                        presentWorkingPtr->stationNumber );
                 while ( presentWorkingPtr->next ) {
                     if (presentWorkingPtr->next->stationNumber
                         == presentWorkingPtr->stationNumber){
