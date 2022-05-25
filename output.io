@@ -12,6 +12,9 @@ target:000000
 STATION:
 clockwise:000000
 counterclockwise:000000
+====================
+4
+===================
 TIME:2
 BUS:
 position:1
@@ -47,6 +50,9 @@ target:000000
 STATION:
 clockwise:000000
 counterclockwise:000001
+====================
+20
+===================
 TIME:7
 BUS:
 position:3
@@ -110,6 +116,9 @@ target:100000
 STATION:
 clockwise:000000
 counterclockwise:000000
+====================
+0
+===================
 TIME:16
 BUS:
 position:19
@@ -145,6 +154,9 @@ target:100000
 STATION:
 clockwise:000000
 counterclockwise:000000
+====================
+0
+===================
 TIME:21
 BUS:
 position:15
