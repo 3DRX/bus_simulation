@@ -140,40 +140,14 @@ void readOrder()
 
 void FCFS_readOrder()
 {
-    char orderType[ 17 ];
-    char c;
-    int  targetPosition;
-    int  count = 0;
-    while ( 1 ) //读取命令
-    {
-        c = getchar();
-        if ( c == ' ' ) //命令类型已读完
-        {
-            orderType[ count ] = '\0';
-            scanf( "%d", &targetPosition );
-            getchar(); //用于吞掉本行'\n'
-            break;
-        }
-        else if ( c == '\n' ) {
-            orderType[ count ] = '\0';
-            break;
-        }
-        else {
-            orderType[ count ] = c;
-        }
-        count++;
+    char inputBuff[20] = {'\0'};
+    int inputNum = -1;
+    scanf("%s",inputBuff);
+    if (strcmp(inputBuff, "clock") == 0) {
+        TIME++;
     }
-    if ( strcmp( orderType, "target" ) == 0 ) {
-        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
-        env.presentPtr->next = prePtr;
-        prePtr->prev = env.presentPtr;
-        prePtr->next = NULL;
-        env.presentPtr = env.presentPtr->next;
-        env.presentPtr->where = 1;
-        env.presentPtr->stationNumber = targetPosition;
-        car.target[ 0 ][ targetPosition - 1 ] = 1;
-    }
-    else if ( strcmp( orderType, "clockwise" ) == 0 ) {
+    else if (strcmp(inputBuff, "clockwise") == 0) {
+        scanf("%d", &inputNum);
         NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
         env.presentPtr->next = prePtr;
         prePtr->prev = env.presentPtr;
@@ -183,7 +157,8 @@ void FCFS_readOrder()
         env.presentPtr->stationNumber = targetPosition;
         station.clockwise[0][ targetPosition - 1 ] = 1;
     }
-    else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
+    else if (strcmp(inputBuff, "counterclockwise") == 0) {
+        scanf("%d", &inputNum);
         NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
         env.presentPtr->next = prePtr;
         prePtr->prev = env.presentPtr;
@@ -193,27 +168,19 @@ void FCFS_readOrder()
         env.presentPtr->stationNumber = targetPosition;
         station.counterclockwise[0][ targetPosition - 1 ] = 1;
     }
-    else if ( strcmp( orderType, "clock" ) == 0 ) {
-        TIME++;
+    else if (strcmp(inputBuff, "target") == 0) {
+        scanf("%d", &inputNum);
+        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+        env.presentPtr->next = prePtr;
+        prePtr->prev = env.presentPtr;
+        prePtr->next = NULL;
+        env.presentPtr = env.presentPtr->next;
+        env.presentPtr->where = 1;
+        env.presentPtr->stationNumber = targetPosition;
+        car.target[ 0 ][ targetPosition - 1 ] = 1;
     }
-    else if ( strcmp( orderType, "end" ) == 0 ) {
+    else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
-    }
-    else {
-        printf( "     _     you fucked up !     _\n" );
-        printf( "    |_|                       |_|\n" );
-        printf( "    | |         /^^^\\         | |\n" );
-        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
-        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
-        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
-        printf( "|          |   /     \\   |          |\n" );
-        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
-        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
-        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
-        printf( "      \\__/      || ||      \\__/\n" );
-        printf( "                () ()\n" );
-        printf( "                || ||\n" );
-        printf( "               ooO Ooo\n" );
     }
 }
 
