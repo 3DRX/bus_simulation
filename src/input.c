@@ -154,8 +154,8 @@ void FCFS_readOrder()
         prePtr->next = NULL;
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 2;
-        env.presentPtr->stationNumber = targetPosition;
-        station.clockwise[0][ targetPosition - 1 ] = 1;
+        env.presentPtr->stationNumber = inputNum;
+        station.clockwise[0][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "counterclockwise") == 0) {
         scanf("%d", &inputNum);
@@ -165,8 +165,8 @@ void FCFS_readOrder()
         prePtr->next = NULL;
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 3;
-        env.presentPtr->stationNumber = targetPosition;
-        station.counterclockwise[0][ targetPosition - 1 ] = 1;
+        env.presentPtr->stationNumber = inputNum;
+        station.counterclockwise[0][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "target") == 0) {
         scanf("%d", &inputNum);
@@ -176,11 +176,27 @@ void FCFS_readOrder()
         prePtr->next = NULL;
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 1;
-        env.presentPtr->stationNumber = targetPosition;
-        car.target[ 0 ][ targetPosition - 1 ] = 1;
+        env.presentPtr->stationNumber = inputNum;
+        car.target[ 0 ][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
+    }
+    else {
+        printf( "     _     you fucked up !     _\n" );
+        printf( "    |_|                       |_|\n" );
+        printf( "    | |         /^^^\\         | |\n" );
+        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
+        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
+        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
+        printf( "|          |   /     \\   |          |\n" );
+        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
+        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
+        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
+        printf( "      \\__/      || ||      \\__/\n" );
+        printf( "                () ()\n" );
+        printf( "                || ||\n" );
+        printf( "               ooO Ooo\n" );
     }
 }
 

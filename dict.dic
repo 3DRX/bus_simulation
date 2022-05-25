@@ -1,5 +1,5 @@
-DISTANCE = 4
-STRATEGY = SCAN
-TOTAL_STATION = 6
-# scan serve
+# first come first serve
+STRATEGY = FCFS
+TOTAL_STATION = 10
+DISTANCE = 2
 
