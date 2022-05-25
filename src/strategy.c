@@ -321,15 +321,15 @@ void modeSCAN( void )
     }
     else if ( state == CLOCKWISE ) {
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            printf("到站了\n");
+            //printf("到站了\n");
             state = CLOCKWISE_STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
             // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
-            printf("途径站点\n");
-            printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
+            //printf("途径站点\n");
+            //printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
             state = CLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
         }
@@ -339,17 +339,17 @@ void modeSCAN( void )
     }
     else if ( state == COUNTERCLOCKWISE ) {
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            printf("到站了\n");
+            //printf("到站了\n");
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
             // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
-            printf("途径站点\n");
-            printf("==========================\n");
-            printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
-            printf("==========================\n");
+            //printf("途径站点\n");
+            //printf("==========================\n");
+            //printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
+            //printf("==========================\n");
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
         }
@@ -539,8 +539,8 @@ short haveRequest( short direction )
             if (car.target[1][temp-1] == 1) { // 如果该请求是这一秒新增的，则忽略
             }
             else { // 不是这一秒新增的请求，不忽略
-                printf("进else了\n");
-                printf("%d\n",car.target[1][temp - 1]);
+                //printf("进else了\n");
+                //printf("%d\n",car.target[1][temp - 1]);
                 return TRUE;
             }
         }
