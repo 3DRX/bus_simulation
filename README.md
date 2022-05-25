@@ -52,7 +52,7 @@ main.c input.c output.c strategy.c control.c
 4. strategy.c：策略
    根据当前车内请求和站台请求，结合所采用的策略，判断车应采取的行为
 
-![](C:\Users\86186\AppData\Roaming\marktext\images\2022-05-25-15-53-19-image.png)
+<img title="" src="README_assets/e6f7ca20fa326efdc85ce683ecc10cdf9e8a3a99.png" alt="WechatIMG1262.png" width="527">
 
 **input**
 
@@ -99,8 +99,6 @@ void printLines( void );
 ```
 
 - [x] 康京旸
-
-
 
 **strategy**
 
@@ -214,8 +212,6 @@ short haveRequest( short direction );
 
 - [x] 瞿嘉辰
 
-
-
 10.
 
 ```c
@@ -226,15 +222,12 @@ void FCFS_finishRequest( int where, int stationNumber );
 
 - [x] 盛泽桓
 
-
-
 11.
 
 ```c
 /*用于计算车前往当前目标站点采用的方向,顺时针返回1，逆时针返回2.
  */
 int orient( int stationPosition );
-
 ```
 
 - [x] 盛泽桓
