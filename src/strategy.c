@@ -293,9 +293,9 @@ void modeSCAN( void )
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
         }
         else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
-            int nearsestDistence=stationDistance(( SCANfindNearestStationNumber( 2 ) ));
-            printf("====================\n");
-            printf("%d\n===================\n",nearsestDistence);
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
+            /*printf("====================\n");*/
+            /*printf("%d\n===================\n",nearsestDistence);*/
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
                 state=COUNTERCLOCKWISE;
                 carCounterClockwise();
@@ -306,9 +306,9 @@ void modeSCAN( void )
             }
         }
         else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
-            printf("====================\n");
-            int nearsestDistence=stationDistance(( SCANfindNearestStationNumber( 2 ) ));
-            printf("%d\n===================\n",nearsestDistence);
+            /*printf("====================\n");*/
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
+            /*printf("%d\n===================\n",nearsestDistence);*/
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
                 state=CLOCKWISE;
                 carClockwise();
