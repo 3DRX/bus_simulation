@@ -178,7 +178,7 @@ void modeSSTF( void )
     /*printf("=============================\n");*/
 }
 
-void modeFCFS()
+void modeFCFS( void )
 {
     static enum { NO_TASK, WORKING } state = NO_TASK;
     static NODE* presentWorkingPtr = NULL;
@@ -277,7 +277,7 @@ void modeFCFS()
     //}
 }
 
-void modeSCAN()
+void modeSCAN( void )
 {
     /*SCAN策略相对于SSTF仅改变状态转移函数
     */
@@ -322,7 +322,7 @@ void modeSCAN()
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
-        else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) { // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
             /*printf("途径站点\n");*/
             state = CLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
@@ -338,7 +338,7 @@ void modeSCAN()
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
-        else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) { // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
             /*printf("途径站点\n");*/
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
