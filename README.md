@@ -66,6 +66,10 @@ main.c input.c output.c strategy.c control.c
    `order * readOrder();`
 - [x] 盛泽桓
 
+3. FCFS模式读取字符串
+    `void FCFS_readOrder();`
+- [x] 盛泽桓
+
 **output**
 
 1. 输出车状态、输出站台状态、输出时间
