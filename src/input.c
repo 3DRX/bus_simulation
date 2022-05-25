@@ -96,45 +96,28 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
  */
 void readOrder()
 {
-    char       orderType[ 17 ];
-    char       c;
-    int        targetPosition = -1;
-    int        count = 0;
-    while ( 1 ) //读取命令
-    {
-        c = getchar();
-        if ( c == ' ' ) //命令类型已读完
-        {
-            orderType[ count ] = '\0';
-            scanf( "%d", &targetPosition );
-            getchar(); //用于吞掉本行'\n'
-            break;
-        }
-        else if ( c == '\n' ) {
-            orderType[ count ] = '\0';
-            break;
-        }
-        else {
-            orderType[ count ] = c;
-        }
-        count++;
-    }
-    if ( strcmp( orderType, "target" ) == 0 ) {
-        car.target[ 0 ][ targetPosition - 1 ] = 1;
-        car.target[ 1 ][ targetPosition - 1 ] = 1;
-    }
-    else if ( strcmp( orderType, "clockwise" ) == 0 ) {
-        station.clockwise[ 0 ][ targetPosition - 1 ] = 1;
-        station.clockwise[ 1 ][ targetPosition - 1 ] = 1;
-    }
-    else if ( strcmp( orderType, "counterclockwise" ) == 0 ) {
-        station.counterclockwise[ 0 ][ targetPosition - 1 ] = 1;
-        station.counterclockwise[ 1 ][ targetPosition - 1 ] = 1;
-    }
-    else if ( strcmp( orderType, "clock" ) == 0 ) {
+    char inputBuff[20] = {'\0'};
+    int inputNum = -1;
+    scanf("%s",inputBuff);
+    if (strcmp(inputBuff, "clock") == 0) {
         TIME++;
     }
-    else if ( strcmp( orderType, "end" ) == 0 ) {
+    else if (strcmp(inputBuff, "clockwise") == 0) {
+        scanf("%d", &inputNum);
+        station.clockwise[0][inputNum-1] = 1;
+        station.clockwise[1][inputNum-1] = 1;
+    }
+    else if (strcmp(inputBuff, "counterclockwise") == 0) {
+        scanf("%d", &inputNum);
+        station.counterclockwise[0][inputNum-1] = 1;
+        station.counterclockwise[1][inputNum-1] = 1;
+    }
+    else if (strcmp(inputBuff, "target") == 0) {
+        scanf("%d", &inputNum);
+        car.target[0][inputNum-1] = 1;
+        car.target[1][inputNum-1] = 1;
+    }
+    else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
     }
     else {
