@@ -18,7 +18,7 @@ void modeSCAN();
  * 返回到达用时最短的站台编号（从1开始）。
  * 如果无请求，就返回-1
  */
-int findNearestStationNumber( void );
+int SSTFfindNearestStationNumber( void );
 
 // 寻找在当前行驶方向上最近的车站
 // 返回到达用时最短的站台编号
@@ -72,7 +72,7 @@ void FCFS_finishRequest( int where, int stationNumber );
 int orient( int stationPosition );
 
 //返回某一方向的距离
-int SCANorient ( int stationPosition, int state);
+int SCAN_stationDistance ( int stationPosition, int state);
 
 //------------------------}}}内部函数声明
 
@@ -109,7 +109,7 @@ void modeSSTF( void )
         finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
-            s_dest_stationNumber = findNearestStationNumber();
+            s_dest_stationNumber = SSTFfindNearestStationNumber();
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
@@ -287,13 +287,13 @@ void modeSCAN( void )
         finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
-            s_dest_stationNumber = findNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+            s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
         }
         else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
-            int nearsestDistence=getPositionIndex( SCANfindNearestStationNumber( 1 ) )
+            int nearsestDistence=getPositionIndex( SCANfindNearestStationNumber( 1 ) );
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
                 state=COUNTERCLOCKWISE;
                 carCounterClockwise();
@@ -304,7 +304,7 @@ void modeSCAN( void )
             }
         }
         else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
-            int nearsestDistence=getPositionIndex( SCANfindNearestStationNumber( 2 ) )
+            int nearsestDistence=getPositionIndex( SCANfindNearestStationNumber( 2 ) );
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
                 state=CLOCKWISE;
                 carClockwise();
@@ -322,7 +322,8 @@ void modeSCAN( void )
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
-        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) { // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
+            // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
             /*printf("途径站点\n");*/
             state = CLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
@@ -338,7 +339,8 @@ void modeSCAN( void )
             finishRequest( s_dest_stationNumber ); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
-        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) { // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
+            // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
             /*printf("途径站点\n");*/
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) );
@@ -359,7 +361,7 @@ void modeSCAN( void )
 
 //------------------------内部函数实现{{{
 
-int findNearestStationNumber( void )
+int SSTFfindNearestStationNumber( void )
 {
     int   res = -1;
     int   minDistance = env.DISTANCE * env.TOTAL_STATION;
@@ -407,8 +409,8 @@ int SCANfindNearestStationNumber( int state )
     // 遍历 car.target 中的所有请求
     while ( car.target[ 0 ][ i ] != -1 ) {
         if ( car.target[ 0 ][ i ] == 1 ) {
-            if ( minDistance > SCANorient( getPositionIndex(i + 1) , state) ) {
-                minDistance = SCANorient( getPositionIndex(i + 1) , state);
+            if ( minDistance > SCAN_stationDistance( getPositionIndex(i + 1) , state) ) {
+                minDistance = SCAN_stationDistance( getPositionIndex(i + 1) , state);
                 res = i + 1;
             }
         }
@@ -418,8 +420,8 @@ int SCANfindNearestStationNumber( int state )
     // 遍历 station.clockwise 中的所有请求
     while ( station.clockwise[ 0 ][ i ] != -1 ) {
         if ( station.clockwise[ 0 ][ i ] == 1 ) {
-            if ( minDistance > SCANorient( getPositionIndex(i + 1) , state) ) {
-                minDistance = SCANorient( getPositionIndex(i + 1) , state);
+            if ( minDistance > SCAN_stationDistance( getPositionIndex(i + 1) , state) ) {
+                minDistance = SCAN_stationDistance( getPositionIndex(i + 1) , state);
                 res = i + 1;
             }
         }
@@ -429,8 +431,8 @@ int SCANfindNearestStationNumber( int state )
     // 遍历 station.counterclockwise 中的所有请求
     while ( station.counterclockwise[ 0 ][ i ] != -1 ) {
         if ( station.counterclockwise[ 0 ][ i ] == 1 ) {
-            if ( minDistance > SCANorient( getPositionIndex(i + 1) , state) ) {
-                minDistance = SCANorient( getPositionIndex(i + 1) , state);
+            if ( minDistance > SCAN_stationDistance( getPositionIndex(i + 1) , state) ) {
+                minDistance = SCAN_stationDistance( getPositionIndex(i + 1) , state);
                 res = i + 1;
             }
         }
@@ -596,7 +598,7 @@ int orient( int stationPosition )
     }
 }
 
-int SCANorient( int stationPosition ,int state )//state定义 CLOCKWISE == 1, COUNTERCLOCKWISE ==2
+int SCAN_stationDistance( int stationPosition ,int state )//state定义 CLOCKWISE == 1, COUNTERCLOCKWISE ==2
 {
     int clockwiseDistence;
     int counterclockwiseDistence;
