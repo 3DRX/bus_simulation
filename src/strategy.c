@@ -231,7 +231,7 @@ void modeFCFS( void )
                 }
             }
             else {
-                FCFS_haveOnStationRequest(presentWorkingPtr);
+                //FCFS_haveOnStationRequest(presentWorkingPtr);
                 if ( orient( dest_positionIndex ) == 1 ) {
                     carClockwise();
                 }
@@ -254,6 +254,7 @@ void modeFCFS( void )
             while ( presentWorkingPtr->next ) {
                 if ( presentWorkingPtr->next->stationNumber == presentWorkingPtr->stationNumber ) {
                     presentWorkingPtr = presentWorkingPtr->next;
+                    FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
                 }
                 else {
                     break;
@@ -270,7 +271,7 @@ void modeFCFS( void )
             }
         }
     }
-    NODE* temp = env.headnode->next;
+    //NODE* temp = env.headnode->next;
     // while (temp) {
     // printf("======\n");
     // printf("where:%d\n", temp->where);
