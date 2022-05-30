@@ -283,7 +283,7 @@ void modeSCAN( void )
     */
     static enum {STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    if ( state == stop ){
+    if ( state == STOP ){
         s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
         if( s_dest_stationNumber==-1){
             state = STOP;
