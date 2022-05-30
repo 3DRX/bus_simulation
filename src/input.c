@@ -104,18 +104,24 @@ void readOrder()
     }
     else if (strcmp(inputBuff, "clockwise") == 0) {
         scanf("%d", &inputNum);
-        station.clockwise[0][inputNum-1] = 1;
-        station.clockwise[1][inputNum-1] = 1;
+        if (station.clockwise[0][inputNum-1] != 1) {
+            station.clockwise[0][inputNum-1] = 1;
+            station.clockwise[1][inputNum-1] = 1;
+        }
     }
     else if (strcmp(inputBuff, "counterclockwise") == 0) {
         scanf("%d", &inputNum);
-        station.counterclockwise[0][inputNum-1] = 1;
-        station.counterclockwise[1][inputNum-1] = 1;
+        if (station.counterclockwise[0][inputNum-1] != 1) {
+            station.counterclockwise[0][inputNum-1] = 1;
+            station.counterclockwise[1][inputNum-1] = 1;
+        }
     }
     else if (strcmp(inputBuff, "target") == 0) {
         scanf("%d", &inputNum);
-        car.target[0][inputNum-1] = 1;
-        car.target[1][inputNum-1] = 1;
+        if (car.target[0][inputNum-1] != 1) {
+            car.target[0][inputNum-1] = 1;
+            car.target[1][inputNum-1] = 1;
+        }
     }
     else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
