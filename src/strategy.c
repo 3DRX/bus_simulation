@@ -74,6 +74,8 @@ int orient( int stationPosition );
 //返回某一方向的距离
 int SCAN_stationDistance ( int stationPosition, int state);
 
+void FCFS_haveOnStationRequest(NODE* presentWorkingPtr);
+
 //------------------------}}}内部函数声明
 
 void strategy( void )
@@ -619,6 +621,25 @@ int SCAN_stationDistance( int stationPosition ,int state )//state定义 CLOCKWIS
     }
     else {
         return counterclockwiseDistence;
+    }
+}
+
+void FCFS_haveOnStationRequest(NODE* presentWorkingPtr)
+{
+    while (presentWorkingPtr->next)//当前节点不是尾节点
+    {
+        if (getPositionIndex(presentWorkingPtr->next->stationNumber) == car.position)
+        {
+            FCFS_finishRequest(presentWorkingPtr->next->where,presentWorkingPtr->next->stationNumber);
+            NODE * freeMe = presentWorkingPtr->next;
+            presentWorkingPtr->next->next->prev = presentWorkingPtr;
+            presentWorkingPtr->next= presentWorkingPtr->next->next;
+            free(freeMe);
+        }
+        else 
+        {
+            presentWorkingPtr=presentWorkingPtr->next;
+        }
     }
 }
 
