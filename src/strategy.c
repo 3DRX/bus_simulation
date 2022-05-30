@@ -633,8 +633,13 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr)
         {
             FCFS_finishRequest(presentWorkingPtr->next->where,presentWorkingPtr->next->stationNumber);
             NODE * freeMe = presentWorkingPtr->next;
-            presentWorkingPtr->next->next->prev = presentWorkingPtr;
-            presentWorkingPtr->next= presentWorkingPtr->next->next;
+            if (presentWorkingPtr->next->next){
+                presentWorkingPtr->next->next->prev = presentWorkingPtr;
+                presentWorkingPtr->next= presentWorkingPtr->next->next;
+            }
+            else {
+                presentWorkingPtr->next = NULL;
+            }
             free(freeMe);
         }
         else 
