@@ -231,6 +231,7 @@ void modeFCFS( void )
                 }
             }
             else {
+                FCFS_haveOnStationRequest(presentWorkingPtr);
                 if ( orient( dest_positionIndex ) == 1 ) {
                     carClockwise();
                 }
