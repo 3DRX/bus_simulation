@@ -281,9 +281,23 @@ void modeSCAN( void )
 {
     /*SCAN策略相对于SSTF仅改变状态转移函数
     */
-    static enum { CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = CLOCKWISE_STOP;
+    static enum {STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    if ( state == CLOCKWISE_STOP || state == COUNTERCLOCKWISE_STOP ) {
+    if ( state == stop ){
+        s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        if( s_dest_stationNumber==-1){
+            state = STOP;
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
+            state = CLOCKWISE;
+            carClockwise();
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
+            state = COUNTERCLOCKWISE;
+            carCounterClockwise();
+        }
+    }
+    else if ( state == CLOCKWISE_STOP || state == COUNTERCLOCKWISE_STOP ) {
         finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
@@ -291,6 +305,7 @@ void modeSCAN( void )
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
+            state = STOP;
         }
         else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
             int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
