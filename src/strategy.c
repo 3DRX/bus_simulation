@@ -639,6 +639,7 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr)
             }
             else {
                 presentWorkingPtr->next = NULL;
+                env.presentPtr=presentWorkingPtr;
             }
             free(freeMe);
         }
