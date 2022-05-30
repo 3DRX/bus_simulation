@@ -42,10 +42,11 @@ int getStationNumber( int positionIndex );
  */
 int getPositionIndex( int stationNumber );
 
-/**完成输入stationNumber的请求
+/**完成输入stationNumber的指定类型请求
+ * direction：0双向，1顺时针，2逆时针
  * （把数组中的1改成0）
  */
-void finishRequest( int stationNumber );
+void finishRequest( int stationNumber, int direction );
 
 /**车辆顺时针移动一个单位长度
  */
@@ -108,7 +109,7 @@ void modeSSTF( void )
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if ( state == STOP ) {
-        finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
+        finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
@@ -129,13 +130,13 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
-            finishRequest( s_dest_stationNumber ); // 完成请求
+            finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             /*printf("途径站点\n");*/
             state = STOP;
-            finishRequest( getStationNumber( car.position ) );
+            finishRequest( getStationNumber( car.position ) ,1);
         }
         else {
             carClockwise();
@@ -145,13 +146,13 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
-            finishRequest( s_dest_stationNumber ); // 完成请求
+            finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             /*printf("途径站点\n");*/
             state = STOP;
-            finishRequest( getStationNumber( car.position ) );
+            finishRequest( getStationNumber( car.position ) ,2);
         }
         else {
             carCounterClockwise();
@@ -503,27 +504,21 @@ int getPositionIndex( int stationNumber )
     return temp * env.DISTANCE;
 }
 
-void finishRequest( int stationNumber )
+void finishRequest( int stationNumber , int direction)
 {
     if ( car.target[ 0 ][ stationNumber - 1 ] == 1 ) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
-    /*else {*/
-        /*printf("!!! target error\n");*/
-    /*}*/
-    if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
-        station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
+    if (direction == 0 && direction == 1) {
+        if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+            station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
+        }
     }
-    /*else {*/
-        /*printf("!!! clockwise error\n");*/
-    /*}*/
-    if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
-        station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
+    if (direction == 0 && direction == 2) {
+        if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+            station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
+        }
     }
-    /*else {*/
-        /*printf("!!! counterclockwise error\n");*/
-    /*}*/
-    // TODO: 修改数组的第二行
 }
 
 void carClockwise()
