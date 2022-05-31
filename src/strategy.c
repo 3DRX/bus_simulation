@@ -186,28 +186,27 @@ void modeSSTF( void )
 void modeFCFS( void )
 {
     static enum { NO_TASK, WORKING } state = NO_TASK;
-    static NODE* presentWorkingPtr = NULL;
-    if ( presentWorkingPtr == NULL ) {
-        presentWorkingPtr = env.headnode;
+    if ( env.presentWorkingPtr == NULL ) {
+        env.presentWorkingPtr = env.headnode;
     }
-    int dest_positionIndex = getPositionIndex( presentWorkingPtr->stationNumber );
+    int dest_positionIndex = getPositionIndex( env.presentWorkingPtr->stationNumber );
     int fullLength = env.DISTANCE * env.TOTAL_STATION;
     if ( state == NO_TASK ) {
-        if ( presentWorkingPtr->next ) //说明有新任务
+        if ( env.presentWorkingPtr->next ) //说明有新任务
         {
-            presentWorkingPtr = presentWorkingPtr->next;
+            env.presentWorkingPtr = env.presentWorkingPtr->next;
             state = WORKING;
-            dest_positionIndex = getPositionIndex( presentWorkingPtr->stationNumber );
+            dest_positionIndex = getPositionIndex( env.presentWorkingPtr->stationNumber );
             if ( car.position == dest_positionIndex ) /*停车状态新请求为本站请求，
             直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
             若无其他请求则仍回到NO_TASK状态*/
             {
                 //FCFS_finishRequest( presentWorkingPtr->where,
                                         //presentWorkingPtr->stationNumber );
-                while ( presentWorkingPtr->next ) {
-                    if ( presentWorkingPtr->next->stationNumber
-                         == presentWorkingPtr->stationNumber ) {
-                        presentWorkingPtr = presentWorkingPtr->next;
+                while ( env.presentWorkingPtr->next ) {
+                    if ( env.presentWorkingPtr->next->stationNumber
+                         == env.presentWorkingPtr->stationNumber ) {
+                        env.presentWorkingPtr = env.presentWorkingPtr->next;
                         //FCFS_finishRequest( presentWorkingPtr->where,
                                             //presentWorkingPtr->stationNumber );
                     }
@@ -216,11 +215,11 @@ void modeFCFS( void )
                     }
                     //将指针定位到最后一个与当前请求相同的节点，以上请求视为全部同时完成
                 }
-                if (presentWorkingPtr->next)//如果后续有其他非本站节点则开始执行
+                if (env.presentWorkingPtr->next)//如果后续有其他非本站节点则开始执行
                 {
-                    updateBuf(presentWorkingPtr->next);
-                    presentWorkingPtr=presentWorkingPtr->next;
-                    dest_positionIndex =getPositionIndex(presentWorkingPtr->stationNumber);
+                    updateBuf(env.presentWorkingPtr->next);
+                    env.presentWorkingPtr=env.presentWorkingPtr->next;
+                    dest_positionIndex =getPositionIndex(env.presentWorkingPtr->stationNumber);
                     if ( orient( dest_positionIndex ) == 1 ) {
                         carClockwise();
                     }
@@ -256,9 +255,9 @@ void modeFCFS( void )
         {
             state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
             //FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
-            while ( presentWorkingPtr->next ) {
-                if ( presentWorkingPtr->next->stationNumber == presentWorkingPtr->stationNumber ) {
-                    presentWorkingPtr = presentWorkingPtr->next;
+            while ( env.presentWorkingPtr->next ) {
+                if ( env.presentWorkingPtr->next->stationNumber == env.presentWorkingPtr->stationNumber ) {
+                    env.presentWorkingPtr = env.presentWorkingPtr->next;
                     //FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
                 }
                 else {
@@ -266,8 +265,8 @@ void modeFCFS( void )
                 }
                 //将指针定位到最后一个与当前请求相同的节点，以上请求视为全部同时完成
             }
-            if (presentWorkingPtr->next){//如果后续有其他任务节点，传下一节点遍历至链表尾部更新数组
-                updateBuf(presentWorkingPtr->next);
+            if (env.presentWorkingPtr->next){//如果后续有其他任务节点，传下一节点遍历至链表尾部更新数组
+                updateBuf(env.presentWorkingPtr->next);
             }
             else{
                 updateBuf(NULL);
