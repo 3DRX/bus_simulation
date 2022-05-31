@@ -144,6 +144,20 @@ void readOrder()
     }
 }
 
+int FCFS_checklist(int where,int stationNumber)//用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
+{
+    NODE* presentPtr=env.presentWorkingPtr;
+    while (presentPtr){
+        if (where==presentPtr->where&&stationNumber==presentPtr->stationNumber){
+            return 1;
+        }
+        else{
+            presentPtr=presentPtr->next;
+        }
+    }
+    return 0;
+}
+
 void FCFS_readOrder()
 {
     char inputBuff[20] = {'\0'};
@@ -154,33 +168,48 @@ void FCFS_readOrder()
     }
     else if (strcmp(inputBuff, "clockwise") == 0) {
         scanf("%d", &inputNum);
-        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
-        env.presentPtr->next = prePtr;
-        prePtr->prev = env.presentPtr;
-        prePtr->next = NULL;
-        env.presentPtr = env.presentPtr->next;
-        env.presentPtr->where = 2;
-        env.presentPtr->stationNumber = inputNum;
+        if(FCFS_checklist(2,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 2;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
     }
     else if (strcmp(inputBuff, "counterclockwise") == 0) {
         scanf("%d", &inputNum);
-        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
-        env.presentPtr->next = prePtr;
-        prePtr->prev = env.presentPtr;
-        prePtr->next = NULL;
-        env.presentPtr = env.presentPtr->next;
-        env.presentPtr->where = 3;
-        env.presentPtr->stationNumber = inputNum;
+        if(FCFS_checklist(3,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 3;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
     }
     else if (strcmp(inputBuff, "target") == 0) {
         scanf("%d", &inputNum);
-        NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
-        env.presentPtr->next = prePtr;
-        prePtr->prev = env.presentPtr;
-        prePtr->next = NULL;
-        env.presentPtr = env.presentPtr->next;
-        env.presentPtr->where = 1;
-        env.presentPtr->stationNumber = inputNum;
+        if(FCFS_checklist(1,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 1;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
     }
     else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
