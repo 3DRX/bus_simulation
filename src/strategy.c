@@ -104,7 +104,6 @@ void strategy( void )
 
 void modeSSTF( void )
 {
-    /*printf("=============================\n");*/
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
@@ -167,18 +166,6 @@ void modeSSTF( void )
         station.clockwise[1][i] = 0;
         station.counterclockwise[1][i] = 0;
     }
-    // start DBG
-    /*if ( state == STOP ) {*/
-        /*printf( "STOP\n" );*/
-    /*}*/
-    /*else if ( state == CLOCKWISE ) {*/
-        /*printf( "CLOCKWISE\n" );*/
-    /*}*/
-    /*else if ( state == COUNTERCLOCKWISE ) {*/
-        /*printf( "COUNTERCLOCKWISE\n" );*/
-    /*}*/
-    /*printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);*/
-    /*printf("=============================\n");*/
 }
 
 void modeFCFS( void )
