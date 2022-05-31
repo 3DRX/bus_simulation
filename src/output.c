@@ -43,24 +43,6 @@ void printLines( void )
     printf( "\n" );
 }
 
-void updateBuf( void )
-{
-    // 疑问：这里需不需要把链表中没有提到的位置都清零？
-    NODE* Nptr = env.headnode->next;
-    while ( Nptr ) {
-        if ( Nptr->where == 1 ) {
-            car.target[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        else if ( Nptr->where == 2 ) {
-            station.clockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        else if ( Nptr->where == 3 ) {
-            station.counterclockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        Nptr = Nptr->next;
-    }
-}
-
 void outPut( int ifOutPut )
 {
     // 判断是否是新的一秒，只有在新的一秒的时候

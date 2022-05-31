@@ -161,7 +161,6 @@ void FCFS_readOrder()
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 2;
         env.presentPtr->stationNumber = inputNum;
-        station.clockwise[0][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "counterclockwise") == 0) {
         scanf("%d", &inputNum);
@@ -172,7 +171,6 @@ void FCFS_readOrder()
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 3;
         env.presentPtr->stationNumber = inputNum;
-        station.counterclockwise[0][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "target") == 0) {
         scanf("%d", &inputNum);
@@ -183,7 +181,6 @@ void FCFS_readOrder()
         env.presentPtr = env.presentPtr->next;
         env.presentPtr->where = 1;
         env.presentPtr->stationNumber = inputNum;
-        car.target[ 0 ][ inputNum - 1 ] = 1;
     }
     else if (strcmp(inputBuff, "end") == 0) {
         TIME = -1;
