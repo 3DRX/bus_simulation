@@ -282,110 +282,109 @@ void modeFCFS( void )
     //}
 }
 
-//void modeSCAN( void )
-//{
-    /*SCAN策略相对于SSTF仅改变状态转移函数
-    */
-    //static enum {STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
-    //static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    //if ( state == STOP ){
-        //s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
-        //if( s_dest_stationNumber==-1){
-            //state = STOP;
-        //}
-        //else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
-            //state = CLOCKWISE;
-            //carClockwise();
-        //}
-        //else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
-            //state = COUNTERCLOCKWISE;
-            //carCounterClockwise();
-        //}
-    //}
-    //else if ( state == CLOCKWISE_STOP || state == COUNTERCLOCKWISE_STOP ) {
-        //finishRequest(getStationNumber(car.position));//停车状态直接完成本站请求
-        //if ( s_dest_stationNumber == -1 ) {
-            //// 如果上一个目标站请求完成，寻找找新的目标站
-            //s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
-        //}
-        //// 确定行驶方向
-        //if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
-            //state = STOP;
-        //}
-        //else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
-            //int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
-            //[>printf("====================\n");<]
-            //[>printf("%d\n===================\n",nearsestDistence);<]
-            //if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
-                //state=COUNTERCLOCKWISE;
-                //carCounterClockwise();
-            //}
-            //else{
-                //state=CLOCKWISE;
-                //carClockwise();
-            //}
-        //}
-        //else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
-            //[>printf("====================\n");<]
-            //int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
-            //[>printf("%d\n===================\n",nearsestDistence);<]
-            //if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
-                //state=CLOCKWISE;
-                //carClockwise();
-            //}
-            //else{
-                //state=COUNTERCLOCKWISE;
-                //carCounterClockwise();
-            //}
-        //}
-    //}
-    //else if ( state == CLOCKWISE ) {
-        //if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            ////printf("到站了\n");
-            //state = CLOCKWISE_STOP;
-            //finishRequest( s_dest_stationNumber ); // 完成请求
-            //s_dest_stationNumber = -1;             // 重置
-        //}
-        //else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
-            //// SCAN策略下无视请求类型，如果途径站点有请求则停车完成
-            ////printf("途径站点\n");
-            ////printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
-            //state = CLOCKWISE_STOP;
-            //finishRequest( getStationNumber( car.position ) );
-        //}
-        //else {
-            //carClockwise();
-        //}
-    //}
-    //else if ( state == COUNTERCLOCKWISE ) {
-        //if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            ////printf("到站了\n");
-            //state = COUNTERCLOCKWISE_STOP;
-            //finishRequest( s_dest_stationNumber ); // 完成请求
-            //s_dest_stationNumber = -1;             // 重置
-        //}
-        //else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
-            //// SCAN策略下无视请求类型，如果途径站点有请求则停车完成
-            ////printf("途径站点\n");
-            ////printf("==========================\n");
-            ////printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
-            ////printf("==========================\n");
-            //state = COUNTERCLOCKWISE_STOP;
-            //finishRequest( getStationNumber( car.position ) );
-        //}
-        //else {
-            //carCounterClockwise();
-        //}
-    //}
-    //else {
-        //printf("fkme\n");
-    //}
-    //for (int i = 0; i < env.TOTAL_STATION; i++) {
-        //car.target[1][i] = 0;
-        //station.clockwise[1][i] = 0;
-        //station.counterclockwise[1][i] = 0;
-    //}
-//}
+void modeSCAN( void )
+{
+    //SCAN策略相对于SSTF仅改变状态转移函数
+    static enum {STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
+    static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
+    if ( state == STOP ){
+        s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        if( s_dest_stationNumber==-1){
+            state = STOP;
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
+            state = CLOCKWISE;
+            carClockwise();
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
+            state = COUNTERCLOCKWISE;
+            carCounterClockwise();
+        }
+    }
+    else if ( state == CLOCKWISE_STOP || state == COUNTERCLOCKWISE_STOP ) {
+        finishRequest(getStationNumber(car.position), 0);//停车状态直接完成本站请求
+        if ( s_dest_stationNumber == -1 ) {
+            // 如果上一个目标站请求完成，寻找找新的目标站
+            s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        }
+        // 确定行驶方向
+        if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
+            state = STOP;
+        }
+        else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
+            //printf("====================\n");
+            //printf("%d\n===================\n",nearsestDistence);
+            if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
+                state=COUNTERCLOCKWISE;
+                carCounterClockwise();
+            }
+            else{
+                state=CLOCKWISE;
+                carClockwise();
+            }
+        }
+        else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
+            //printf("====================\n");
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
+            //printf("%d\n===================\n",nearsestDistence);
+            if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){//按当前行驶方向最近的站点路程大于总长度一半
+                state=CLOCKWISE;
+                carClockwise();
+            }
+            else{
+                state=COUNTERCLOCKWISE;
+                carCounterClockwise();
+            }
+        }
+    }
+    else if ( state == CLOCKWISE ) {
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            //printf("到站了\n");
+            state = CLOCKWISE_STOP;
+            finishRequest( s_dest_stationNumber, 0 ); // 完成请求
+            s_dest_stationNumber = -1;             // 重置
+        }
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
+            // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
+            //printf("途径站点\n");
+            //printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
+            state = CLOCKWISE_STOP;
+            finishRequest( getStationNumber( car.position ) ,0);
+        }
+        else {
+            carClockwise();
+        }
+    }
+    else if ( state == COUNTERCLOCKWISE ) {
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            //printf("到站了\n");
+            state = COUNTERCLOCKWISE_STOP;
+            finishRequest( s_dest_stationNumber ,0); // 完成请求
+            s_dest_stationNumber = -1;             // 重置
+        }
+        else if (( haveRequest( CLOCKWISE )== TRUE) || (haveRequest( COUNTERCLOCKWISE ) == TRUE )) {
+            // SCAN策略下无视请求类型，如果途径站点有请求则停车完成
+            //printf("途径站点\n");
+            //printf("==========================\n");
+            //printf("haveRequest: %d, %d\n", haveRequest(CLOCKWISE), haveRequest(COUNTERCLOCKWISE));
+            //printf("==========================\n");
+            state = COUNTERCLOCKWISE_STOP;
+            finishRequest( getStationNumber( car.position ) ,0);
+        }
+        else {
+            carCounterClockwise();
+        }
+    }
+    else {
+        printf("fkme\n");
+    }
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        car.target[1][i] = 0;
+        station.clockwise[1][i] = 0;
+        station.counterclockwise[1][i] = 0;
+    }
+}
 
 //------------------------内部函数实现{{{
 
