@@ -11,4 +11,6 @@
  */
 void outPut();
 
+void printLines( void );
+
 #endif

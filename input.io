@@ -1,18 +1,2 @@
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
-clock
+target 2
 end
-
