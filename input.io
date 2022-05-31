@@ -1,14 +1,13 @@
 clock
-clockwise 2
+target 7
 clock
-target 10
-clock
-clock
-clock
-clockwise 3
+clockwise 9
+counterclockwise 9
 clock
 clock
-target 9
+clock
+clock
+clock
 clock
 clock
 clock

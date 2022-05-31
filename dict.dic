@@ -1,5 +1,5 @@
 # first come first serve
-STRATEGY = FCFS
+STRATEGY = SSTF
 TOTAL_STATION = 10
-DISTANCE = 2
+DISTANCE = 1
 
