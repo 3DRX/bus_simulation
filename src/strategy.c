@@ -135,6 +135,7 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
+            STOP_DIRECTION = STOP;
             finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
@@ -152,6 +153,7 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
+            STOP_DIRECTION = STOP;
             finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
