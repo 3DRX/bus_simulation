@@ -509,12 +509,12 @@ void finishRequest( int stationNumber , int direction)
     if ( car.target[ 0 ][ stationNumber - 1 ] == 1 ) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
-    if (direction == 0 && direction == 1) {
+    if (direction == 0 || direction == 1) {
         if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
         }
     }
-    if (direction == 0 && direction == 2) {
+    if (direction == 0 || direction == 2) {
         if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
         }
