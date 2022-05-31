@@ -113,6 +113,12 @@ void modeSSTF( void )
             finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
         }
         else {
+            if (STOP_DIRECTION == CLOCKWISE) {
+                finishRequest( getStationNumber( car.position ) ,CLOCKWISE);
+            }
+            else if (STOP_DIRECTION == COUNTERCLOCKWISE) {
+                finishRequest( getStationNumber( car.position ) ,COUNTERCLOCKWISE);
+            }
             STOP_DIRECTION = 0;
         }
         if ( s_dest_stationNumber == -1 ) {
