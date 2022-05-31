@@ -1,25 +1,42 @@
 clock
+clockwise 4
+clockwise 2
+counterclockwise 4
+clock
 clockwise 2
 clock
-clockwise 4
+clock
+counterclockwise 1
 clock
 clock
-clockwise 6
-clock
-target 8
-clock
-clock
-clock
-target 10
+clockwise 3
 clock
 clock
 clock
+clock 
+clock
+clock
+clock
+target 5
+clock
+target 3
 clock
 clock
 clock
 clock
 clock
-clock          
+clock
+clock
+clock
+target 4
+target 1
+clock
+clock
+clock
+clock
+clock
+clock
+clock
 clock
 clock
 clock
