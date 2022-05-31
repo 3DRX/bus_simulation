@@ -178,7 +178,7 @@ void FCFS_readOrder()
             env.presentPtr->stationNumber = inputNum;
         }
         else{
-            printf("F_U\n");//用于debug
+            //printf("F_U\n");//用于debug
         }
     }
     else if (strcmp(inputBuff, "counterclockwise") == 0) {
@@ -193,7 +193,7 @@ void FCFS_readOrder()
             env.presentPtr->stationNumber = inputNum;
         }
         else{
-            printf("F_U\n");//用于debug
+            //printf("F_U\n");//用于debug
         }
     }
     else if (strcmp(inputBuff, "target") == 0) {
@@ -208,7 +208,7 @@ void FCFS_readOrder()
             env.presentPtr->stationNumber = inputNum;
         }
         else{
-            printf("F_U\n");//用于debug
+            //printf("F_U\n");//用于debug
         }
     }
     else if (strcmp(inputBuff, "end") == 0) {
