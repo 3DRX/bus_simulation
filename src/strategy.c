@@ -242,6 +242,7 @@ void modeFCFS( void )
                 else {
                     carCounterClockwise();
                 }
+                updateBuf(env.presentWorkingPtr);
             }
             // printf("我不摆了\n");
         }
@@ -279,6 +280,7 @@ void modeFCFS( void )
             else {
                 carCounterClockwise();
             }
+            updateBuf(env.presentWorkingPtr);
         }
     }
     //NODE* temp = env.headnode->next;
