@@ -107,8 +107,14 @@ void modeSSTF( void )
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
+    static int STOP_DIRECTION = 0; // 0无方向，1顺时针，2逆时针
     if ( state == STOP ) {
-        finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
+        if (STOP_DIRECTION == 0) {
+            finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
+        }
+        else {
+            STOP_DIRECTION = 0;
+        }
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
@@ -135,6 +141,7 @@ void modeSSTF( void )
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             /*printf("途径站点\n");*/
             state = STOP;
+            STOP_DIRECTION = CLOCKWISE;
             finishRequest( getStationNumber( car.position ) ,1);
         }
         else {
@@ -151,6 +158,7 @@ void modeSSTF( void )
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             /*printf("途径站点\n");*/
             state = STOP;
+            STOP_DIRECTION = COUNTERCLOCKWISE;
             finishRequest( getStationNumber( car.position ) ,2);
         }
         else {
