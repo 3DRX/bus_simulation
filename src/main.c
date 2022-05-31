@@ -60,6 +60,8 @@ void initGame( void )
     else {
         env.headnode = NULL;
     }
+    // 初始化env.presentWorkingPtr
+    env.presentWorkingPtr = NULL;
     // 输出TIME: 0
     printLines();
 }

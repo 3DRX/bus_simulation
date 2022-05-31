@@ -12,6 +12,7 @@ typedef struct {
     enum { FCFS, SSTF, SCAN } STRATEGY;
     struct Node * headnode;
     struct Node * presentPtr;
+    struct Node * presentWorkingPtr;
 } ENVIRONMENT;
 
 // 数组第二行定义：
