@@ -77,6 +77,8 @@ int SCAN_stationDistance ( int stationPosition, int state);
 
 void FCFS_haveOnStationRequest(NODE* presentWorkingPtr);
 
+void updateBuf(NODE* presentPtr );
+
 //------------------------}}}内部函数声明
 
 void strategy( void )
@@ -201,13 +203,13 @@ void modeFCFS( void )
             若无其他请求则仍回到NO_TASK状态*/
             {
                 //FCFS_finishRequest( presentWorkingPtr->where,
-                                        presentWorkingPtr->stationNumber );//
+                                        //presentWorkingPtr->stationNumber );
                 while ( presentWorkingPtr->next ) {
                     if ( presentWorkingPtr->next->stationNumber
                          == presentWorkingPtr->stationNumber ) {
                         presentWorkingPtr = presentWorkingPtr->next;
                         //FCFS_finishRequest( presentWorkingPtr->where,
-                                            presentWorkingPtr->stationNumber );
+                                            //presentWorkingPtr->stationNumber );
                     }
                     else {
                         break;
@@ -288,32 +290,6 @@ void modeFCFS( void )
     // printf("======\n");
     // temp = temp->next;
     //}
-}
-
-void updateBuf(NODE* presentPtr )
-{
-    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
-        car.target[ 0 ][ i ] = 0;
-        station.clockwise[ 0 ][ i ] = 0;
-        station.counterclockwise[ 0 ][ i ] = 0;
-    }
-    car.target[ 0 ][ env.TOTAL_STATION] = -1;
-    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
-    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
-
-    NODE* Nptr = presentPtr;
-    while ( Nptr ) {
-        if ( Nptr->where == 1 ) {
-            car.target[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        else if ( Nptr->where == 2 ) {
-            station.clockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        else if ( Nptr->where == 3 ) {
-            station.counterclockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
-        }
-        Nptr = Nptr->next;
-    }
 }
 
 void modeSCAN( void )
@@ -691,6 +667,32 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr)
         {
             presentWorkingPtr=presentWorkingPtr->next;
         }
+    }
+}
+
+void updateBuf(NODE* presentPtr )
+{
+    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
+        car.target[ 0 ][ i ] = 0;
+        station.clockwise[ 0 ][ i ] = 0;
+        station.counterclockwise[ 0 ][ i ] = 0;
+    }
+    car.target[ 0 ][ env.TOTAL_STATION] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
+
+    NODE* Nptr = presentPtr;
+    while ( Nptr ) {
+        if ( Nptr->where == 1 ) {
+            car.target[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        else if ( Nptr->where == 2 ) {
+            station.clockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        else if ( Nptr->where == 3 ) {
+            station.counterclockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        Nptr = Nptr->next;
     }
 }
 
