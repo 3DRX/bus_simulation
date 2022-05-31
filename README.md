@@ -75,6 +75,10 @@ main.c input.c output.c strategy.c control.c
    ```
 - [x] 盛泽桓
 
+3. FCFS模式读取字符串
+    `void FCFS_readOrder();`
+- [x] 盛泽桓
+
 **output**
 
 外部函数：

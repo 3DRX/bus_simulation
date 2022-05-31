@@ -61,7 +61,7 @@ void initGame( void )
         env.headnode = NULL;
     }
     // 输出TIME: 0
-    outPut( TRUE );
+    printLines();
 }
 
 void mainLoop( void )

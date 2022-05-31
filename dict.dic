@@ -1,5 +1,5 @@
-TOTAL_STATION = 5
-DISTANCE = 3
+TOTAL_STATION = 6
+DISTANCE = 1
 # shortest seek time first
-STRATEGY = SSTF
+STRATEGY = FCFS
 
