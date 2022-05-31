@@ -24,7 +24,7 @@ BUS:
 position:8
 target:0000001000
 STATION:
-clockwise:0000000010
+clockwise:0000000000
 counterclockwise:0000000010
 TIME:4
 BUS:
@@ -174,6 +174,13 @@ STATION:
 clockwise:0000000000
 counterclockwise:0000000000
 TIME:25
+BUS:
+position:8
+target:0000000000
+STATION:
+clockwise:0000000000
+counterclockwise:0000000000
+TIME:26
 BUS:
 position:8
 target:0000000000
