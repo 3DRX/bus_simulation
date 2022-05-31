@@ -200,13 +200,13 @@ void modeFCFS( void )
             直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
             若无其他请求则仍回到NO_TASK状态*/
             {
-                FCFS_finishRequest( presentWorkingPtr->where,
+                //FCFS_finishRequest( presentWorkingPtr->where,
                                         presentWorkingPtr->stationNumber );//
                 while ( presentWorkingPtr->next ) {
                     if ( presentWorkingPtr->next->stationNumber
                          == presentWorkingPtr->stationNumber ) {
                         presentWorkingPtr = presentWorkingPtr->next;
-                        FCFS_finishRequest( presentWorkingPtr->where,
+                        //FCFS_finishRequest( presentWorkingPtr->where,
                                             presentWorkingPtr->stationNumber );
                     }
                     else {
@@ -216,6 +216,7 @@ void modeFCFS( void )
                 }
                 if (presentWorkingPtr->next)//如果后续有其他非本站节点则开始执行
                 {
+                    updateBuf(presentWorkingPtr->next);
                     presentWorkingPtr=presentWorkingPtr->next;
                     dest_positionIndex =getPositionIndex(presentWorkingPtr->stationNumber);
                     if ( orient( dest_positionIndex ) == 1 ) {
@@ -228,6 +229,7 @@ void modeFCFS( void )
                 else/*新的一秒中所有请求都为停车位置本站请求，视为瞬间全部完成，
                 状态保持为NO_TASK*/
                 {
+                    updateBuf(NULL);
                     state=NO_TASK;
                 }
             }
@@ -251,16 +253,22 @@ void modeFCFS( void )
         if ( car.position == dest_positionIndex ) //当前请求已完成，判定后续节点请求可否同时完成
         {
             state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
-            FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
+            //FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
             while ( presentWorkingPtr->next ) {
                 if ( presentWorkingPtr->next->stationNumber == presentWorkingPtr->stationNumber ) {
                     presentWorkingPtr = presentWorkingPtr->next;
-                    FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
+                    //FCFS_finishRequest( presentWorkingPtr->where, presentWorkingPtr->stationNumber );
                 }
                 else {
                     break;
                 }
                 //将指针定位到最后一个与当前请求相同的节点，以上请求视为全部同时完成
+            }
+            if (presentWorkingPtr->next){//如果后续有其他任务节点，传下一节点遍历至链表尾部更新数组
+                updateBuf(presentWorkingPtr->next);
+            }
+            else{
+                updateBuf(NULL);
             }
         }
         else {
@@ -280,6 +288,32 @@ void modeFCFS( void )
     // printf("======\n");
     // temp = temp->next;
     //}
+}
+
+void updateBuf(NODE* presentPtr )
+{
+    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
+        car.target[ 0 ][ i ] = 0;
+        station.clockwise[ 0 ][ i ] = 0;
+        station.counterclockwise[ 0 ][ i ] = 0;
+    }
+    car.target[ 0 ][ env.TOTAL_STATION] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
+
+    NODE* Nptr = presentPtr;
+    while ( Nptr ) {
+        if ( Nptr->where == 1 ) {
+            car.target[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        else if ( Nptr->where == 2 ) {
+            station.clockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        else if ( Nptr->where == 3 ) {
+            station.counterclockwise[ 0 ][ Nptr->stationNumber - 1 ] = 1;
+        }
+        Nptr = Nptr->next;
+    }
 }
 
 void modeSCAN( void )
