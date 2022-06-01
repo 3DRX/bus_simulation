@@ -143,7 +143,7 @@ void modeSSTF( void )
             carClockwise();
             // 检查挪车之后车的位置有没有新请求
             // 如果有，则停止刷新数组第二行一次
-            if (haveRequest(getStationNumber(car.position))) {
+            if (haveRequest(CLOCKWISE)) {
                 if_update_2row = FALSE;
             }
         }
@@ -172,41 +172,41 @@ void modeSSTF( void )
     else {
         printf("sth wrong\n");
     }
-    //printf("===========================\n");
-    //if (state == 0) {
-        //printf("STATE: STOP\n");
-    //}
-    //else if (state == 1) {
-        //printf("STATE: CLOCKWISE\n");
-    //}
-    //else if (state == 2) {
-        //printf("STATE: COUNTERCLOCKWISE\n");
-    //}
-    //printf( "target:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( car.target[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", car.target[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
-    //printf( "clockwise:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( station.clockwise[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", station.clockwise[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
-    //printf( "counterclockwise:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( station.counterclockwise[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", station.counterclockwise[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
-    //printf("===========================\n");
+    printf("===========================\n");
+    if (state == 0) {
+        printf("STATE: STOP\n");
+    }
+    else if (state == 1) {
+        printf("STATE: CLOCKWISE\n");
+    }
+    else if (state == 2) {
+        printf("STATE: COUNTERCLOCKWISE\n");
+    }
+    printf( "target:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( car.target[ 1 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", car.target[ 1 ][ i ] );
+    }
+    printf( "\n" );
+    printf( "clockwise:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( station.clockwise[ 1 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", station.clockwise[ 1 ][ i ] );
+    }
+    printf( "\n" );
+    printf( "counterclockwise:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( station.counterclockwise[ 1 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", station.counterclockwise[ 1 ][ i ] );
+    }
+    printf( "\n" );
+    printf("===========================\n");
     // 重置数组第二行
     if (if_update_2row == TRUE) {
         for (int i = 0; i < 20; i++) {
