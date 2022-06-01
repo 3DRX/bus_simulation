@@ -103,6 +103,44 @@ void strategy( void )
         }
     }
 }
+short targetCheck()
+{
+    int preStationNum=getStationNumber(car.position);
+    if (car.target[1][preStationNum-1]==1)
+    {
+        return 1;//有新请求不置零
+    }
+    else 
+    {
+        return 0;
+    }
+} 
+short clockwiseCheck()
+{
+    int preStationNum=getStationNumber(car.position);
+    if (env.clockwise[1][preStationNum-1]==1)
+    {
+        return 1;//有新请求不置零
+    }
+    else 
+    {
+        return 0;
+    }
+} 
+
+short counterclockwiseCheck()
+{
+    int preStationNum=getStationNumber(car.position);
+    if (env.counterclockwise[1][preStationNum-1]==1)
+    {
+        return 1;//有新请求不置零
+    }
+    else 
+    {
+        return 0;
+    }
+} 
+
 
 void modeSSTF( void )
 {
@@ -110,6 +148,9 @@ void modeSSTF( void )
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     static int if_update_2row = TRUE;
+    int checkTarget=0;
+    int checkClockwise=0;
+    int checkCounterclockwise=0;
     if ( state == STOP ) {
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
@@ -164,9 +205,9 @@ void modeSSTF( void )
             carCounterClockwise();
             // 检查挪车之后车的位置有没有新请求
             // 如果有，则停止刷新数组第二行一次
-            if (haveRequest(getStationNumber(car.position))) {
-                if_update_2row = FALSE;
-            }
+            checkTarget=targetCheck();
+            checkClockwise=clockwiseCheck();
+            checkCounterclockwise=counterclockwiseCheck();
         }
     }
     else {
@@ -208,17 +249,22 @@ void modeSSTF( void )
     printf( "\n" );
     printf("===========================\n");
     // 重置数组第二行
-    if (if_update_2row == TRUE) {
-        for (int i = 0; i < 20; i++) {
-            car.target[1][i] = 0;
-            station.clockwise[1][i] = 0;
-            station.counterclockwise[1][i] = 0;
+    for (int i = 0; i < 20; i++) {
+        car.target[1][i] = 0;
+        station.clockwise[1][i] = 0;
+        station.counterclockwise[1][i] = 0;
         }
+    if (checkTarget){
+        car.target[1][getStationNumber(car.position)-1]=1;
     }
-    else {
-        if_update_2row = TRUE;
+    if (checkClockwise){
+        env.clockwise[1][getStationNumber(car.position)-1]=1;
+    }
+    if (checkCounterclockwise){
+        env.counterclockwise[1][getStationNumber(car.position)-1]=1;
     }
 }
+
 
 void modeFCFS( void )
 {
