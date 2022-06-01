@@ -163,32 +163,22 @@ void modeSSTF( void )
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
-            //printf("寻找新对目标站\n");
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
-            //printf("当前无请求\n");
         }
         else if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
             finishRequest(getStationNumber(car.position), 0, FALSE);
             s_dest_stationNumber = -1;
-            //if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
-                //state = CLOCKWISE;
-                //carClockwise();
-            //}
-            //else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
-                //state = COUNTERCLOCKWISE;
-                //carCounterClockwise();
-            //}
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
-            //carClockwise();
+            carClockwise();
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
             state = COUNTERCLOCKWISE;
-            //carCounterClockwise();
+            carCounterClockwise();
         }
     }
     else if ( state == CLOCKWISE ) {
@@ -211,13 +201,10 @@ void modeSSTF( void )
             state = STOP;
             finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
             s_dest_stationNumber = -1;             // 重置
-            printf("lalala\n");
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = STOP;
             finishRequest( getStationNumber( car.position ) ,2, TRUE);
-        }
-        else {
         }
     }
     else {
@@ -234,30 +221,6 @@ void modeSSTF( void )
     else if (state == 2) {
         printf("STATE: COUNTERCLOCKWISE\n");
     }
-    //printf( "target:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( car.target[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", car.target[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
-    //printf( "clockwise:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( station.clockwise[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", station.clockwise[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
-    //printf( "counterclockwise:" );
-    //for ( int i = 0; i < 20; i++ ) {
-        //if ( station.counterclockwise[ 1 ][ i ] == -1 ) {
-            //break;
-        //}
-        //printf( "%d", station.counterclockwise[ 1 ][ i ] );
-    //}
-    //printf( "\n" );
     printf("===========================\n");
     // 重置数组第二行
     for (int i = 0; i < 20; i++) {
