@@ -519,15 +519,16 @@ int getPositionIndex( int stationNumber )
 
 void finishRequest( int stationNumber , int direction)
 {
-    if ( car.target[ 0 ][ stationNumber - 1 ] == 1 ) {
+    // 完成请求前判断方向和提前一秒
+    if ( car.target[ 0 ][ stationNumber - 1 ] == 1 && car.target[1][stationNumber - 1] == 0) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
-    if (direction == 0 || direction == 1) {
+    if (direction == 0 || direction == 1 && station.clockwise[1][stationNumber - 1] == 0) {
         if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
         }
     }
-    if (direction == 0 || direction == 2) {
+    if (direction == 0 || direction == 2 && station.counterclockwise[1][stationNumber - 1] == 0) {
         if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
         }

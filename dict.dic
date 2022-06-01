@@ -1,5 +1,5 @@
-# first come first serve
+TOTAL_STATION = 5
+DISTANCE = 3
+# shortest seek time first
 STRATEGY = SSTF
-TOTAL_STATION = 10
-DISTANCE = 1
 
