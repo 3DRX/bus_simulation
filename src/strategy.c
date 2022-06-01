@@ -159,6 +159,10 @@ void modeSSTF( void )
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
         }
+        else if (s_dest_stationNumber == getStationNumber(car.position)) {
+            // 原地请求，立即完成，不改变state
+            finishRequest(s_dest_stationNumber, 0);
+        }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
             carClockwise();
