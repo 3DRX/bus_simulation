@@ -164,7 +164,7 @@ void modeSSTF( void )
         else if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
             finishRequest(getStationNumber(car.position), 0, FALSE);
-            s_dest_stationNumber = -1;
+            s_dest_stationNumber = SSTFfindNearestStationNumber();
             //printf("完成本站请求\n");
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
@@ -231,16 +231,16 @@ void modeSSTF( void )
     else {
         printf("sth wrong\n");
     }
-    //printf("===========================\n");
-    //if (state == 0) {
-        //printf("STATE: STOP\n");
-    //}
-    //else if (state == 1) {
-        //printf("STATE: CLOCKWISE\n");
-    //}
-    //else if (state == 2) {
-        //printf("STATE: COUNTERCLOCKWISE\n");
-    //}
+    printf("===========================\n");
+    if (state == 0) {
+        printf("STATE: STOP\n");
+    }
+    else if (state == 1) {
+        printf("STATE: CLOCKWISE\n");
+    }
+    else if (state == 2) {
+        printf("STATE: COUNTERCLOCKWISE\n");
+    }
     //printf( "target:" );
     //for ( int i = 0; i < 20; i++ ) {
         //if ( car.target[ 1 ][ i ] == -1 ) {
@@ -265,7 +265,7 @@ void modeSSTF( void )
         //printf( "%d", station.counterclockwise[ 1 ][ i ] );
     //}
     //printf( "\n" );
-    //printf("===========================\n");
+    printf("===========================\n");
     // 重置数组第二行
     for (int i = 0; i < 20; i++) {
         car.target[1][i] = 0;
