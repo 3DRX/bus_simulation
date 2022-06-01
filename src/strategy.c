@@ -106,17 +106,11 @@ void strategy( void )
 
 void modeSSTF( void )
 {
-    // 状态变量，初始化为STOP
+        // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    static int STOP_DIRECTION = 0; // 0无方向，1顺时针，2逆时针
+    static int if_update_2row = FALSE;
     if ( state == STOP ) {
-        if (STOP_DIRECTION == 0) {
-            finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
-        }
-        else {
-            STOP_DIRECTION = 0;
-        }
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
@@ -137,14 +131,12 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
-            STOP_DIRECTION = STOP;
             finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
-            //printf("途径站点\n");
+            /*printf("途径站点\n");*/
             state = STOP;
-            STOP_DIRECTION = CLOCKWISE;
             finishRequest( getStationNumber( car.position ) ,1);
         }
         else {
@@ -155,14 +147,12 @@ void modeSSTF( void )
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
             /*printf("到站了\n");*/
             state = STOP;
-            STOP_DIRECTION = STOP;
             finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             /*printf("途径站点\n");*/
             state = STOP;
-            STOP_DIRECTION = COUNTERCLOCKWISE;
             finishRequest( getStationNumber( car.position ) ,2);
         }
         else {
