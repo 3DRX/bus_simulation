@@ -148,9 +148,17 @@ void modeSSTF( void )
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    //int checkTarget=0;
-    //int checkClockwise=0;
-    //int checkCounterclockwise=0;
+    printf("===========================\n");
+    printf("before_");
+    if (state == 0) {
+        printf("STATE: STOP\n");
+    }
+    else if (state == 1) {
+        printf("STATE: CLOCKWISE\n");
+    }
+    else if (state == 2) {
+        printf("STATE: COUNTERCLOCKWISE\n");
+    }
     if ( state == STOP ) {
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
@@ -164,74 +172,59 @@ void modeSSTF( void )
         else if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
             finishRequest(getStationNumber(car.position), 0, FALSE);
-            s_dest_stationNumber = SSTFfindNearestStationNumber();
-            //printf("完成本站请求\n");
+            s_dest_stationNumber = -1;
+            //if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
+                //state = CLOCKWISE;
+                //carClockwise();
+            //}
+            //else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
+                //state = COUNTERCLOCKWISE;
+                //carCounterClockwise();
+            //}
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
-            carClockwise();
-            // 检查挪车之后车的位置有没有新请求
-            // 如果有，则停止刷新数组第二行一次
-            //checkTarget=targetCheck();
-            //checkClockwise=clockwiseCheck();
-            //checkCounterclockwise=counterclockwiseCheck();
+            //carClockwise();
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
             state = COUNTERCLOCKWISE;
-            carCounterClockwise();
-            // 检查挪车之后车的位置有没有新请求
-            // 如果有，则停止刷新数组第二行一次
-            //checkTarget=targetCheck();
-            //checkClockwise=clockwiseCheck();
-            //checkCounterclockwise=counterclockwiseCheck();
+            //carCounterClockwise();
         }
     }
     else if ( state == CLOCKWISE ) {
+        carClockwise();
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            /*printf("到站了\n");*/
             state = STOP;
             finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
-            /*printf("途径站点\n");*/
             state = STOP;
             finishRequest( getStationNumber( car.position ) ,1, TRUE);
         }
         else {
-            carClockwise();
-            // 检查挪车之后车的位置有没有新请求
-            // 如果有，则停止刷新数组第二行一次
-            //checkTarget=targetCheck();
-            //checkClockwise=clockwiseCheck();
-            //checkCounterclockwise=counterclockwiseCheck();
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {
+        carCounterClockwise();
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            //printf("到站了\n");
             state = STOP;
             finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
             s_dest_stationNumber = -1;             // 重置
+            printf("lalala\n");
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
-            //printf("途径站点\n");
             state = STOP;
             finishRequest( getStationNumber( car.position ) ,2, TRUE);
         }
         else {
-            carCounterClockwise();
-            // 检查挪车之后车的位置有没有新请求
-            // 如果有，则停止刷新数组第二行一次
-            //checkTarget=targetCheck();
-            //checkClockwise=clockwiseCheck();
-            //checkCounterclockwise=counterclockwiseCheck();
         }
     }
     else {
         printf("sth wrong\n");
     }
-    printf("===========================\n");
+    printf("s_dest_stationNumber: %d\n",s_dest_stationNumber);
+    printf("end_");
     if (state == 0) {
         printf("STATE: STOP\n");
     }
@@ -272,15 +265,6 @@ void modeSSTF( void )
         station.clockwise[1][i] = 0;
         station.counterclockwise[1][i] = 0;
         }
-    //if (checkTarget){
-        //car.target[1][getStationNumber(car.position)-1]=1;
-    //}
-    //if (checkClockwise){
-        //station.clockwise[1][getStationNumber(car.position)-1]=1;
-    //}
-    //if (checkCounterclockwise){
-        //station.counterclockwise[1][getStationNumber(car.position)-1]=1;
-    //}
 }
 
 void modeFCFS( void )
@@ -625,11 +609,13 @@ void finishRequest( int stationNumber , int direction, int ifDelay)
     if (direction == 0 || direction == 1 ) {
         if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.clockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
+            printf("clockwise完成请求: %d\n",stationNumber);
         }
     }
     if (direction == 0 || direction == 2 ) {
         if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.counterclockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
+            printf("counterclockwise完成请求: %d\n",stationNumber);
         }
     }
 }
