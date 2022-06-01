@@ -115,12 +115,6 @@ void modeSSTF( void )
             finishRequest(getStationNumber(car.position),0);//停车状态直接完成本站请求
         }
         else {
-            if (STOP_DIRECTION == CLOCKWISE) {
-                finishRequest( getStationNumber( car.position ) ,CLOCKWISE);
-            }
-            else if (STOP_DIRECTION == COUNTERCLOCKWISE) {
-                finishRequest( getStationNumber( car.position ) ,COUNTERCLOCKWISE);
-            }
             STOP_DIRECTION = 0;
         }
         if ( s_dest_stationNumber == -1 ) {
@@ -148,7 +142,7 @@ void modeSSTF( void )
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
-            /*printf("途径站点\n");*/
+            //printf("途径站点\n");
             state = STOP;
             STOP_DIRECTION = CLOCKWISE;
             finishRequest( getStationNumber( car.position ) ,1);
@@ -184,6 +178,17 @@ void modeSSTF( void )
         station.clockwise[1][i] = 0;
         station.counterclockwise[1][i] = 0;
     }
+    //printf("===========================\n");
+    //if (state == 0) {
+        //printf("STATE: STOP\n");
+    //}
+    //else if (state == 1) {
+        //printf("STATE: CLOCKWISE\n");
+    //}
+    //else if (state == 2) {
+        //printf("STATE: COUNTERCLOCKWISE\n");
+    //}
+    //printf("===========================\n");
 }
 
 void modeFCFS( void )
@@ -523,13 +528,13 @@ void finishRequest( int stationNumber , int direction)
     if ( car.target[ 0 ][ stationNumber - 1 ] == 1 && car.target[1][stationNumber - 1] == 0) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
-    if (direction == 0 || direction == 1 && station.clockwise[1][stationNumber - 1] == 0) {
-        if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+    if (direction == 0 || direction == 1 ) {
+        if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 && station.clockwise[1][stationNumber - 1] == 0) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
         }
     }
-    if (direction == 0 || direction == 2 && station.counterclockwise[1][stationNumber - 1] == 0) {
-        if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 ) {
+    if (direction == 0 || direction == 2 ) {
+        if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 && station.counterclockwise[1][stationNumber - 1] == 0) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
         }
     }
