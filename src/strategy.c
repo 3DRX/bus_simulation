@@ -106,10 +106,10 @@ void strategy( void )
 
 void modeSSTF( void )
 {
-        // 状态变量，初始化为STOP
+    // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    static int if_update_2row = FALSE;
+    static int if_update_2row = TRUE;
     if ( state == STOP ) {
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
@@ -141,32 +141,36 @@ void modeSSTF( void )
         }
         else {
             carClockwise();
+            // 检查挪车之后车的位置有没有新请求
+            // 如果有，则停止刷新数组第二行一次
+            if (haveRequest(getStationNumber(car.position))) {
+                if_update_2row = FALSE;
+            }
         }
     }
     else if ( state == COUNTERCLOCKWISE ) {
         if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
-            /*printf("到站了\n");*/
+            //printf("到站了\n");
             state = STOP;
             finishRequest( s_dest_stationNumber ,0); // 完成请求
             s_dest_stationNumber = -1;             // 重置
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
-            /*printf("途径站点\n");*/
+            //printf("途径站点\n");
             state = STOP;
             finishRequest( getStationNumber( car.position ) ,2);
         }
         else {
             carCounterClockwise();
+            // 检查挪车之后车的位置有没有新请求
+            // 如果有，则停止刷新数组第二行一次
+            if (haveRequest(getStationNumber(car.position))) {
+                if_update_2row = FALSE;
+            }
         }
     }
     else {
         printf("sth wrong\n");
-    }
-    // 重置数组第二行
-    for (int i = 0; i < env.TOTAL_STATION; i++) {
-        car.target[1][i] = 0;
-        station.clockwise[1][i] = 0;
-        station.counterclockwise[1][i] = 0;
     }
     //printf("===========================\n");
     //if (state == 0) {
@@ -178,7 +182,42 @@ void modeSSTF( void )
     //else if (state == 2) {
         //printf("STATE: COUNTERCLOCKWISE\n");
     //}
+    //printf( "target:" );
+    //for ( int i = 0; i < 20; i++ ) {
+        //if ( car.target[ 1 ][ i ] == -1 ) {
+            //break;
+        //}
+        //printf( "%d", car.target[ 1 ][ i ] );
+    //}
+    //printf( "\n" );
+    //printf( "clockwise:" );
+    //for ( int i = 0; i < 20; i++ ) {
+        //if ( station.clockwise[ 1 ][ i ] == -1 ) {
+            //break;
+        //}
+        //printf( "%d", station.clockwise[ 1 ][ i ] );
+    //}
+    //printf( "\n" );
+    //printf( "counterclockwise:" );
+    //for ( int i = 0; i < 20; i++ ) {
+        //if ( station.counterclockwise[ 1 ][ i ] == -1 ) {
+            //break;
+        //}
+        //printf( "%d", station.counterclockwise[ 1 ][ i ] );
+    //}
+    //printf( "\n" );
     //printf("===========================\n");
+    // 重置数组第二行
+    if (if_update_2row == TRUE) {
+        for (int i = 0; i < 20; i++) {
+            car.target[1][i] = 0;
+            station.clockwise[1][i] = 0;
+            station.counterclockwise[1][i] = 0;
+        }
+    }
+    else {
+        if_update_2row = TRUE;
+    }
 }
 
 void modeFCFS( void )

@@ -35,7 +35,7 @@ void initGame( void )
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
     // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
     car.position = 0;
-    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
+    for ( int i = 0; i < 20; i++ ) {
         car.target[ 0 ][ i ] = 0;
         station.clockwise[ 0 ][ i ] = 0;
         station.counterclockwise[ 0 ][ i ] = 0;
