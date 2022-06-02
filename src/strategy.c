@@ -558,13 +558,13 @@ void finishRequest( int stationNumber , int direction, int ifDelay)
     if (direction == 0 || direction == 1 ) {
         if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.clockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
-            printf("clockwise完成请求: %d\n",stationNumber);
+            //printf("clockwise完成请求: %d\n",stationNumber);
         }
     }
     if (direction == 0 || direction == 2 ) {
         if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.counterclockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
-            printf("counterclockwise完成请求: %d\n",stationNumber);
+            //printf("counterclockwise完成请求: %d\n",stationNumber);
         }
     }
 }
