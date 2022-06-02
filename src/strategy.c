@@ -100,47 +100,10 @@ void strategy( void )
             modeSSTF();
         }
         else if ( env.STRATEGY == SCAN ) {
-            //modeSCAN();
+            modeSCAN();
         }
     }
 }
-short targetCheck()
-{
-    int preStationNum=getStationNumber(car.position);
-    if (car.target[1][preStationNum-1]==1)
-    {
-        return 1;//有新请求不置零
-    }
-    else 
-    {
-        return 0;
-    }
-} 
-short clockwiseCheck()
-{
-    int preStationNum=getStationNumber(car.position);
-    if (station.clockwise[1][preStationNum-1]==1)
-    {
-        return 1;//有新请求不置零
-    }
-    else 
-    {
-        return 0;
-    }
-} 
-
-short counterclockwiseCheck()
-{
-    int preStationNum=getStationNumber(car.position);
-    if (station.counterclockwise[1][preStationNum-1]==1)
-    {
-        return 1;//有新请求不置零
-    }
-    else 
-    {
-        return 0;
-    }
-} 
 
 void modeSSTF( void )
 {
@@ -151,11 +114,9 @@ void modeSSTF( void )
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
-            //printf("寻找新对目标站\n");
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
-            //printf("当前无请求\n");
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
@@ -195,7 +156,6 @@ void modeSSTF( void )
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1;             // 重置
-            //printf("lalala\n");
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = STOP;
@@ -204,9 +164,6 @@ void modeSSTF( void )
         else {
             carCounterClockwise();
         }
-    }
-    else {
-        printf("sth wrong\n");
     }
     // 重置数组第二行
     for (int i = 0; i < 20; i++) {
@@ -234,14 +191,10 @@ void modeFCFS( void )
             直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
             若无其他请求则仍回到NO_TASK状态*/
             {
-                //FCFS_finishRequest( presentWorkingPtr->where,
-                                        //presentWorkingPtr->stationNumber );
                 while ( env.presentWorkingPtr->next ) {
                     if ( env.presentWorkingPtr->next->stationNumber
                          == env.presentWorkingPtr->stationNumber ) {
                         env.presentWorkingPtr = env.presentWorkingPtr->next;
-                        //FCFS_finishRequest( presentWorkingPtr->where,
-                                            //presentWorkingPtr->stationNumber );
                     }
                     else {
                         break;
@@ -268,7 +221,6 @@ void modeFCFS( void )
                 }
             }
             else {
-                //FCFS_haveOnStationRequest(presentWorkingPtr);
                 if ( orient( dest_positionIndex ) == 1 ) {
                     carClockwise();
                 }
@@ -277,10 +229,6 @@ void modeFCFS( void )
                 }
                 updateBuf(env.presentWorkingPtr);
             }
-            // printf("我不摆了\n");
-        }
-        else {
-            // printf("我接着摆\n");
         }
     }
     else //当前有任务
@@ -316,14 +264,6 @@ void modeFCFS( void )
             updateBuf(env.presentWorkingPtr);
         }
     }
-    //NODE* temp = env.headnode->next;
-    // while (temp) {
-    // printf("======\n");
-    // printf("where:%d\n", temp->where);
-    // printf("stationNumber:%d\n", temp->stationNumber);
-    // printf("======\n");
-    // temp = temp->next;
-    //}
 }
 
 void modeSCAN( void )
@@ -331,6 +271,9 @@ void modeSCAN( void )
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
+    printf("=========================\n");
+    printf("s_dest_stationNumber:%d\n",s_dest_stationNumber);
+    printf("=========================\n");
     if ( state == STOP ){
         s_dest_stationNumber = SSTFfindNearestStationNumber();
         if( s_dest_stationNumber==-1){
@@ -410,7 +353,6 @@ void modeSCAN( void )
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1;             // 重置
-            //printf("lalala\n");
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = COUNTERCLOCKWISE_STOP;
@@ -419,9 +361,6 @@ void modeSCAN( void )
         else {
             carCounterClockwise();
         }
-    }
-    else {
-        printf("sth wrong\n");
     }
     // 重置数组第二行
     for (int i = 0; i < 20; i++) {
