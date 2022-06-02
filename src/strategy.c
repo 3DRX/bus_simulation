@@ -444,6 +444,12 @@ int SSTFfindNearestStationNumber( void )
                 minDistance = stationDistance( i + 1 );
                 res = i + 1;
             }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
+            }
         }
         i++;
     }
@@ -455,6 +461,12 @@ int SSTFfindNearestStationNumber( void )
                 minDistance = stationDistance( i + 1 );
                 res = i + 1;
             }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
+            }
         }
         i++;
     }
@@ -465,6 +477,12 @@ int SSTFfindNearestStationNumber( void )
             if ( minDistance > stationDistance( i + 1 ) ) {
                 minDistance = stationDistance( i + 1 );
                 res = i + 1;
+            }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
             }
         }
         i++;

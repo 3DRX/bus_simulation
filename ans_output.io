@@ -224,7 +224,7 @@ clockwise:00000
 counterclockwise:00000
 TIME:32
 BUS:
-position:0
+position:9
 target:00000
 STATION:
 clockwise:00000
