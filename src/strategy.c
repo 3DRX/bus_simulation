@@ -271,9 +271,9 @@ void modeSCAN( void )
     // 状态变量，初始化为STOP
     static enum { STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
-    printf("=========================\n");
-    printf("s_dest_stationNumber:%d\n",s_dest_stationNumber);
-    printf("=========================\n");
+    //printf("=========================\n");
+    //printf("s_dest_stationNumber:%d\n",s_dest_stationNumber);
+    //printf("=========================\n");
     if ( state == STOP ){
         s_dest_stationNumber = SSTFfindNearestStationNumber();
         if( s_dest_stationNumber==-1){
