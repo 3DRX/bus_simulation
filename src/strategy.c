@@ -328,6 +328,103 @@ void modeFCFS( void )
 
 void modeSCAN( void )
 {
+    // 状态变量，初始化为STOP
+    static enum { STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
+    static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
+    if ( state == STOP ){
+        s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        if( s_dest_stationNumber==-1){
+            state = STOP;
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
+            state = CLOCKWISE;
+            carClockwise();
+        }
+        else if ( orient( getPositionIndex(s_dest_stationNumber )) == 2 ) {
+            state = COUNTERCLOCKWISE;
+            carCounterClockwise();
+        }
+    }
+    else if ( state == CLOCKWISE_STOP || state == COUNTERCLOCKWISE_STOP ) {
+        if ( s_dest_stationNumber == -1 ) {
+            // 如果上一个目标站请求完成，寻找找新的目标站
+            s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        }
+        // 确定行驶方向
+        if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
+            state = STOP;
+        }
+        else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
+            if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
+                state=COUNTERCLOCKWISE;
+                carCounterClockwise();
+            }
+            else{
+                state=CLOCKWISE;
+                carClockwise();
+            }
+        }
+        else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
+            int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
+            if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
+                state=CLOCKWISE;
+                carClockwise();
+            }
+            else{
+                state=COUNTERCLOCKWISE;
+                carCounterClockwise();
+            }
+        }
+    }
+    else if ( state == CLOCKWISE ) {
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            state = CLOCKWISE_STOP;
+            finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
+            s_dest_stationNumber = SSTFfindNearestStationNumber();
+            if (s_dest_stationNumber == getStationNumber(car.position)) {
+            // 原地请求，立即完成，不改变state
+                finishRequest(getStationNumber(car.position), 0, FALSE);
+            }
+            s_dest_stationNumber = -1;             // 重置
+        }
+        else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+            state = CLOCKWISE_STOP;
+            finishRequest( getStationNumber( car.position ) ,0, TRUE);
+        }
+        else {
+            carClockwise();
+        }
+    }
+    else if ( state == COUNTERCLOCKWISE ) {
+        if ( car.position == getPositionIndex( s_dest_stationNumber ) ) { // 说明到站了
+            state = COUNTERCLOCKWISE_STOP;
+            finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
+            s_dest_stationNumber = SSTFfindNearestStationNumber();
+            if (s_dest_stationNumber == getStationNumber(car.position)) {
+            // 原地请求，立即完成，不改变state
+                finishRequest(getStationNumber(car.position), 0, FALSE);
+            }
+            s_dest_stationNumber = -1;             // 重置
+            //printf("lalala\n");
+        }
+        else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+            state = COUNTERCLOCKWISE_STOP;
+            finishRequest( getStationNumber( car.position ) ,0, TRUE);
+        }
+        else {
+            carCounterClockwise();
+        }
+    }
+    else {
+        printf("sth wrong\n");
+    }
+    // 重置数组第二行
+    for (int i = 0; i < 20; i++) {
+        car.target[1][i] = 0;
+        station.clockwise[1][i] = 0;
+        station.counterclockwise[1][i] = 0;
+    }
 }
 
 //------------------------内部函数实现{{{
