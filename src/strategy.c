@@ -332,7 +332,7 @@ void modeSCAN( void )
     static enum { STOP, CLOCKWISE_STOP, COUNTERCLOCKWISE_STOP, CLOCKWISE, COUNTERCLOCKWISE } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if ( state == STOP ){
-        s_dest_stationNumber = SSTFfindNearestStationNumber();//不用于确定方向，仅用于确定是否有请求
+        s_dest_stationNumber = SSTFfindNearestStationNumber();
         if( s_dest_stationNumber==-1){
             state = STOP;
         }
@@ -359,10 +359,12 @@ void modeSCAN( void )
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
                 state=COUNTERCLOCKWISE;
                 carCounterClockwise();
+                s_dest_stationNumber=SCANfindNearestStationNumber(2);
             }
             else{
                 state=CLOCKWISE;
                 carClockwise();
+                s_dest_stationNumber=SCANfindNearestStationNumber(1);
             }
         }
         else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
@@ -370,10 +372,12 @@ void modeSCAN( void )
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
                 state=CLOCKWISE;
                 carClockwise();
+                s_dest_stationNumber=SCANfindNearestStationNumber(1);
             }
             else{
                 state=COUNTERCLOCKWISE;
                 carCounterClockwise();
+                s_dest_stationNumber=SCANfindNearestStationNumber(2);
             }
         }
     }
