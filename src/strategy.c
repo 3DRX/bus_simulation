@@ -303,6 +303,10 @@ void modeSCAN( void )
         }
         else if ( state == CLOCKWISE_STOP ) {//停车前行驶方向为顺时针
             int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
+            if (nearsestDistence == 0) {
+                finishRequest(getStationNumber(car.position), 0, TRUE);
+            }
+            nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 1 )), 1);
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
                 state=COUNTERCLOCKWISE;
                 carCounterClockwise();
@@ -316,6 +320,10 @@ void modeSCAN( void )
         }
         else if ( state == COUNTERCLOCKWISE_STOP ) {//停车前行驶方向为逆时针
             int nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
+            if (nearsestDistence == 0) {
+                finishRequest(getStationNumber(car.position), 0, TRUE);
+            }
+            nearsestDistence=SCAN_stationDistance(getPositionIndex(SCANfindNearestStationNumber( 2 )), 2);
             if (nearsestDistence*2>env.TOTAL_STATION*env.DISTANCE){
                 state=CLOCKWISE;
                 carClockwise();
