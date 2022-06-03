@@ -280,6 +280,7 @@ void modeSCAN( void )
             state = STOP;
         }
         else if (s_dest_stationNumber == getStationNumber(car.position)) {
+            // 无方向停车状态本站请求直接完成
             finishRequest(s_dest_stationNumber, 0, FALSE);
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
@@ -636,7 +637,12 @@ int SCAN_stationDistance( int stationPosition ,int state )//state定义 CLOCKWIS
         stationPosition += env.TOTAL_STATION * env.DISTANCE;
     }
     clockwiseDistence = abs( stationPosition - car.position );
-    counterclockwiseDistence = env.TOTAL_STATION * env.DISTANCE - clockwiseDistence;
+    if (clockwiseDistence == 0) {
+        counterclockwiseDistence = 0;
+    }
+    else {
+        counterclockwiseDistence = env.TOTAL_STATION * env.DISTANCE - clockwiseDistence;
+    }
     if ( state == 1 ) {
         return clockwiseDistence;
     }
