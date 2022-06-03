@@ -1,9 +1,7 @@
 clock
-target 3
+target 1
 clock
 clock
-clockwise 3
-target 6
 clock
 clock
 clock

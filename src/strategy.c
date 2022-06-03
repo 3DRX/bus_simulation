@@ -279,6 +279,9 @@ void modeSCAN( void )
         if( s_dest_stationNumber==-1){
             state = STOP;
         }
+        else if (s_dest_stationNumber == getStationNumber(car.position)) {
+            finishRequest(s_dest_stationNumber, 0, FALSE);
+        }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
             carClockwise();
