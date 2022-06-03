@@ -331,7 +331,7 @@ void modeSCAN( void )
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
-                finishRequest(getStationNumber(car.position), 0, FALSE);
+                finishRequest(getStationNumber(car.position), 0, TRUE);
             }
             s_dest_stationNumber = -1;             // 重置
         }
@@ -350,7 +350,7 @@ void modeSCAN( void )
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
-                finishRequest(getStationNumber(car.position), 0, FALSE);
+                finishRequest(getStationNumber(car.position), 0, TRUE);
             }
             s_dest_stationNumber = -1;             // 重置
         }
