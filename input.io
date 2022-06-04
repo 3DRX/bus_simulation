@@ -5,7 +5,8 @@ clock
 clock
 target 2
 clock   
-clockwise 2               
+clockwise 2 
+target 3              
 clock
 clock
 clock

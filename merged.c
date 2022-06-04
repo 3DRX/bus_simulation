@@ -546,6 +546,8 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr);
 void updateBuf(NODE* presentPtr );
 
 int SCANOrient(void);
+//用于检测是否有非当前位置请求，有则返回1，无则返回0
+int AreThereAnyRequest(void);
 
 //------------------------}}}内部函数声明
 
@@ -778,7 +780,8 @@ void modeSCAN( void )
         */
         int nearestStation=SCANfindNearestStationNumber(1);
         int nearestDistance=SCAN_stationDistance(getPositionIndex(nearestStation),1);
-        if (SSTFfindNearestStationNumber()==-1){
+        if (AreThereAnyRequest()==-1){
+            finishRequest(getStationNumber(car.position),0,FALSE);
             state=STOP;
         }
         else if ( nearestDistance*2 > env.TOTAL_STATION*env.DISTANCE ) {
@@ -789,11 +792,15 @@ void modeSCAN( void )
             state=CLOCKWISE;
             carClockwise();
         }
+        // printf("==================\n");
+        // printf("nearestStation:%d\nnearestDistance:%d\n%d\n",nearestStation,nearestDistance,AreThereAnyRequest());
+        // printf("==================\n");
     }
     else if (state==COUNTERCLOCKWISE_STOP){
         int nearestStation=SCANfindNearestStationNumber(2);
         int nearestDistance=SCAN_stationDistance(getPositionIndex(nearestStation),2);
-        if (SSTFfindNearestStationNumber()==-1){
+        if (AreThereAnyRequest()==-1){
+            finishRequest(getStationNumber(car.position),0,FALSE);
             state=STOP;
         }
         else if ( nearestDistance*2 > env.TOTAL_STATION*env.DISTANCE ) {
@@ -813,6 +820,10 @@ void modeSCAN( void )
         if(haveRequest(1)==TRUE||haveRequest(2)==TRUE){
             finishRequest(getStationNumber(car.position),0,TRUE);
             state=CLOCKWISE_STOP;
+            if (AreThereAnyRequest()==-1){
+                finishRequest(getStationNumber(car.position),0,FALSE);
+                state=STOP;
+            }
         }
         else {
             carClockwise();
@@ -822,6 +833,10 @@ void modeSCAN( void )
         if(haveRequest(1)==TRUE||haveRequest(2)==TRUE){
             finishRequest(getStationNumber(car.position),0,TRUE);
             state=COUNTERCLOCKWISE_STOP;
+            if (AreThereAnyRequest()==-1){
+                finishRequest(getStationNumber(car.position),0,FALSE);
+                state=STOP;
+            }
         }
         else {
             carCounterClockwise();
@@ -1180,5 +1195,61 @@ int SCANOrient(void)
         }
     }
 }
-
+int AreThereAnyRequest(void)
+{
+    int   res = -1;
+    int   minDistance = env.DISTANCE * env.TOTAL_STATION;
+    int i = 0;
+    // 遍历 car.target 中的所有请求
+    while ( car.target[ 0 ][ i ] != -1 ) {
+        if ( car.target[ 0 ][ i ] == 1 ) {
+            if (( minDistance > stationDistance( i + 1 )) && (stationDistance(i+1)!=0) ) {
+                minDistance = stationDistance( i + 1 );
+                res = i + 1;
+            }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
+            }
+        }
+        i++;
+    }
+    i = 0;
+    // 遍历 station.clockwise 中的所有请求
+    while ( station.clockwise[ 0 ][ i ] != -1 ) {
+        if ( station.clockwise[ 0 ][ i ] == 1 ) {
+            if (( minDistance > stationDistance( i + 1 )) && (stationDistance(i+1)!=0) ) {
+                minDistance = stationDistance( i + 1 );
+                res = i + 1;
+            }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
+            }
+        }
+        i++;
+    }
+    i = 0;
+    // 遍历 station.counterclockwise 中的所有请求
+    while ( station.counterclockwise[ 0 ][ i ] != -1 ) {
+        if ( station.counterclockwise[ 0 ][ i ] == 1 ) {
+            if (( minDistance > stationDistance( i + 1 )) && (stationDistance(i+1)!=0) ) {
+                minDistance = stationDistance( i + 1 );
+                res = i + 1;
+            }
+            else if (minDistance == stationDistance(i + 1)) {
+                if (orient(getPositionIndex(i + 1)) == 1) {
+                    minDistance = stationDistance( i + 1 );
+                    res = i + 1;
+                }
+            }
+        }
+        i++;
+    }
+    return res;
+}
 //------------------------}}}内部函数实现
