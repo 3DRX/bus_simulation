@@ -757,8 +757,8 @@ void modeSCAN( void )
     //printf("s_dest_stationNumber:%d\n",s_dest_stationNumber);
     //printf("=========================\n");
     if ( state == STOP ){
-        s_dest_stationNumber = SSTFfindNearestStationNumber();
         finishRequest(getStationNumber(car.position),0,FALSE);
+        s_dest_stationNumber = SSTFfindNearestStationNumber();
         if( s_dest_stationNumber==-1){
             state = STOP;
         }
