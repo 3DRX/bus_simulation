@@ -161,7 +161,7 @@ void mainLoop( void )
         readOrder();
     }
     strategy();
-    outPut();
+    outPut(TRUE);
 }
 
 // #main
@@ -758,6 +758,7 @@ void modeSCAN( void )
     //printf("=========================\n");
     if ( state == STOP ){
         s_dest_stationNumber = SSTFfindNearestStationNumber();
+        finishRequest(getStationNumber(car.position),0,FALSE);
         if( s_dest_stationNumber==-1){
             state = STOP;
         }
@@ -811,13 +812,14 @@ void modeSCAN( void )
             state = CLOCKWISE_STOP;
             finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
+            //finishRequest(getStationNumber(car.position), 0, FALSE);
             if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1;             // 重置
         }
-        else if ( haveRequest( CLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+        else if ( haveRequest( CLOCKWISE ) == TRUE||haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = CLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) ,0, TRUE);
         }
@@ -830,13 +832,14 @@ void modeSCAN( void )
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( s_dest_stationNumber ,0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
+            //finishRequest(getStationNumber(car.position), 0, FALSE);
             if (s_dest_stationNumber == getStationNumber(car.position)) {
             // 原地请求，立即完成，不改变state
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1;             // 重置
         }
-        else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
+        else if ( haveRequest( CLOCKWISE ) == TRUE||haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = COUNTERCLOCKWISE_STOP;
             finishRequest( getStationNumber( car.position ) ,0, TRUE);
         }
@@ -851,7 +854,6 @@ void modeSCAN( void )
         station.counterclockwise[1][i] = 0;
     }
 }
-
 
 //------------------------内部函数实现{{{
 

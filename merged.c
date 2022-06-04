@@ -161,7 +161,7 @@ void mainLoop( void )
         readOrder();
     }
     strategy();
-    outPut();
+    outPut(TRUE);
 }
 
 // #main
@@ -760,12 +760,12 @@ void modeSCAN( void )
         if (SSTFfindNearestStationNumber()==-1){
             state=STOP;//没有非本站新请求，继续保持停运停车状态
         }
-        else if(SCANOrient()==1){
+        else if(orient(getPositionIndex(SSTFfindNearestStationNumber()))==1){
             //有非本站新请求，顺时针方向距离更近
             state=CLOCKWISE;
             carClockwise();
         }
-        else if(SCANOrient()==2){
+        else if(orient(getPositionIndex(SSTFfindNearestStationNumber()))==2){
             //有非本站新请求，逆时针方向距离更近
             state=COUNTERCLOCKWISE;
             carCounterClockwise();
