@@ -1,12 +1,477 @@
-#include "main.h"
-#include <math.h>
+// #includes/headers 
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
-extern ENVIRONMENT env;
-extern CAR         car;
-extern STATION     station;
-extern int         TIME;
+#ifndef MAIN_H
+#define MAIN_H
+
+#define TRUE ( 1 )
+#define FALSE ( 0 )
+#define END ( -1 )
+#define DBG (-2)
+
+typedef struct {
+    int TOTAL_STATION;
+    int DISTANCE;
+    enum { FCFS, SSTF, SCAN } STRATEGY;
+    struct Node * headnode;
+    struct Node * presentPtr;
+    struct Node * presentWorkingPtr;
+} ENVIRONMENT;
+
+// 数组第二行定义：
+// 为0则代表不是这一秒的新增请求
+// 为1代表是这一秒的新增请求
+typedef struct {
+    int position;
+    int target[ 2 ][ 21 ];
+} CAR;
+
+typedef struct {
+    int clockwise[ 2 ][ 21 ];
+    int counterclockwise[ 2 ][ 21 ];
+} STATION;
+
+typedef struct Node{
+    struct Node *prev; // always NULL in headnode
+    int where; // -1 not FCFS; 1 car.target; 2 clockwise; 3 counterclockwise
+    int stationNumber; // -1 not FCFS
+    struct Node *next;
+} NODE;
+
+#endif
+// end main.h
+
+#ifndef INPUT_H
+#define INPUT_H
+
+#include <stdio.h>
+
+void readfile( FILE* fPtr );
+
+/**从命令行中读取指令，
+ * 函数运行一次只读取一行，
+ * 读取到clock之后将TIME加一。
+ */
+void readOrder();
+
+void FCFS_readOrder();
+
+void FCFS_freeList( NODE* headPtr );
+
+#endif
+// end input.h
+
+#ifndef OUTPUT_H
+#define OUTPUT_H
+
+
+/**
+ * 参数：ifOutPut
+ * 为 TRUE 输出，
+ * 为 FALSE 不输出，
+ * 为 END 输出结束行。
+ */
+void outPut();
+
+void printLines( void );
+
+#endif
+// end output.h
+
+#ifndef STRATEGY_H
+#define STRATEGY_H
+
+
+void strategy( void );
+
+#endif
+// end strategy.h
+
+
+// #variables (global)
+ENVIRONMENT env;
+CAR         car;
+STATION     station;
+int         TIME = 0;
+// TODO: 这三个将来可以放进main函数
+
+// #functions
+
+/*
+ * 初始化：
+ * 配置参数
+ * car position
+ * car target
+ * station clockwise & counterclockwise
+ */
+void initGame( void )
+{
+    // init environment
+    FILE* fPtr = NULL;
+    if ( ( fPtr = fopen( "dict.dic", "r" ) ) == NULL ) {
+        printf( "Can't open file \"dict.dic\"\n" );
+        exit( EXIT_FAILURE );
+    }
+    readfile( fPtr );
+    // init car & station
+    // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
+    // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
+    car.position = 0;
+    for ( int i = 0; i < env.TOTAL_STATION; i++ ) {
+        car.target[ 0 ][ i ] = 0;
+        station.clockwise[ 0 ][ i ] = 0;
+        station.counterclockwise[ 0 ][ i ] = 0;
+        // 将数组的第二行全部置0
+        car.target[ 1 ][ i ] = 0;
+        station.clockwise[ 1 ][ i ] = 0;
+        station.counterclockwise[ 1 ][ i ] = 0;
+    }
+    car.target[ 0 ][ env.TOTAL_STATION] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    // 上面三行中 -1 表示行结束（类似'\0'）
+    // 如果是FCFS模式，初始化链表
+    if ( env.STRATEGY == FCFS ) {
+        env.headnode = malloc( sizeof( NODE ) );
+        env.headnode->prev = NULL;
+        env.headnode->next = NULL;
+        env.headnode->stationNumber = -1;
+        env.headnode->where = -1;
+        env.presentPtr = env.headnode;
+    }
+    else {
+        env.headnode = NULL;
+    }
+    // 初始化env.presentWorkingPtr
+    env.presentWorkingPtr = NULL;
+    // 输出TIME: 0
+    printLines();
+}
+
+void mainLoop( void )
+{
+    if (env.STRATEGY == FCFS) {
+        FCFS_readOrder();
+    }
+    else {
+        readOrder();
+    }
+    strategy();
+    outPut();
+}
+
+// #main
+int main( void )
+{
+    initGame();
+    while ( 1 ) { // main loop
+        mainLoop();
+    }
+    return 0;
+}
+
+// #input.c
+
+void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
+{
+    int workingIndex = 0;
+    // 自动机的状态
+    enum { COMMENT, NORMAL, TOTAL_STATION, STRATEGY, DISTANCE } state;
+    state = NORMAL;
+    env.TOTAL_STATION = 5;
+    env.STRATEGY = FCFS;
+    env.DISTANCE = 2;
+    char ipt;
+    // start read file
+    while ( 1 ) {
+        if ( ( fscanf( fPtr, "%c", &ipt ) ) == EOF ) {
+            break;
+        }
+        else {
+            workingIndex++;
+        }
+        if ( state == NORMAL ) {
+            // NORMAL模式下，靠第一个字符来判断是否是注释
+            // 以及是三个变量中的哪个。
+            // 如果是'\n'，换行。
+            if ( workingIndex == 1 && ipt == '#' ) {
+                state = COMMENT;
+            }
+            else if ( workingIndex == 1 && ipt == 'T' ) {
+                state = TOTAL_STATION;
+            }
+            else if ( workingIndex == 1 && ipt == 'S' ) {
+                state = STRATEGY;
+            }
+            else if ( workingIndex == 1 && ipt == 'D' ) {
+                state = DISTANCE;
+            }
+            else if ( ipt == '\n' ) {
+                workingIndex = 0;
+            }
+        }
+        else if ( state == COMMENT ) {
+            // COMMENT模式下，在检测到'\n'之后回到NORMAL模式。
+            if ( ipt == '\n' ) {
+                state = NORMAL;
+                workingIndex = 0;
+            }
+        }
+        else if ( state == TOTAL_STATION ) {
+            // TOTAL_STATION模式，读取等号后的数据。
+            if ( ipt == '=' ) {
+                fscanf( fPtr, "%d", &env.TOTAL_STATION );
+                state = NORMAL;
+            }
+        }
+        else if ( state == STRATEGY ) {
+            // STRATEGY模式，将等号后的字符串与FCFS,SSTF,SCAN
+            // 对比（输入字符串一定是三者之一），
+            // 相符的结果存在STRATEGY中。
+            if ( ipt == '=' ) {
+                char inputBuf[ 10 ];
+                fscanf( fPtr, "%s", inputBuf );
+                if ( strcmp( inputBuf, "FCFS" ) == 0 ) {
+                    env.STRATEGY = FCFS;
+                }
+                else if ( strcmp( inputBuf, "SSTF" ) == 0 ) {
+                    env.STRATEGY = SSTF;
+                }
+                else if ( strcmp( inputBuf, "SCAN" ) == 0 ) {
+                    env.STRATEGY = SCAN;
+                }
+                state = NORMAL;
+            }
+        }
+        else if ( state == DISTANCE ) {
+            // DISTANCE模式，读取等号后的数据。
+            if ( ipt == '=' ) {
+                fscanf( fPtr, "%d", &env.DISTANCE );
+                state = NORMAL;
+            }
+        }
+    }
+    // end read file
+}
+
+/**从命令行中读取指令，
+ * 函数运行一次只读取一行，
+ * 读取到clock之后将TIME加一。
+ */
+void readOrder()
+{
+    char inputBuff[20] = {'\0'};
+    int inputNum = -1;
+    scanf("%s",inputBuff);
+    if (strcmp(inputBuff, "clock") == 0) {
+        TIME++;
+    }
+    else if (strcmp(inputBuff, "clockwise") == 0) {
+        scanf("%d", &inputNum);
+        if (station.clockwise[0][inputNum-1] != 1) {
+            station.clockwise[0][inputNum-1] = 1;
+            station.clockwise[1][inputNum-1] = 1;
+        }
+    }
+    else if (strcmp(inputBuff, "counterclockwise") == 0) {
+        scanf("%d", &inputNum);
+        if (station.counterclockwise[0][inputNum-1] != 1) {
+            station.counterclockwise[0][inputNum-1] = 1;
+            station.counterclockwise[1][inputNum-1] = 1;
+        }
+    }
+    else if (strcmp(inputBuff, "target") == 0) {
+        scanf("%d", &inputNum);
+        if (car.target[0][inputNum-1] != 1) {
+            car.target[0][inputNum-1] = 1;
+            car.target[1][inputNum-1] = 1;
+        }
+    }
+    else if (strcmp(inputBuff, "end") == 0) {
+        TIME = -1;
+    }
+    else {
+        printf( "     _     you fucked up !     _\n" );
+        printf( "    |_|                       |_|\n" );
+        printf( "    | |         /^^^\\         | |\n" );
+        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
+        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
+        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
+        printf( "|          |   /     \\   |          |\n" );
+        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
+        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
+        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
+        printf( "      \\__/      || ||      \\__/\n" );
+        printf( "                () ()\n" );
+        printf( "                || ||\n" );
+        printf( "               ooO Ooo\n" );
+    }
+}
+
+int FCFS_checklist(int where,int stationNumber)//用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
+{
+    NODE* presentPtr=env.presentWorkingPtr;
+    while (presentPtr){
+        if (where==presentPtr->where&&stationNumber==presentPtr->stationNumber){
+            return 1;
+        }
+        else{
+            presentPtr=presentPtr->next;
+        }
+    }
+    return 0;
+}
+
+void FCFS_readOrder()
+{
+    char inputBuff[20] = {'\0'};
+    int inputNum = -1;
+    scanf("%s",inputBuff);
+    if (strcmp(inputBuff, "clock") == 0) {
+        TIME++;
+    }
+    else if (strcmp(inputBuff, "clockwise") == 0) {
+        scanf("%d", &inputNum);
+        if(FCFS_checklist(2,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 2;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
+    }
+    else if (strcmp(inputBuff, "counterclockwise") == 0) {
+        scanf("%d", &inputNum);
+        if(FCFS_checklist(3,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 3;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
+    }
+    else if (strcmp(inputBuff, "target") == 0) {
+        scanf("%d", &inputNum);
+        if(FCFS_checklist(1,inputNum)!=1){
+            NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
+            env.presentPtr->next = prePtr;
+            prePtr->prev = env.presentPtr;
+            prePtr->next = NULL;
+            env.presentPtr = env.presentPtr->next;
+            env.presentPtr->where = 1;
+            env.presentPtr->stationNumber = inputNum;
+        }
+        else{
+            //printf("F_U\n");//用于debug
+        }
+    }
+    else if (strcmp(inputBuff, "end") == 0) {
+        TIME = -1;
+    }
+    else {
+        printf( "     _     you fucked up !     _\n" );
+        printf( "    |_|                       |_|\n" );
+        printf( "    | |         /^^^\\         | |\n" );
+        printf( "   _| |_      (| \"o\" |)      _| |_\n" );
+        printf( " _| | | | _    (_---_)    _ | | | |_\n" );
+        printf( "| | | | |' |    _| |_    | `| | | | |\n" );
+        printf( "|          |   /     \\   |          |\n" );
+        printf( " \\        /  / /(. .)\\ \\  \\        /\n" );
+        printf( "   \\    /  / /  | . |  \\ \\  \\    /\n" );
+        printf( "     \\  \\/ /    ||Y||    \\ \\/  /\n" );
+        printf( "      \\__/      || ||      \\__/\n" );
+        printf( "                () ()\n" );
+        printf( "                || ||\n" );
+        printf( "               ooO Ooo\n" );
+    }
+}
+
+void FCFS_freeList( NODE* headPtr )
+{
+    NODE* ptr = headPtr;
+    while ( headPtr ) {
+        ptr = headPtr;
+        headPtr = headPtr->next;
+        free( ptr );
+    }
+}
+
+// #output.c
+
+void printLines( void )
+{
+    printf( "TIME:%d\n", TIME );
+    printf( "BUS:\n" );
+    printf( "position:%d\n", car.position );
+    car.target[ 0 ][ 20 ] = -1; // 防越界
+    printf( "target:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( car.target[ 0 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", car.target[ 0 ][ i ] );
+    }
+    printf( "\n" );
+    printf( "STATION:\n" );
+    station.clockwise[ 0 ][ 20 ] = -1;        // 防越界
+    station.counterclockwise[ 0 ][ 20 ] = -1; // 防越界
+    printf( "clockwise:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( station.clockwise[ 0 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", station.clockwise[ 0 ][ i ] );
+    }
+    printf( "\n" );
+    printf( "counterclockwise:" );
+    for ( int i = 0; i < 20; i++ ) {
+        if ( station.counterclockwise[ 0 ][ i ] == -1 ) {
+            break;
+        }
+        printf( "%d", station.counterclockwise[ 0 ][ i ] );
+    }
+    printf( "\n" );
+}
+
+void outPut( int ifOutPut )
+{
+    // 判断是否是新的一秒，只有在新的一秒的时候
+    // （即一秒之内的所有指令全部写入结构体），
+    // 才输出
+    static int lastTime = 0;
+    if ( lastTime == TIME && TIME != 0 ) {
+        return;
+    }
+    else {
+        lastTime = TIME;
+        if ( TIME == -1 ) {
+            printf( "end\n" );
+            exit( EXIT_SUCCESS );
+            if ( env.STRATEGY == FCFS ) {
+                FCFS_freeList( env.headnode );
+            }
+        }
+        if (TIME != 0) {
+            printLines();
+        }
+    }
+}
+
+// #strategy.c
 
 void modeFCFS();
 void modeSSTF();
@@ -45,9 +510,9 @@ int getPositionIndex( int stationNumber );
 /**完成输入stationNumber的指定类型请求
  * direction：0双向，1顺时针，2逆时针
  * （把数组中的1改成0）
- * ifDelay：TRUE则考虑数组第二行，FALSE则忽略数组第二行
  */
 void finishRequest( int stationNumber, int direction, int ifDelay);
+
 
 /**车辆顺时针移动一个单位长度
  */
@@ -81,6 +546,7 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr);
 void updateBuf(NODE* presentPtr );
 
 int SCANOrient(void);
+
 //------------------------}}}内部函数声明
 
 void strategy( void )
@@ -115,9 +581,11 @@ void modeSSTF( void )
         if ( s_dest_stationNumber == -1 ) {
             // 如果上一个目标站请求完成，寻找找新的目标站
             s_dest_stationNumber = SSTFfindNearestStationNumber();
+            //printf("寻找新对目标站\n");
         }
         // 确定行驶方向
         if ( s_dest_stationNumber == -1 ) { // 如果当前没有请求，什么也不做
+            //printf("当前无请求\n");
         }
         else if ( orient( getPositionIndex(s_dest_stationNumber) ) == 1 ) {
             state = CLOCKWISE;
@@ -157,6 +625,7 @@ void modeSSTF( void )
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1;             // 重置
+            //printf("lalala\n");
         }
         else if ( haveRequest( COUNTERCLOCKWISE ) == TRUE ) { // 没到目标站但是途径站
             state = STOP;
@@ -165,6 +634,9 @@ void modeSSTF( void )
         else {
             carCounterClockwise();
         }
+    }
+    else {
+        printf("sth wrong\n");
     }
     // 重置数组第二行
     for (int i = 0; i < 20; i++) {
@@ -192,10 +664,14 @@ void modeFCFS( void )
             直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
             若无其他请求则仍回到NO_TASK状态*/
             {
+                //FCFS_finishRequest( presentWorkingPtr->where,
+                                        //presentWorkingPtr->stationNumber );
                 while ( env.presentWorkingPtr->next ) {
                     if ( env.presentWorkingPtr->next->stationNumber
                          == env.presentWorkingPtr->stationNumber ) {
                         env.presentWorkingPtr = env.presentWorkingPtr->next;
+                        //FCFS_finishRequest( presentWorkingPtr->where,
+                                            //presentWorkingPtr->stationNumber );
                     }
                     else {
                         break;
@@ -222,6 +698,7 @@ void modeFCFS( void )
                 }
             }
             else {
+                //FCFS_haveOnStationRequest(presentWorkingPtr);
                 if ( orient( dest_positionIndex ) == 1 ) {
                     carClockwise();
                 }
@@ -230,6 +707,10 @@ void modeFCFS( void )
                 }
                 updateBuf(env.presentWorkingPtr);
             }
+            // printf("我不摆了\n");
+        }
+        else {
+            // printf("我接着摆\n");
         }
     }
     else //当前有任务
@@ -494,19 +975,17 @@ void finishRequest( int stationNumber , int direction, int ifDelay)
     // **添加ifDelay参数用于判断在完成请求是是否考虑提前一秒。
     // 实现方式：如果ifDelay为TRUE，则本函数的行为和改动前一模一样（!ifDelay为FALSE，或一个FALSE相当于本身）。
     // 如果ifDelay为FALSE，即不考虑提前一秒原则，无论数组第二行是1还是0，请求都会完成。
-    if ( car.target[ 0 ][ stationNumber - 1 ] == 1 && (car.target[1][stationNumber - 1] == 0 || !ifDelay)) {
+    if ( car.target[ 0 ][ stationNumber - 1 ] == 1 && (car.target[1][stationNumber - 1] == 0 || ifDelay == 0)) {
         car.target[ 0 ][ stationNumber - 1 ] = 0;
     }
     if (direction == 0 || direction == 1 ) {
-        if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.clockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
+        if ( station.clockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.clockwise[1][stationNumber - 1] == 0 || ifDelay == 0)) {
             station.clockwise[ 0 ][ stationNumber - 1 ] = 0;
-            //printf("clockwise完成请求: %d\n",stationNumber);
         }
     }
     if (direction == 0 || direction == 2 ) {
-        if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.counterclockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
+        if ( station.counterclockwise[ 0 ][ stationNumber - 1 ] == 1 && (station.counterclockwise[1][stationNumber - 1] == 0 || ifDelay == 0)) {
             station.counterclockwise[ 0 ][ stationNumber - 1 ] = 0;
-            //printf("counterclockwise完成请求: %d\n",stationNumber);
         }
     }
 }
