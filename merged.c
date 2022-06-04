@@ -808,9 +808,12 @@ void modeSCAN( void )
             carClockwise();
         }
         else{
-            state=CLOCKWISE;
+            state=COUNTERCLOCKWISE;
             carCounterClockwise();
         }
+        // printf("==================\n");
+        // printf("nearestStation:%d\nnearestDistance:%d\n%d\n",nearestStation,nearestDistance,AreThereAnyRequest());
+        // printf("==================\n");
     }
     else if (state==CLOCKWISE){
     /*运行状态特点：首先判断是否已到达有请求的站点位置，若当前位置有请求，
