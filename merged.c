@@ -757,7 +757,7 @@ void modeSCAN( void )
     */
         finishRequest(getStationNumber(car.position),0,FALSE);
         //首先无脑完成本站请求
-        if (SSTFfindNearestStationNumber==-1){
+        if (SSTFfindNearestStationNumber()==-1){
             state=STOP;//没有非本站新请求，继续保持停运停车状态
         }
         else if(SCANOrient()==1){
@@ -778,7 +778,7 @@ void modeSCAN( void )
         */
         int nearestStation=SCANfindNearestStationNumber(1);
         int nearestDistance=SCAN_stationDistance(getPositionIndex(nearestStation),1);
-        if (SSTFfindNearestStationNumber==-1){
+        if (SSTFfindNearestStationNumber()==-1){
             state=STOP;
         }
         else if ( nearestDistance*2 > env.TOTAL_STATION*env.DISTANCE ) {
@@ -793,7 +793,7 @@ void modeSCAN( void )
     else if (state==COUNTERCLOCKWISE_STOP){
         int nearestStation=SCANfindNearestStationNumber(2);
         int nearestDistance=SCAN_stationDistance(getPositionIndex(nearestStation),2);
-        if (SSTFfindNearestStationNumber==-1){
+        if (SSTFfindNearestStationNumber()==-1){
             state=STOP;
         }
         else if ( nearestDistance*2 > env.TOTAL_STATION*env.DISTANCE ) {
@@ -811,7 +811,7 @@ void modeSCAN( void )
     当前位置若无可服务请求则继续按当前运行方向移动。
     */
         if(haveRequest(1)==TRUE||haveRequest(2)==TRUE){
-            finishRequest(getStationNumber(car.position),0,FALSE);
+            finishRequest(getStationNumber(car.position),0,TRUE);
             state=CLOCKWISE_STOP;
         }
         else {
@@ -820,7 +820,7 @@ void modeSCAN( void )
     }
     else if (state==COUNTERCLOCKWISE){
         if(haveRequest(1)==TRUE||haveRequest(2)==TRUE){
-            finishRequest(getStationNumber(car.position),0,FALSE);
+            finishRequest(getStationNumber(car.position),0,TRUE);
             state=COUNTERCLOCKWISE_STOP;
         }
         else {
