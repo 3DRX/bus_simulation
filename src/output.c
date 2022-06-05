@@ -61,7 +61,7 @@ void outPut( int ifOutPut )
                 FCFS_freeList( env.headnode );
             }
         }
-        if (TIME != 0) {
+        if ( TIME != 0 ) {
             printLines();
         }
     }

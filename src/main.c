@@ -1,5 +1,4 @@
 #include "main.h"
-#include "control.h"
 #include "input.h"
 #include "output.h"
 #include "strategy.h"
@@ -11,7 +10,6 @@ ENVIRONMENT env;
 CAR         car;
 STATION     station;
 int         TIME = 0;
-// TODO: 这三个将来可以放进main函数
 
 // #functions
 
@@ -44,9 +42,9 @@ void initGame( void )
         station.clockwise[ 1 ][ i ] = 0;
         station.counterclockwise[ 1 ][ i ] = 0;
     }
-    car.target[ 0 ][ env.TOTAL_STATION] = -1;
-    station.clockwise[ 0 ][ env.TOTAL_STATION] = -1;
-    station.counterclockwise[ 0 ][ env.TOTAL_STATION] = -1;
+    car.target[ 0 ][ env.TOTAL_STATION ] = -1;
+    station.clockwise[ 0 ][ env.TOTAL_STATION ] = -1;
+    station.counterclockwise[ 0 ][ env.TOTAL_STATION ] = -1;
     // 上面三行中 -1 表示行结束（类似'\0'）
     // 如果是FCFS模式，初始化链表
     if ( env.STRATEGY == FCFS ) {
@@ -68,7 +66,7 @@ void initGame( void )
 
 void mainLoop( void )
 {
-    if (env.STRATEGY == FCFS) {
+    if ( env.STRATEGY == FCFS ) {
         FCFS_readOrder();
     }
     else {
