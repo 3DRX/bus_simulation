@@ -12,7 +12,11 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
 {
     int workingIndex = 0;
     // 自动机的状态
-    enum { COMMENT, NORMAL, TOTAL_STATION, STRATEGY, DISTANCE } state;
+    enum { COMMENT,
+           NORMAL,
+           TOTAL_STATION,
+           STRATEGY,
+           DISTANCE } state;
     state = NORMAL;
     env.TOTAL_STATION = 5;
     env.STRATEGY = FCFS;
@@ -96,34 +100,34 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
  */
 void readOrder()
 {
-    char inputBuff[20] = {'\0'};
-    int inputNum = -1;
-    scanf("%s",inputBuff);
-    if (strcmp(inputBuff, "clock") == 0) {
+    char inputBuff[ 20 ] = { '\0' };
+    int  inputNum = -1;
+    scanf( "%s", inputBuff );
+    if ( strcmp( inputBuff, "clock" ) == 0 ) {
         TIME++;
     }
-    else if (strcmp(inputBuff, "clockwise") == 0) {
-        scanf("%d", &inputNum);
-        if (station.clockwise[0][inputNum-1] != 1) {
-            station.clockwise[0][inputNum-1] = 1;
-            station.clockwise[1][inputNum-1] = 1;
+    else if ( strcmp( inputBuff, "clockwise" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( station.clockwise[ 0 ][ inputNum - 1 ] != 1 ) {
+            station.clockwise[ 0 ][ inputNum - 1 ] = 1;
+            station.clockwise[ 1 ][ inputNum - 1 ] = 1;
         }
     }
-    else if (strcmp(inputBuff, "counterclockwise") == 0) {
-        scanf("%d", &inputNum);
-        if (station.counterclockwise[0][inputNum-1] != 1) {
-            station.counterclockwise[0][inputNum-1] = 1;
-            station.counterclockwise[1][inputNum-1] = 1;
+    else if ( strcmp( inputBuff, "counterclockwise" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( station.counterclockwise[ 0 ][ inputNum - 1 ] != 1 ) {
+            station.counterclockwise[ 0 ][ inputNum - 1 ] = 1;
+            station.counterclockwise[ 1 ][ inputNum - 1 ] = 1;
         }
     }
-    else if (strcmp(inputBuff, "target") == 0) {
-        scanf("%d", &inputNum);
-        if (car.target[0][inputNum-1] != 1) {
-            car.target[0][inputNum-1] = 1;
-            car.target[1][inputNum-1] = 1;
+    else if ( strcmp( inputBuff, "target" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( car.target[ 0 ][ inputNum - 1 ] != 1 ) {
+            car.target[ 0 ][ inputNum - 1 ] = 1;
+            car.target[ 1 ][ inputNum - 1 ] = 1;
         }
     }
-    else if (strcmp(inputBuff, "end") == 0) {
+    else if ( strcmp( inputBuff, "end" ) == 0 ) {
         TIME = -1;
     }
     else {
@@ -144,15 +148,15 @@ void readOrder()
     }
 }
 
-int FCFS_checklist(int where,int stationNumber)//用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
+int FCFS_checklist( int where, int stationNumber ) //用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
 {
-    NODE* presentPtr=env.presentWorkingPtr;
-    while (presentPtr){
-        if (where==presentPtr->where&&stationNumber==presentPtr->stationNumber){
+    NODE* presentPtr = env.presentWorkingPtr;
+    while ( presentPtr ) {
+        if ( where == presentPtr->where && stationNumber == presentPtr->stationNumber ) {
             return 1;
         }
-        else{
-            presentPtr=presentPtr->next;
+        else {
+            presentPtr = presentPtr->next;
         }
     }
     return 0;
@@ -160,15 +164,15 @@ int FCFS_checklist(int where,int stationNumber)//用于检查新请求是否已�
 
 void FCFS_readOrder()
 {
-    char inputBuff[20] = {'\0'};
-    int inputNum = -1;
-    scanf("%s",inputBuff);
-    if (strcmp(inputBuff, "clock") == 0) {
+    char inputBuff[ 20 ] = { '\0' };
+    int  inputNum = -1;
+    scanf( "%s", inputBuff );
+    if ( strcmp( inputBuff, "clock" ) == 0 ) {
         TIME++;
     }
-    else if (strcmp(inputBuff, "clockwise") == 0) {
-        scanf("%d", &inputNum);
-        if(FCFS_checklist(2,inputNum)!=1){
+    else if ( strcmp( inputBuff, "clockwise" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( FCFS_checklist( 2, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;
             prePtr->prev = env.presentPtr;
@@ -177,13 +181,13 @@ void FCFS_readOrder()
             env.presentPtr->where = 2;
             env.presentPtr->stationNumber = inputNum;
         }
-        else{
-            //printf("F_U\n");//用于debug
+        else {
+            // printf("F_U\n");//用于debug
         }
     }
-    else if (strcmp(inputBuff, "counterclockwise") == 0) {
-        scanf("%d", &inputNum);
-        if(FCFS_checklist(3,inputNum)!=1){
+    else if ( strcmp( inputBuff, "counterclockwise" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( FCFS_checklist( 3, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;
             prePtr->prev = env.presentPtr;
@@ -192,13 +196,13 @@ void FCFS_readOrder()
             env.presentPtr->where = 3;
             env.presentPtr->stationNumber = inputNum;
         }
-        else{
-            //printf("F_U\n");//用于debug
+        else {
+            // printf("F_U\n");//用于debug
         }
     }
-    else if (strcmp(inputBuff, "target") == 0) {
-        scanf("%d", &inputNum);
-        if(FCFS_checklist(1,inputNum)!=1){
+    else if ( strcmp( inputBuff, "target" ) == 0 ) {
+        scanf( "%d", &inputNum );
+        if ( FCFS_checklist( 1, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;
             prePtr->prev = env.presentPtr;
@@ -207,11 +211,11 @@ void FCFS_readOrder()
             env.presentPtr->where = 1;
             env.presentPtr->stationNumber = inputNum;
         }
-        else{
-            //printf("F_U\n");//用于debug
+        else {
+            // printf("F_U\n");//用于debug
         }
     }
-    else if (strcmp(inputBuff, "end") == 0) {
+    else if ( strcmp( inputBuff, "end" ) == 0 ) {
         TIME = -1;
     }
     else {
