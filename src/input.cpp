@@ -102,26 +102,26 @@ void readOrder()
 {
     char inputBuff[ 20 ] = { '\0' };
     int  inputNum = -1;
-    scanf( "%s", inputBuff );
+    fscanf(env.input, "%s", inputBuff );
     if ( strcmp( inputBuff, "clock" ) == 0 ) {
         TIME++;
     }
     else if ( strcmp( inputBuff, "clockwise" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( station.clockwise[ 0 ][ inputNum - 1 ] != 1 ) {
             station.clockwise[ 0 ][ inputNum - 1 ] = 1;
             station.clockwise[ 1 ][ inputNum - 1 ] = 1;
         }
     }
     else if ( strcmp( inputBuff, "counterclockwise" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( station.counterclockwise[ 0 ][ inputNum - 1 ] != 1 ) {
             station.counterclockwise[ 0 ][ inputNum - 1 ] = 1;
             station.counterclockwise[ 1 ][ inputNum - 1 ] = 1;
         }
     }
     else if ( strcmp( inputBuff, "target" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( car.target[ 0 ][ inputNum - 1 ] != 1 ) {
             car.target[ 0 ][ inputNum - 1 ] = 1;
             car.target[ 1 ][ inputNum - 1 ] = 1;
@@ -166,12 +166,12 @@ void FCFS_readOrder()
 {
     char inputBuff[ 20 ] = { '\0' };
     int  inputNum = -1;
-    scanf( "%s", inputBuff );
+    fscanf(env.input, "%s", inputBuff );
     if ( strcmp( inputBuff, "clock" ) == 0 ) {
         TIME++;
     }
     else if ( strcmp( inputBuff, "clockwise" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( FCFS_checklist( 2, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;
@@ -186,7 +186,7 @@ void FCFS_readOrder()
         }
     }
     else if ( strcmp( inputBuff, "counterclockwise" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( FCFS_checklist( 3, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;
@@ -201,7 +201,7 @@ void FCFS_readOrder()
         }
     }
     else if ( strcmp( inputBuff, "target" ) == 0 ) {
-        scanf( "%d", &inputNum );
+        fscanf(env.input, "%d", &inputNum );
         if ( FCFS_checklist( 1, inputNum ) != 1 ) {
             NODE* prePtr = ( NODE* )malloc( sizeof( NODE ) );
             env.presentPtr->next = prePtr;

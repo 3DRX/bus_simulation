@@ -1,5 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
+#include <stdio.h>
 
 #define TRUE ( 1 )
 #define FALSE ( 0 )
@@ -13,6 +14,9 @@ typedef struct {
     struct Node * headnode;
     struct Node * presentPtr;
     struct Node * presentWorkingPtr;
+    FILE* input;
+    FILE* output;
+
 } ENVIRONMENT;
 
 // 数组第二行定义：

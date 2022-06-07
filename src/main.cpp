@@ -34,6 +34,15 @@ void initGame( void )
     }
     readfile( fPtr );
     fclose(fPtr);
+    //打开输入输出文件
+    if ((env.input = fopen("input.io", "r")) == NULL) {
+        printf("Can't open file \"input.io\"\n");
+        exit(EXIT_FAILURE);
+    }
+    if ((env.output = fopen("output.io", "w")) == NULL) {
+        printf("Can't open file \"output.io\"\n");
+        exit(EXIT_FAILURE);
+    }
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
     // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
@@ -102,6 +111,8 @@ int main( int argc, char** argv )
     QApplication a( argc, argv );
     MainWindow   w;
     w.show();
+    fclose(env.input);
+    fclose(env.output);
     return a.exec();
 }
 

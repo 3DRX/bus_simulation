@@ -10,37 +10,37 @@ extern STATION     station;
 
 void printLines( void )
 {
-    printf( "TIME:%d\n", TIME );
-    printf( "BUS:\n" );
-    printf( "position:%d\n", car.position );
+    fprintf( env.output,"TIME:%d\n", TIME );
+    fprintf(env.output, "BUS:\n" );
+    fprintf(env.output, "position:%d\n", car.position );
     car.target[ 0 ][ 20 ] = -1; // 防越界
-    printf( "target:" );
+    fprintf(env.output, "target:" );
     for ( int i = 0; i < 20; i++ ) {
         if ( car.target[ 0 ][ i ] == -1 ) {
             break;
         }
-        printf( "%d", car.target[ 0 ][ i ] );
+        fprintf(env.output, "%d", car.target[ 0 ][ i ] );
     }
-    printf( "\n" );
-    printf( "STATION:\n" );
+    fprintf(env.output, "\n" );
+    fprintf(env.output, "STATION:\n" );
     station.clockwise[ 0 ][ 20 ] = -1;        // 防越界
     station.counterclockwise[ 0 ][ 20 ] = -1; // 防越界
-    printf( "clockwise:" );
+    fprintf(env.output, "clockwise:" );
     for ( int i = 0; i < 20; i++ ) {
         if ( station.clockwise[ 0 ][ i ] == -1 ) {
             break;
         }
-        printf( "%d", station.clockwise[ 0 ][ i ] );
+        fprintf(env.output, "%d", station.clockwise[ 0 ][ i ] );
     }
-    printf( "\n" );
-    printf( "counterclockwise:" );
+    fprintf(env.output, "\n" );
+    fprintf(env.output, "counterclockwise:" );
     for ( int i = 0; i < 20; i++ ) {
         if ( station.counterclockwise[ 0 ][ i ] == -1 ) {
             break;
         }
-        printf( "%d", station.counterclockwise[ 0 ][ i ] );
+        fprintf(env.output, "%d", station.counterclockwise[ 0 ][ i ] );
     }
-    printf( "\n" );
+    fprintf(env.output, "\n" );
 }
 
 void outPut( bool * ifExit )
@@ -55,7 +55,7 @@ void outPut( bool * ifExit )
     else {
         lastTime = TIME;
         if ( TIME == -1 ) {
-            printf( "end\n" );
+            fprintf(env.output, "end\n" );
             if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
                 FCFS_freeList( env.headnode );
             }
