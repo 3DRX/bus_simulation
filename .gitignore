@@ -60,3 +60,5 @@ compile_commands.json
 .clang-format
 .cache
 .vs
+Bus-operation
+CMakeLists.txt.user

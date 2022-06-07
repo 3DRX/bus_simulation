@@ -1,9 +1,12 @@
 #include "main.h"
 #include "input.h"
+#include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <QApplication>
 
 // #variables (global)
 ENVIRONMENT env;
@@ -92,6 +95,11 @@ int main( int argc, char** argv )
             break;
         }
     }
-    return 0;
+
+    // QT stuff
+    QApplication a( argc, argv );
+    MainWindow   w;
+    w.show();
+    return a.exec();
 }
 
