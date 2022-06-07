@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
+#include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,6 +33,7 @@ void initGame( void )
         exit( EXIT_FAILURE );
     }
     readfile( fPtr );
+    fclose(fPtr);
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
     // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
