@@ -17,7 +17,6 @@
   </property>
   <widget class="QMenuBar" name="menubar" />
   <widget class="QWidget" name="centralwidget" />
-  <widget class="QStatusBar" name="statusbar" />
  </widget>
  <pixmapfunction></pixmapfunction>
  <connections/>

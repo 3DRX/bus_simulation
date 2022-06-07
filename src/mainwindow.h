@@ -21,8 +21,23 @@ public:
 
 private:
     Ui::MainWindow* ui;
+    QPixmap         pix;
+    QPushButton*    button_next;
+    QPushButton*    button_previous;
+
+    //=====private functions=====
+    
+    /**绘制大圆轨道和小圆点车站
+     */
+    void paintBackground(void);
 
 protected:
+    void paintEvent( QPaintEvent* );
+
 private slots:
+    // 按next按钮触发的回调函数
+    void next();
+    // 按previous按钮触发的回调函数
+    void previous();
 };
 #endif // MAINWINDOW_H

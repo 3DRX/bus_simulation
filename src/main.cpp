@@ -106,13 +106,13 @@ int main( int argc, char** argv )
             break;
         }
     }
+    fclose(env.input);
+    fclose(env.output);
 
     // QT stuff
     QApplication a( argc, argv );
     MainWindow   w;
     w.show();
-    fclose(env.input);
-    fclose(env.output);
     return a.exec();
 }
 
