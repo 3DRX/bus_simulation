@@ -64,7 +64,9 @@ void initGame( void )
     printLines();
 }
 
-void mainLoop( void )
+/**当输入检测到end之后，mainLoop会结束
+ */
+void mainLoop( bool *ifExit )
 {
     if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
         FCFS_readOrder();
@@ -73,15 +75,22 @@ void mainLoop( void )
         readOrder();
     }
     strategy();
-    outPut();
+    outPut(ifExit);
+    if (*ifExit == true) {
+        return;
+    }
 }
 
 // #main
 int main( void )
 {
+    bool ifExit = false;
     initGame();
     while ( 1 ) { // main loop
-        mainLoop();
+        mainLoop(&ifExit);
+        if (ifExit == true) {
+            break;
+        }
     }
     return 0;
 }
