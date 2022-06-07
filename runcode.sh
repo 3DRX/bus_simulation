@@ -6,5 +6,6 @@ cmake ..
 make
 cp ./compile_commands.json ../
 cd ..
-./Bus-operation > ./output.io < ./input.io
+#./Bus-operation > ./output.io < ./input.io
+./Bus-operation
 
