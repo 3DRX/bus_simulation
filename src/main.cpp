@@ -47,8 +47,8 @@ void initGame( void )
     station.counterclockwise[ 0 ][ env.TOTAL_STATION ] = -1;
     // 上面三行中 -1 表示行结束（类似'\0'）
     // 如果是FCFS模式，初始化链表
-    if ( env.STRATEGY == FCFS ) {
-        env.headnode = malloc( sizeof( NODE ) );
+    if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
+        env.headnode = (NODE *)malloc( sizeof( NODE ) );
         env.headnode->prev = NULL;
         env.headnode->next = NULL;
         env.headnode->stationNumber = -1;
@@ -66,7 +66,7 @@ void initGame( void )
 
 void mainLoop( void )
 {
-    if ( env.STRATEGY == FCFS ) {
+    if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
         FCFS_readOrder();
     }
     else {

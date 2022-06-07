@@ -96,13 +96,13 @@ void strategy( void )
     }
     else {
         lastTime = TIME;
-        if ( env.STRATEGY == FCFS ) {
+        if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
             modeFCFS();
         }
-        else if ( env.STRATEGY == SSTF ) {
+        else if ( env.STRATEGY == ENVIRONMENT::SSTF ) {
             modeSSTF();
         }
-        else if ( env.STRATEGY == SCAN ) {
+        else if ( env.STRATEGY == ENVIRONMENT::SCAN ) {
             modeSCAN();
         }
     }
@@ -186,7 +186,6 @@ void modeFCFS( void )
         env.presentWorkingPtr = env.headnode;
     }
     int dest_positionIndex = getPositionIndex( env.presentWorkingPtr->stationNumber );
-    int fullLength = env.DISTANCE * env.TOTAL_STATION;
     if ( state == NO_TASK ) {
         if ( env.presentWorkingPtr->next ) //说明有新任务
         {

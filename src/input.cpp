@@ -19,7 +19,7 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
            DISTANCE } state;
     state = NORMAL;
     env.TOTAL_STATION = 5;
-    env.STRATEGY = FCFS;
+    env.STRATEGY = ENVIRONMENT::FCFS;
     env.DISTANCE = 2;
     char ipt;
     // start read file
@@ -72,13 +72,13 @@ void readfile( FILE* fPtr ) // 从文件中读取环境初始配置
                 char inputBuf[ 10 ];
                 fscanf( fPtr, "%s", inputBuf );
                 if ( strcmp( inputBuf, "FCFS" ) == 0 ) {
-                    env.STRATEGY = FCFS;
+                    env.STRATEGY = ENVIRONMENT::FCFS;
                 }
                 else if ( strcmp( inputBuf, "SSTF" ) == 0 ) {
-                    env.STRATEGY = SSTF;
+                    env.STRATEGY = ENVIRONMENT::SSTF;
                 }
                 else if ( strcmp( inputBuf, "SCAN" ) == 0 ) {
-                    env.STRATEGY = SCAN;
+                    env.STRATEGY = ENVIRONMENT::SCAN;
                 }
                 state = NORMAL;
             }

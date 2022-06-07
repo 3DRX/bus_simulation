@@ -6,5 +6,6 @@ project (Bus-operation)
 aux_source_directory(./src DIR_SRCS)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+add_definitions("-Wall -std=c++11 -v")
 add_executable(out ${DIR_SRCS})
 

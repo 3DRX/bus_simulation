@@ -9,7 +9,7 @@
  * 为 FALSE 不输出，
  * 为 END 输出结束行。
  */
-void outPut();
+void outPut( void );
 
 void printLines( void );
 
