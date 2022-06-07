@@ -43,7 +43,7 @@ void printLines( void )
     printf( "\n" );
 }
 
-void outPut( void )
+void outPut( bool * ifExit )
 {
     // 判断是否是新的一秒，只有在新的一秒的时候
     // （即一秒之内的所有指令全部写入结构体），
@@ -56,10 +56,11 @@ void outPut( void )
         lastTime = TIME;
         if ( TIME == -1 ) {
             printf( "end\n" );
-            exit( EXIT_SUCCESS );
             if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
                 FCFS_freeList( env.headnode );
             }
+            *ifExit = true;
+            return;
         }
         if ( TIME != 0 ) {
             printLines();

@@ -48,7 +48,7 @@ void initGame( void )
     // 上面三行中 -1 表示行结束（类似'\0'）
     // 如果是FCFS模式，初始化链表
     if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
-        env.headnode = (NODE *)malloc( sizeof( NODE ) );
+        env.headnode = ( NODE* )malloc( sizeof( NODE ) );
         env.headnode->prev = NULL;
         env.headnode->next = NULL;
         env.headnode->stationNumber = -1;
@@ -64,7 +64,9 @@ void initGame( void )
     printLines();
 }
 
-void mainLoop( void )
+/**当输入检测到end之后，mainLoop会结束
+ */
+void mainLoop( bool* ifExit )
 {
     if ( env.STRATEGY == ENVIRONMENT::FCFS ) {
         FCFS_readOrder();
@@ -73,15 +75,22 @@ void mainLoop( void )
         readOrder();
     }
     strategy();
-    outPut();
+    outPut( ifExit );
+    if ( *ifExit == true ) {
+        return;
+    }
 }
 
 // #main
-int main( void )
+int main( int argc, char** argv )
 {
+    bool ifExit = false;
     initGame();
     while ( 1 ) { // main loop
-        mainLoop();
+        mainLoop( &ifExit );
+        if ( ifExit == true ) {
+            break;
+        }
     }
     return 0;
 }
