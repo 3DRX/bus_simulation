@@ -30,6 +30,7 @@ private:
     /**绘制大圆轨道和小圆点车站
      */
     void paintBackground(void);
+    void paintStations(void);
 
 protected:
     void paintEvent( QPaintEvent* );
