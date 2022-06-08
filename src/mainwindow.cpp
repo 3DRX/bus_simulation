@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
+#include <cmath>
 #include <cstdio>
 
 #define PI 3.1415926535897932384626
@@ -19,7 +20,6 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
     this->setWindowTitle( "Bus-simulation" );
     // 设置窗口、画布
-    // TODO: 改大小后分辨率很迷
     resize( 1024, 768 );
     pix = QPixmap( 1024, 700 );
     pix.fill( Qt::white );
@@ -67,20 +67,56 @@ void MainWindow::paintBackground( void )
     p.setPen( QPen( Qt::black, 6 ) );
     QRectF rectangle( 512 - 300, 350 - 300, 600, 600 );
     p.drawEllipse( rectangle );
-    // the sations
-    // TODO: 画车站
 }
 
 void MainWindow::paintStations( void )
 {
+    double   theta = ( double )360 / ( env.TOTAL_STATION * env.DISTANCE );
     QPainter p( &pix );
-    for ( int i = 0; i < env.TOTAL_STATION * env.DISTANCE; i++ ) {
-        if ( ( i % 5 ) != 0 ) { // 这里不应该是5，取决于DISTANCE
+    p.setRenderHint( QPainter::Antialiasing );
+    p.translate( 512, 350 );
+    for ( int i = 0; i < ( env.TOTAL_STATION * env.DISTANCE ); i++ ) {
+        double angle = theta * i;
+        if ( ( i % env.DISTANCE ) != 0 ) {
             // draw small circle
+            QRectF rectangle( 290, -10, 20, 20 );
+            p.setPen( Qt::black );
+            p.setBrush( Qt::black );
+            p.drawEllipse( rectangle );
         }
         else {
+            char a[3];
+            a[1] = '\0';
+            a[2] = '\0';
+            if ( i == 0 ) {
+                a[0] = '1';
+            }
+            else { // 咱就当他最多是10站吧
+                if (i/env.DISTANCE == 9) {
+                    a[0] = '1';
+                    a[1] = '0';
+                }
+                else {
+                    a[0] = '1' + i / env.DISTANCE;
+                }
+            }
             // draw big circle
+            QRectF rectangle( 280, -20, 40, 40 );
+            p.setPen( Qt::black );
+            p.setBrush( Qt::black );
+            p.drawEllipse( rectangle );
+            p.save();
+            // draw text
+            // 转回原来的角度，使数字是正的
+            p.rotate( ( double )( 360 - ( i * ( ( double )360 / ( env.TOTAL_STATION * env.DISTANCE ) ) ) ) );
+            QFont font( "arial", 18, QFont::Bold, false );
+            p.setFont( font );
+            p.setPen( Qt::white );
+            // 手动极坐标，+5-5是为了让字（而不是字的左下角）在圆中央
+            p.drawText( ( 300 * std::cos( angle * PI / 180 ) ) - 5,
+                        ( 300 * std::sin( angle * PI / 180 ) ) + 5, tr(a) );
+            p.restore();
         }
-        p.rotate( 6.0 );
+        p.rotate( ( double )360 / ( env.TOTAL_STATION * env.DISTANCE ) );
     }
 }
