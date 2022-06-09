@@ -1,9 +1,9 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include "main.h"
+#include "core.h"
 
-void outPut( bool * ifExit );
+void outPut();
 
 void printLines( void );
 

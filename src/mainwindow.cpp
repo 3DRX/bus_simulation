@@ -1,6 +1,7 @@
+#include "main.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "src/main.h"
+#include "core.h"
 
 #include <QDialog>
 #include <QPainter>
@@ -12,6 +13,7 @@
 #define PI 3.1415926535897932384626
 
 extern ENVIRONMENT env;
+extern GLOB        global;
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent ),
@@ -42,6 +44,7 @@ MainWindow::~MainWindow()
 void MainWindow::next()
 {
     printf( "button_next pressed\n" );
+    global.ifWait = false;
 }
 
 void MainWindow::previous()

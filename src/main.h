@@ -1,5 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
+
 #include <stdio.h>
 
 #define TRUE ( 1 )
@@ -39,5 +40,12 @@ typedef struct Node{
     struct Node *next;
 } NODE;
 
-#endif
+// 用于线程之间共享信息
+typedef struct{
+    // 大多是时候是true，只有当next按钮按下之后变为false
+    // output模块中检测的值为true之后调用一次printLines()函数，
+    // 之后将值重置为true
+    bool ifWait;
+} GLOB;
 
+#endif
