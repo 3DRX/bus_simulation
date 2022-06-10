@@ -62,28 +62,30 @@ main.c input.c output.c strategy.c control.c
    void readfile(FILE * fPtr);
    ```
 - [x] 康京旸
-2. 读取输入的字符串
-   
-   ```c
-   order * readOrder();
-   ```
-- [x] 盛泽桓
-3. FCFS模式下的读取输入字符串
-   
-   ```c
-   void FCFS_readOrder();
-   ```
+
+2. 读取输入的字符串  
+   `order * readOrder();`  
+   `void FCFS_readOrder()`
+
 - [x] 盛泽桓
 
-3. FCFS模式读取字符串
-    `void FCFS_readOrder();`
+3. 用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
+   
+   `int FCFS_checklist( int where, int stationNumber )`
+
 - [x] 盛泽桓
+
+4.释放链表
+
+       `void FCFS_freeList( NODE* headPtr )`
+
+- [x] 盛泽桓
+
+
 
 **output**
 
-外部函数：
-
-1. 输出车状态、输出站台状态、输出时间（包括FCFS模式）
+1. 输出车状态、输出站台状态、输出时间
    
    ```c
    /**
@@ -108,15 +110,15 @@ void printLines( void );
 
 外部函数：
 
-1. `void FCFS(digitalOrder * ORDER);`
+1. `void FCFS();`
 
-2- 盛泽桓
+- [x] 盛泽桓
 
-3. `void SSTF(digitalOrder * ORDER);`
+3. `void SSTF();`
 - [x] 康京旸
-3. `void SCAN(digitalOrder * ORDER);`
 
-4- 盛泽桓
+3. `void SCAN();`
+- [x] 盛泽桓
 
 内部函数：
 
@@ -136,7 +138,7 @@ void printLines( void );
    * 返回到达用时最短的站台编号（从1开始）。
    * 如果无请求，就返回-1
    */
-   int SSTFfindNearestStationNumber( void );
+   int findNearestStationNumber( void );
    ```
 - [x] 康京旸
 3. ```c
@@ -154,13 +156,87 @@ void printLines( void );
    ```
 - [x] 瞿嘉辰
 
-5.
+5.  
 
 ```c
 /**完成输入stationNumber的请求
  * （把数组中的1改成0）
  */
 void finishRequest(int stationNumber);
+```
+
+- [x] 康京旸
+6. 
+
+```c
+/**车辆拟时针移动一个单位长度
+ */
+void carClockwise( void );
+
+/**车辆拟时针移动一个单位长度
+ */
+void carCounterClockwise( void );
+```
+
+- [x] 瞿嘉辰
+7.  
+
+```c
+/**检测car当前的位置有没有请求
+ * direction: 1 顺时针，2 逆时针
+ * 如果有，返回TRUE
+ * 如果没有，返回FALSE
+ * 如果当前位置不是车站，返回-1
+ */
+short haveRequest( short direction );
+```
+
+- [x] 瞿嘉辰
+8. 
+
+```c
+/**用于FCFS策略中完成请求时从全局变量environment和car中去除对应请求
+ */
+void FCFS_finishRequest( int where, int stationNumber );
+```
+
+- [x] 康京旸
+9. asd
+
+```c
+/*用于计算车前往当前目标站点采用的方向,顺时针返回1，逆时针返回2.
+ */
+int orient( int stationPosition );
+```
+
+- [x] 盛泽桓
+10. 
+
+```c
+//返回某一方向的距离
+int SCAN_stationDistance( int stationPosition, int state );
+```
+
+- [x] 瞿嘉辰
+11.  
+
+```c
+void FCFS_haveOnStationRequest( NODE* presentWorkingPtr );
+```
+
+- [x] 康京旸
+12.  
+
+```c
+void updateBuf( NODE* presentPtr );
+```
+
+- [x] 康京旸
+13.  
+
+```c
+//用于检测是否有非当前位置请求，有则返回1，无则返回0
+int AreThereAnyRequest( void );
 ```
 
 - [x] 康京旸
@@ -244,3 +320,4 @@ int SCAN_stationDistance ( int stationPosition, int state);
 ```
 
 - [x] 盛泽桓
+
