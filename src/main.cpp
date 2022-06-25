@@ -4,9 +4,11 @@
 #include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
+#include "timeth.h"
 #include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #include <QApplication>
 #include <QThread>
@@ -29,6 +31,7 @@ void initMain(void)
     readfile( fPtr );
     fclose(fPtr);
     global.ifWait = true;
+    global.fps = 30;
 }
 
 int main( int argc, char** argv )
@@ -38,6 +41,9 @@ int main( int argc, char** argv )
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
+    TimeThread *timethread;
+    timethread = new TimeThread();
+    timethread->start();
     QApplication a( argc, argv );
     MainWindow   w;
     w.show();

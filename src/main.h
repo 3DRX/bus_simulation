@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include <sys/time.h>
 
 #define TRUE ( 1 )
 #define FALSE ( 0 )
@@ -46,6 +47,8 @@ typedef struct{
     // output模块中检测的值为true之后调用一次printLines()函数，
     // 之后将值重置为true
     bool ifWait;
+
+    int fps;
 } GLOB;
 
 #endif
