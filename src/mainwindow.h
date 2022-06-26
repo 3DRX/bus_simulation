@@ -38,6 +38,7 @@ private:
     /**绘制公交车
      */
     void paintBus(void);
+    void moveBus(void);
 
 protected:
     void paintEvent( QPaintEvent* );

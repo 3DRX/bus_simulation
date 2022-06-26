@@ -9,8 +9,11 @@
 #include <QPushButton>
 #include <cmath>
 #include <cstdio>
+#include <sys/time.h>
 
 #define PI 3.1415926535897932384626
+
+#define FPS 15
 
 extern ENVIRONMENT env;
 extern GLOB        global;
@@ -97,6 +100,7 @@ void MainWindow::paintEvent( QPaintEvent* )
     // 主绘图函数
     paintBackground();
     paintStations();
+    moveBus();
     paintBus();
     QPainter painter( this );
     painter.drawPixmap( 0, 0, pix );
@@ -169,14 +173,14 @@ void MainWindow::paintStations( void )
 
 void MainWindow::paintBus( void )
 {
-    if (global.car_state == GLOB::STOP) {
-    }
-    else if (global.car_state == GLOB::CLOCKWISE) {
-        global.car_theta += 1;
-    }
-    else {
-        global.car_theta -= 1;
-    }
+    //if (global.car_state == GLOB::STOP) {
+    //}
+    //else if (global.car_state == GLOB::CLOCKWISE) {
+        //global.car_theta += 1;
+    //}
+    //else {
+        //global.car_theta -= 1;
+    //}
     // display bus
     QPainter p( &pix );
     p.setRenderHint( QPainter::Antialiasing );
@@ -187,5 +191,34 @@ void MainWindow::paintBus( void )
     p.setPen( Qt::yellow );
     p.setBrush( Qt::yellow );
     p.drawRect( rectangle );
+}
+
+void MainWindow::moveBus( void )
+{
+    static int last_time = 10000;
+    struct timeval tp;
+    int ms;
+    gettimeofday(&tp, NULL);
+    ms = tp.tv_usec / 1000;
+    if (last_time == 10000 || ms - last_time >= 1000/FPS || ms - last_time < 0) {
+        if (last_time == 10000) {
+            last_time = ms;
+        }
+        else if (last_time >= 1000 - 1000/FPS) {
+            last_time = 0;
+        }
+        else {
+            last_time += 1000/FPS;
+        }
+        if (global.car_state == GLOB::CLOCKWISE) {
+            global.car_theta++;
+        }
+        else if (global.car_state == GLOB::COUNTERCLOCKWISE){
+            global.car_theta--;
+        }
+        else {
+            last_time = 10000;
+        }
+    }
 }
 
