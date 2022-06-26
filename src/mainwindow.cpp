@@ -188,8 +188,8 @@ void MainWindow::paintBus( void )
     p.rotate(global.car_theta);
     // draw the bus
     QRectF rectangle( 240, -20, 40, 40 );
-    p.setPen( Qt::yellow );
-    p.setBrush( Qt::yellow );
+    p.setPen( Qt::red );
+    p.setBrush( Qt::red );
     p.drawRect( rectangle );
 }
 
