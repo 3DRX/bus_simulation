@@ -4,7 +4,6 @@
 #include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
-#include "timeth.h"
 #include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,9 +40,6 @@ int main( int argc, char** argv )
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
-    TimeThread *timethread;
-    timethread = new TimeThread();
-    timethread->start();
     QApplication a( argc, argv );
     MainWindow   w;
     w.show();
