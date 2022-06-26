@@ -49,6 +49,10 @@ typedef struct{
     bool ifWait;
 
     int fps;
+
+    // 车的位置（角度theta）
+    int car_theta;
+    enum {CLOCKWISE, COUNTERCLOCKWISE, STOP} car_state;
 } GLOB;
 
 #endif

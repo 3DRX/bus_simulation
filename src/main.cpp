@@ -31,6 +31,8 @@ void initMain(void)
     fclose(fPtr);
     global.ifWait = true;
     global.fps = 30;
+    global.car_theta = 0;
+    global.car_state = GLOB::STOP;
 }
 
 int main( int argc, char** argv )

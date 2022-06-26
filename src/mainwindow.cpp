@@ -34,6 +34,18 @@ MainWindow::MainWindow( QWidget* parent )
     button_previous->setText( tr( "previous" ) );
     button_previous->move( 0, 701 );
     connect( button_previous, SIGNAL( clicked() ), this, SLOT( previous() ) );
+    button_clockwise = new QPushButton( this );
+    button_clockwise->setText( tr( "clockwise" ) );
+    button_clockwise->move( 920, 740 );
+    connect( button_clockwise, SIGNAL( clicked() ), this, SLOT( clockwisePressed() ) );
+    button_counterclockwise = new QPushButton( this );
+    button_counterclockwise->setText( tr( "counterclockwise" ) );
+    button_counterclockwise->move( 0, 740 );
+    connect( button_counterclockwise, SIGNAL( clicked() ), this, SLOT( counterclockwisePressed() ) );
+    button_stop = new QPushButton( this );
+    button_stop->setText( tr( "stop" ) );
+    button_stop->move( 460, 740 );
+    connect( button_stop, SIGNAL( clicked() ), this, SLOT( stopPressed() ) );
 }
 
 MainWindow::~MainWindow()
@@ -52,13 +64,47 @@ void MainWindow::previous()
     printf( "button_previous pressed\n" );
 }
 
+void MainWindow::clockwisePressed()
+{
+    printf( "button_clockwise pressed\n" );
+    if (global.car_state == GLOB::STOP) {
+        global.car_state = GLOB::CLOCKWISE;
+        button_clockwise->setDisabled(true);
+    }
+    else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+        // TODO: 这里应不应该直接掉头？
+    }
+}
+
+void MainWindow::counterclockwisePressed()
+{
+    printf( "button_counterclockwise pressed\n" );
+    if (global.car_state == GLOB::STOP) {
+        global.car_state = GLOB::COUNTERCLOCKWISE;
+        button_counterclockwise->setDisabled(true);
+    }
+    else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+        // TODO: 这里应不应该直接掉头？
+    }
+}
+
+void MainWindow::stopPressed()
+{
+    printf( "button_stop pressed\n" );
+    global.car_state = GLOB::STOP;
+    button_counterclockwise->setDisabled(false);
+    button_clockwise->setDisabled(false);
+}
+
 void MainWindow::paintEvent( QPaintEvent* )
 {
     // 主绘图函数
     paintBackground();
     paintStations();
+    paintBus();
     QPainter painter( this );
     painter.drawPixmap( 0, 0, pix );
+    update(); // 这个函数能令paintEvent不停的循环
 }
 
 void MainWindow::paintBackground( void )
@@ -122,4 +168,8 @@ void MainWindow::paintStations( void )
         }
         p.rotate( ( double )360 / ( env.TOTAL_STATION * env.DISTANCE ) );
     }
+}
+
+void MainWindow::paintBus( void )
+{
 }

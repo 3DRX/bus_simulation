@@ -24,6 +24,9 @@ private:
     QPixmap         pix;
     QPushButton*    button_next;
     QPushButton*    button_previous;
+    QPushButton*    button_clockwise;
+    QPushButton*    button_counterclockwise;
+    QPushButton*    button_stop;
 
     //=====private functions=====
     
@@ -31,6 +34,10 @@ private:
      */
     void paintBackground(void);
     void paintStations(void);
+
+    /**绘制公交车
+     */
+    void paintBus(void);
 
 protected:
     void paintEvent( QPaintEvent* );
@@ -40,5 +47,11 @@ private slots:
     void next();
     // 按previous按钮触发的回调函数
     void previous();
+    // 按clockwise按钮出发的回调函数
+    void clockwisePressed();
+    // 按counterclockwise按钮出发的回调函数
+    void counterclockwisePressed();
+    // 按stop按钮触发的回调函数
+    void stopPressed();
 };
 #endif // MAINWINDOW_H
