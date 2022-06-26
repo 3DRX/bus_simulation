@@ -55,7 +55,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::next()
 {
-    printf( "button_next pressed\n" );
     global.ifWait = false;
 }
 
@@ -66,7 +65,6 @@ void MainWindow::previous()
 
 void MainWindow::clockwisePressed()
 {
-    printf( "button_clockwise pressed\n" );
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::CLOCKWISE;
         button_clockwise->setDisabled(true);
@@ -78,7 +76,6 @@ void MainWindow::clockwisePressed()
 
 void MainWindow::counterclockwisePressed()
 {
-    printf( "button_counterclockwise pressed\n" );
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::COUNTERCLOCKWISE;
         button_counterclockwise->setDisabled(true);
@@ -90,7 +87,6 @@ void MainWindow::counterclockwisePressed()
 
 void MainWindow::stopPressed()
 {
-    printf( "button_stop pressed\n" );
     global.car_state = GLOB::STOP;
     button_counterclockwise->setDisabled(false);
     button_clockwise->setDisabled(false);
@@ -104,6 +100,7 @@ void MainWindow::paintEvent( QPaintEvent* )
     paintBus();
     QPainter painter( this );
     painter.drawPixmap( 0, 0, pix );
+    pix.fill(Qt::white);
     update(); // 这个函数能令paintEvent不停的循环
 }
 
@@ -172,4 +169,23 @@ void MainWindow::paintStations( void )
 
 void MainWindow::paintBus( void )
 {
+    if (global.car_state == GLOB::STOP) {
+    }
+    else if (global.car_state == GLOB::CLOCKWISE) {
+        global.car_theta += 1;
+    }
+    else {
+        global.car_theta -= 1;
+    }
+    // display bus
+    QPainter p( &pix );
+    p.setRenderHint( QPainter::Antialiasing );
+    p.translate( 512, 350 );
+    p.rotate(global.car_theta);
+    // draw the bus
+    QRectF rectangle( 240, -20, 40, 40 );
+    p.setPen( Qt::yellow );
+    p.setBrush( Qt::yellow );
+    p.drawRect( rectangle );
 }
+
