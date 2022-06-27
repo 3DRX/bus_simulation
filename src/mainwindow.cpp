@@ -12,22 +12,23 @@
 #include <sys/time.h>
 
 #define PI 3.1415926535897932384626
-
 #define FPS 15
 
 extern ENVIRONMENT env;
 extern GLOB global;
 extern CAR car;
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
     ui->setupUi(this);
     this->setWindowTitle("Bus-simulation");
     // 设置窗口、画布
     resize(1024, 768);
     pix = QPixmap(1024, 700);
     pix.fill(Qt::white);
-    // 创建两个按钮
+    // 创建按钮
     button_next = new QPushButton(this);
     button_next->setText(tr("next"));
     button_next->move(920, 701);
@@ -40,12 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
     button_clockwise->setText(tr("clockwise"));
     button_clockwise->move(920, 740);
     connect(button_clockwise, SIGNAL(clicked()), this,
-            SLOT(clockwisePressed()));
+        SLOT(clockwisePressed()));
     button_counterclockwise = new QPushButton(this);
     button_counterclockwise->setText(tr("counterclockwise"));
     button_counterclockwise->move(0, 740);
     connect(button_counterclockwise, SIGNAL(clicked()), this,
-            SLOT(counterclockwisePressed()));
+        SLOT(counterclockwisePressed()));
     button_stop = new QPushButton(this);
     button_stop->setText(tr("stop"));
     button_stop->move(460, 740);
@@ -58,7 +59,8 @@ void MainWindow::next() { global.ifWait = false; }
 
 void MainWindow::previous() { printf("button_previous pressed\n"); }
 
-void MainWindow::clockwisePressed() {
+void MainWindow::clockwisePressed()
+{
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::CLOCKWISE;
         button_clockwise->setDisabled(true);
@@ -67,7 +69,8 @@ void MainWindow::clockwisePressed() {
     }
 }
 
-void MainWindow::counterclockwisePressed() {
+void MainWindow::counterclockwisePressed()
+{
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::COUNTERCLOCKWISE;
         button_counterclockwise->setDisabled(true);
@@ -76,13 +79,15 @@ void MainWindow::counterclockwisePressed() {
     }
 }
 
-void MainWindow::stopPressed() {
+void MainWindow::stopPressed()
+{
     global.car_state = GLOB::STOP;
     button_counterclockwise->setDisabled(false);
     button_clockwise->setDisabled(false);
 }
 
-void MainWindow::paintEvent(QPaintEvent *) {
+void MainWindow::paintEvent(QPaintEvent*)
+{
     // 主绘图函数
     paintBackground();
     paintStations();
@@ -94,7 +99,8 @@ void MainWindow::paintEvent(QPaintEvent *) {
     update(); // 这个函数能令paintEvent不停的循环
 }
 
-void MainWindow::paintBackground(void) {
+void MainWindow::paintBackground(void)
+{
     // the big circle
     // center: (512, 350)    radious: 300
     QPainter p(&pix);
@@ -104,7 +110,8 @@ void MainWindow::paintBackground(void) {
     p.drawEllipse(rectangle);
 }
 
-void MainWindow::paintStations(void) {
+void MainWindow::paintStations(void)
+{
     double theta = (double)360 / (env.TOTAL_STATION * env.DISTANCE);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
@@ -139,30 +146,21 @@ void MainWindow::paintStations(void) {
             p.save();
             // draw text
             // 转回原来的角度，使数字是正的
-            p.rotate((double)(360 - (i * ((double)360 / (env.TOTAL_STATION *
-                                                         env.DISTANCE)))));
+            p.rotate((double)(360 - (i * ((double)360 / (env.TOTAL_STATION * env.DISTANCE)))));
             QFont font("arial", 18, QFont::Bold, false);
             p.setFont(font);
             p.setPen(Qt::white);
             // 手动极坐标，+5-5是为了让字（而不是字的左下角）在圆中央
             p.drawText((300 * std::cos(angle * PI / 180)) - 5,
-                       (300 * std::sin(angle * PI / 180)) + 5, tr(a));
+                (300 * std::sin(angle * PI / 180)) + 5, tr(a));
             p.restore();
         }
         p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
     }
 }
 
-void MainWindow::paintBus(void) {
-    // if (global.car_state == GLOB::STOP) {
-    // }
-    // else if (global.car_state == GLOB::CLOCKWISE) {
-    // global.car_theta += 1;
-    //}
-    // else {
-    // global.car_theta -= 1;
-    //}
-    // display bus
+void MainWindow::paintBus(void)
+{
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.translate(512, 350);
@@ -174,7 +172,8 @@ void MainWindow::paintBus(void) {
     p.drawRect(rectangle);
 }
 
-void MainWindow::moveBus(void) {
+void MainWindow::moveBus(void)
+{
     static int last_time = 10000;
     struct timeval tp;
     int ms;
@@ -182,8 +181,7 @@ void MainWindow::moveBus(void) {
     ms = tp.tv_usec / 1000;
     // 我也不知道这个if是怎么使代码正确运行起来的
     // 反正经过一通魔幻操作，它就是跑起来了
-    if (last_time == 10000 || ms - last_time >= 1000 / FPS ||
-        ms - last_time < 0) {
+    if (last_time == 10000 || ms - last_time >= 1000 / FPS || ms - last_time < 0) {
         if (last_time == 10000) {
             last_time = ms;
         } else if (last_time >= 1000 - 1000 / FPS) {
