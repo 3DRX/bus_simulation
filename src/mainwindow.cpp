@@ -189,11 +189,27 @@ void MainWindow::moveBus(void) {
             last_time += 1000 / FPS;
         }
         if (global.car_state == GLOB::CLOCKWISE) {
-            global.car_theta++;
+            if (global.car_theta + 1 == 360) {
+                global.car_theta = 0;
+            } else {
+                global.car_theta++;
+            }
         } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
-            global.car_theta--;
+            if (global.car_theta - 1 == -1) {
+                global.car_theta = 359;
+            } else {
+                global.car_theta--;
+            }
         } else {
             last_time = 10000;
+        }
+    }
+    // update bus position
+    int theta = 360 / (env.TOTAL_STATION * env.DISTANCE);
+    for (int i = 0; i < env.TOTAL_STATION * env.DISTANCE; i++) {
+        if (global.car_theta == theta * i) {
+            printf("arrived at position: %d\n", i);
+            // TODO: 把位置变化写入car.position
         }
     }
 }
