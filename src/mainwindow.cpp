@@ -17,6 +17,7 @@
 
 extern ENVIRONMENT env;
 extern GLOB global;
+extern CAR car;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -179,6 +180,8 @@ void MainWindow::moveBus(void) {
     int ms;
     gettimeofday(&tp, NULL);
     ms = tp.tv_usec / 1000;
+    // 我也不知道这个if是怎么使代码正确运行起来的
+    // 反正经过一通魔幻操作，它就是跑起来了
     if (last_time == 10000 || ms - last_time >= 1000 / FPS ||
         ms - last_time < 0) {
         if (last_time == 10000) {
@@ -208,8 +211,8 @@ void MainWindow::moveBus(void) {
     int theta = 360 / (env.TOTAL_STATION * env.DISTANCE);
     for (int i = 0; i < env.TOTAL_STATION * env.DISTANCE; i++) {
         if (global.car_theta == theta * i) {
-            printf("arrived at position: %d\n", i);
-            // TODO: 把位置变化写入car.position
+            car.position = i;
+            global.glob_state_refresh = true;
         }
     }
 }

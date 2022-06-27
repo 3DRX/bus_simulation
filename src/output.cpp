@@ -11,7 +11,8 @@ extern ENVIRONMENT env;
 extern STATION station;
 extern GLOB global;
 
-void printLines(void) {
+void printLines(void)
+{
     // fprintf( env.output,"TIME:%d\n", TIME );
     // fprintf(env.output, "BUS:\n" );
     // fprintf(env.output, "position:%d\n", car.position );
@@ -32,7 +33,7 @@ void printLines(void) {
     // fprintf(env.output, "STATION:\n" );
     printf("\n");
     printf("STATION:\n");
-    station.clockwise[0][20] = -1;        // 防越界
+    station.clockwise[0][20] = -1; // 防越界
     station.counterclockwise[0][20] = -1; // 防越界
     // fprintf(env.output, "clockwise:" );
     printf("clockwise:");
@@ -58,33 +59,25 @@ void printLines(void) {
     printf("\n");
 }
 
-void outPut() {
-    // 判断是否是新的一秒，只有在新的一秒的时候
-    // （即一秒之内的所有指令全部写入结构体），
-    // 才输出
-    static int lastTime = 0;
-    if (lastTime == TIME && TIME != 0) {
-        return;
-    } else {
-        lastTime = TIME;
-        if (TIME == -1) {
-            // fprintf(env.output, "end\n" );
-            printf("end\n");
-            if (env.STRATEGY == ENVIRONMENT::FCFS) {
-                FCFS_freeList(env.headnode);
-            }
-            exit(EXIT_SUCCESS);
-            // TODO
+void outPut()
+{
+    if (TIME == -1) {
+        // fprintf(env.output, "end\n" );
+        printf("end\n");
+        if (env.STRATEGY == ENVIRONMENT::FCFS) {
+            FCFS_freeList(env.headnode);
         }
-        if (TIME != 0) {
-            while (1) {
-                // 只有在ifWait为true的时候（按下了next按钮）
-                // 才printLines
-                if (global.ifWait == false) {
-                    printLines();
-                    global.ifWait = true;
-                    break;
-                }
+        exit(EXIT_SUCCESS);
+        // TODO
+    } else {
+        static auto last_car_pos = car.position;
+        static auto last_car_state = global.car_state;
+        if (global.glob_state_refresh == true) {
+            if (car.position != last_car_pos || global.car_state != last_car_state) {
+                last_car_pos = car.position;
+                last_car_state = global.car_state;
+                global.glob_state_refresh = false;
+                printLines();
             }
         }
     }

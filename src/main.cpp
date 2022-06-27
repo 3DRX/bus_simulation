@@ -19,9 +19,10 @@ extern int TIME;
 
 GLOB global;
 
-void initMain(void) {
+void initMain(void)
+{
     // init environment
-    FILE *fPtr = NULL;
+    FILE* fPtr = NULL;
     if ((fPtr = fopen("dict.dic", "r")) == NULL) {
         printf("Can't open file \"dict.dic\"\n");
         exit(EXIT_FAILURE);
@@ -29,14 +30,15 @@ void initMain(void) {
     readfile(fPtr);
     fclose(fPtr);
     global.ifWait = true;
-    global.fps = 30;
     global.car_theta = 0;
     global.car_state = GLOB::STOP;
+    global.glob_state_refresh = false;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
     initMain();
-    CoreThread *corethread;
+    CoreThread* corethread;
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？

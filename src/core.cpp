@@ -16,7 +16,8 @@ CAR car;
 STATION station;
 int TIME = 0;
 
-void initGame(void) {
+void initGame(void)
+{
     //打开输入输出文件
     if ((env.input = fopen("input.io", "r")) == NULL) {
         printf("Can't open file \"input.io\"\n");
@@ -45,7 +46,7 @@ void initGame(void) {
     // 上面三行中 -1 表示行结束（类似'\0'）
     // 如果是FCFS模式，初始化链表
     if (env.STRATEGY == ENVIRONMENT::FCFS) {
-        env.headnode = (NODE *)malloc(sizeof(NODE));
+        env.headnode = (NODE*)malloc(sizeof(NODE));
         env.headnode->prev = NULL;
         env.headnode->next = NULL;
         env.headnode->stationNumber = -1;
@@ -62,19 +63,21 @@ void initGame(void) {
 
 /**当输入检测到end之后，mainLoop会结束
  */
-void mainLoop() {
+void mainLoop()
+{
     if (env.STRATEGY == ENVIRONMENT::FCFS) {
-        FCFS_readOrder();
+        // FCFS_readOrder();
     } else {
-        readOrder();
+        // readOrder();
     }
     strategy();
     outPut();
 }
 
-CoreThread::CoreThread() {}
+CoreThread::CoreThread() { }
 
-void CoreThread::run() {
+void CoreThread::run()
+{
     // 后台（核心部分）入口函数
     initGame();
     while (1) {

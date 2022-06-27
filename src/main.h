@@ -48,11 +48,13 @@ typedef struct {
     // 之后将值重置为true
     bool ifWait;
 
-    int fps;
-
     // 车的位置（角度theta）
     int car_theta;
     enum { CLOCKWISE, COUNTERCLOCKWISE, STOP } car_state;
+
+    // 由车到每一个小站点触发，
+    // strategy模块依靠这个判断是否更新策略
+    bool glob_state_refresh;
 } GLOB;
 
 #endif
