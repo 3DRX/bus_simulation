@@ -3,14 +3,14 @@
 
 #include <QThread>
 
-class CoreThread : public QThread{
+class CoreThread : public QThread {
     Q_OBJECT
 
-public:
+  public:
     CoreThread();
-protected:
+
+  protected:
     void run();
 };
 
 #endif
-

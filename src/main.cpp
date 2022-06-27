@@ -1,6 +1,6 @@
-#include "main.h"
 #include "core.h"
 #include "input.h"
+#include "main.h"
 #include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
@@ -19,15 +19,14 @@ extern int TIME;
 
 GLOB global;
 
-void initMain(void)
-{
+void initMain(void) {
     // init environment
-    FILE* fPtr = NULL;
-    if ( ( fPtr = fopen( "dict.dic", "r" ) ) == NULL ) {
-        printf( "Can't open file \"dict.dic\"\n" );
-        exit( EXIT_FAILURE );
+    FILE *fPtr = NULL;
+    if ((fPtr = fopen("dict.dic", "r")) == NULL) {
+        printf("Can't open file \"dict.dic\"\n");
+        exit(EXIT_FAILURE);
     }
-    readfile( fPtr );
+    readfile(fPtr);
     fclose(fPtr);
     global.ifWait = true;
     global.fps = 30;
@@ -35,15 +34,14 @@ void initMain(void)
     global.car_state = GLOB::STOP;
 }
 
-int main( int argc, char** argv )
-{
+int main(int argc, char **argv) {
     initMain();
     CoreThread *corethread;
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
-    QApplication a( argc, argv );
-    MainWindow   w;
+    QApplication a(argc, argv);
+    MainWindow w;
     w.show();
     return a.exec();
 }

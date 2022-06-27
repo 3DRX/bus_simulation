@@ -11,25 +11,24 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
-    MainWindow( QWidget* parent = nullptr );
+  public:
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
-    Ui::MainWindow* ui;
-    QPixmap         pix;
-    QPushButton*    button_next;
-    QPushButton*    button_previous;
-    QPushButton*    button_clockwise;
-    QPushButton*    button_counterclockwise;
-    QPushButton*    button_stop;
+  private:
+    Ui::MainWindow *ui;
+    QPixmap pix;
+    QPushButton *button_next;
+    QPushButton *button_previous;
+    QPushButton *button_clockwise;
+    QPushButton *button_counterclockwise;
+    QPushButton *button_stop;
 
     //=====private functions=====
-    
+
     /**绘制大圆轨道和小圆点车站
      */
     void paintBackground(void);
@@ -40,10 +39,10 @@ private:
     void paintBus(void);
     void moveBus(void);
 
-protected:
-    void paintEvent( QPaintEvent* );
+  protected:
+    void paintEvent(QPaintEvent *);
 
-private slots:
+  private slots:
     // 按next按钮触发的回调函数
     void next();
     // 按previous按钮触发的回调函数

@@ -4,7 +4,7 @@
 #include "main.h"
 #include <stdio.h>
 
-void readfile( FILE* fPtr );
+void readfile(FILE *fPtr);
 
 /**从命令行中读取指令，
  * 函数运行一次只读取一行，
@@ -14,6 +14,6 @@ void readOrder();
 
 void FCFS_readOrder();
 
-void FCFS_freeList( NODE* headPtr );
+void FCFS_freeList(NODE *headPtr);
 
 #endif

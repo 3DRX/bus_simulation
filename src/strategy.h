@@ -3,6 +3,6 @@
 
 #include "core.h"
 
-void strategy( void );
+void strategy(void);
 
 #endif

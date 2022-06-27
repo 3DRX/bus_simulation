@@ -5,6 +5,6 @@
 
 void outPut();
 
-void printLines( void );
+void printLines(void);
 
 #endif
