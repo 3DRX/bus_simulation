@@ -20,7 +20,7 @@ extern ENVIRONMENT env;
 extern GLOB global;
 extern CAR car;
 extern STATION station;
-extern TIME;
+extern int TIME;
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -239,41 +239,60 @@ void MainWindow::paintoutput(void)
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(QPen(Qt::black, 2));
+    QFont font("arial", 10, QFont::Bold, false);
+    p.setFont(font);
     QRectF rectangle(800, 25, 200, 150);
+    p.drawRect(rectangle);
+
     char counterclockwise_string[env.TOTAL_STATION+1];
     counterclockwise_string[env.TOTAL_STATION]='\0';
     for(int i=0;i<env.TOTAL_STATION;i++)
     {
-        counterclockwise_string[i]='0'+station.counterclockwise[i];
+        counterclockwise_string[i]='0'+station.counterclockwise[0][i];
     }
     QString s1 =counterclockwise_string;
     s1.prepend("counterclockwise:");
-    p.drawRect(rectangle);
     p.translate(800, 25);
-    p.drawText( 5, 140, tr(counterclockwise_string));
+    p.drawText( 5, 140, s1);
 
     char clockwise_string[env.TOTAL_STATION+1];
     clockwise_string[env.TOTAL_STATION]='\0';
     for(int i=0;i<env.TOTAL_STATION;i++)
     {
-        clockwise_string[i]='0'+station.clockwise[i];
+        clockwise_string[i]='0'+station.clockwise[0][i];
     }
     QString s2 =clockwise_string;
-    s2.prepend("clockwise:");
-    p.drawRect(rectangle);
-    p.drawText( 5, 110, tr(clockwise_string));
+    QString s22 = QString("clockwise:")+s2;
+    p.drawText( 5, 110, s22);
 
-    char target_string[];
-
-    for(int i=0;i<;i++)
+    char target_string[env.TOTAL_STATION+1];
+    target_string[env.TOTAL_STATION]='\0';
+    for(int i=0;i<env.TOTAL_STATION;i++)
     {
-
+        target_string[i]='0'+car.target[0][i];
     }
     QString s3 =target_string;
     s3.prepend("target:");
-    p.drawRect(rectangle);
-    p.drawText( 5, 80, tr(target));
+    p.drawText( 5, 80,s3);
 
+    char position_string[3];
+    position_string[2]='\0';
+    if(car.position<=9)
+    {
+        position_string[1]='\0';
+        position_string[0]='0'+car.position;
+    }
+    else
+    {
+        position_string[0]='1';
+        position_string[1]='0'+car.position%10;
+    }
+    QString s4 =position_string;
+    s4.prepend("position:");
+    p.drawText( 5, 50, s4);
 
-
+    QString s5 =QString();
+    s5.setNum(TIME,10);
+    s5.prepend("TIME:");
+    p.drawText( 5, 20, s5);
 }
