@@ -43,9 +43,9 @@ int main(int argc, char** argv)
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
-    QApplication a(argc, argv);
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();
