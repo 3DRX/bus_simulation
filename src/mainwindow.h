@@ -39,6 +39,11 @@ class MainWindow : public QMainWindow {
     void paintBus(void);
     void moveBus(void);
 
+    /**绘制输出区
+     */
+    void paintoutput(void);
+
+
   protected:
     void paintEvent(QPaintEvent *);
 

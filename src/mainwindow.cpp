@@ -19,6 +19,8 @@
 extern ENVIRONMENT env;
 extern GLOB global;
 extern CAR car;
+extern STATION station;
+extern TIME;
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -95,6 +97,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     paintStations();
     moveBus();
     paintBus();
+    paintoutput();
     QPainter painter(this);
     painter.drawPixmap(0, 0, pix);
     pix.fill(Qt::white);
@@ -229,4 +232,48 @@ void MainWindow::moveBus(void)
             global.glob_state_refresh = true;
         }
     }
+}
+
+void MainWindow::paintoutput(void)
+{
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setPen(QPen(Qt::black, 2));
+    QRectF rectangle(800, 25, 200, 150);
+    char counterclockwise_string[env.TOTAL_STATION+1];
+    counterclockwise_string[env.TOTAL_STATION]='\0';
+    for(int i=0;i<env.TOTAL_STATION;i++)
+    {
+        counterclockwise_string[i]='0'+station.counterclockwise[i];
+    }
+    QString s1 =counterclockwise_string;
+    s1.prepend("counterclockwise:");
+    p.drawRect(rectangle);
+    p.translate(800, 25);
+    p.drawText( 5, 140, tr(counterclockwise_string));
+
+    char clockwise_string[env.TOTAL_STATION+1];
+    clockwise_string[env.TOTAL_STATION]='\0';
+    for(int i=0;i<env.TOTAL_STATION;i++)
+    {
+        clockwise_string[i]='0'+station.clockwise[i];
+    }
+    QString s2 =clockwise_string;
+    s2.prepend("clockwise:");
+    p.drawRect(rectangle);
+    p.drawText( 5, 110, tr(clockwise_string));
+
+    char target_string[];
+
+    for(int i=0;i<;i++)
+    {
+
+    }
+    QString s3 =target_string;
+    s3.prepend("target:");
+    p.drawRect(rectangle);
+    p.drawText( 5, 80, tr(target));
+
+
+
 }
