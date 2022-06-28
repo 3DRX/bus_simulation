@@ -107,11 +107,11 @@ void MainWindow::paintEvent(QPaintEvent*)
 void MainWindow::paintBackground(void)
 {
     // the big circle
-    // center: (512, 350)    radious: 300
+    // center: (390, 350)    radious: 300
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(QPen(Qt::black, 6));
-    QRectF rectangle(512 - 300, 350 - 300, 600, 600);
+    QRectF rectangle(390 - 300, 350 - 300, 600, 600);
     p.drawEllipse(rectangle);
 }
 
@@ -120,7 +120,7 @@ void MainWindow::paintStations(void)
     double theta = (double)360 / (env.TOTAL_STATION * env.DISTANCE);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
-    p.translate(512, 350);
+    p.translate(390, 350);
     for (int i = 0; i < (env.TOTAL_STATION * env.DISTANCE); i++) {
         double angle = theta * i;
         if ((i % env.DISTANCE) != 0) {
@@ -152,12 +152,12 @@ void MainWindow::paintStations(void)
             // draw text
             // 转回原来的角度，使数字是正的
             p.rotate((double)(360 - (i * ((double)360 / (env.TOTAL_STATION * env.DISTANCE)))));
-            QFont font("arial", 18, QFont::Bold, false);
+            QFont font("arial", 12, QFont::Bold, false);
             p.setFont(font);
             p.setPen(Qt::white);
             // 手动极坐标，+5-5是为了让字（而不是字的左下角）在圆中央
-            p.drawText((300 * std::cos(angle * PI / 180)) - 5,
-                (300 * std::sin(angle * PI / 180)) + 5, tr(a));
+            p.drawText((300 * std::cos(angle * PI / 180)) - 10,
+                (300 * std::sin(angle * PI / 180)) + 7, tr(a));
             p.restore();
         }
         p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
@@ -171,7 +171,7 @@ void MainWindow::paintBus(void)
     static auto last_state = GLOB::COUNTERCLOCKWISE;
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
-    p.translate(512, 350);
+    p.translate(390, 350);
     p.rotate(global.car_theta);
     QString imgname;
     if (global.car_state == GLOB::CLOCKWISE) {
@@ -241,7 +241,7 @@ void MainWindow::paintoutput(void)
     p.setPen(QPen(Qt::black, 2));
     QFont font("arial", 10, QFont::Bold, false);
     p.setFont(font);
-    QRectF rectangle(800, 25, 200, 150);
+    QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
 
     char counterclockwise_string[env.TOTAL_STATION + 1];
@@ -251,7 +251,7 @@ void MainWindow::paintoutput(void)
     }
     QString s1 = counterclockwise_string;
     s1.prepend("counterclockwise:");
-    p.translate(800, 25);
+    p.translate(700, 25);
     p.drawText(5, 140, s1);
 
     char clockwise_string[env.TOTAL_STATION + 1];
