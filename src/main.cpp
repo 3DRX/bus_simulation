@@ -5,6 +5,7 @@
 #include "output.h"
 #include "strategy.h"
 #include <cstdio>
+#include <qnamespace.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -43,6 +44,8 @@ int main(int argc, char** argv)
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
     QApplication a(argc, argv);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     MainWindow w;
     w.show();
     return a.exec();

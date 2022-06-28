@@ -244,55 +244,49 @@ void MainWindow::paintoutput(void)
     QRectF rectangle(800, 25, 200, 150);
     p.drawRect(rectangle);
 
-    char counterclockwise_string[env.TOTAL_STATION+1];
-    counterclockwise_string[env.TOTAL_STATION]='\0';
-    for(int i=0;i<env.TOTAL_STATION;i++)
-    {
-        counterclockwise_string[i]='0'+station.counterclockwise[0][i];
+    char counterclockwise_string[env.TOTAL_STATION + 1];
+    counterclockwise_string[env.TOTAL_STATION] = '\0';
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
     }
-    QString s1 =counterclockwise_string;
+    QString s1 = counterclockwise_string;
     s1.prepend("counterclockwise:");
     p.translate(800, 25);
-    p.drawText( 5, 140, s1);
+    p.drawText(5, 140, s1);
 
-    char clockwise_string[env.TOTAL_STATION+1];
-    clockwise_string[env.TOTAL_STATION]='\0';
-    for(int i=0;i<env.TOTAL_STATION;i++)
-    {
-        clockwise_string[i]='0'+station.clockwise[0][i];
+    char clockwise_string[env.TOTAL_STATION + 1];
+    clockwise_string[env.TOTAL_STATION] = '\0';
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        clockwise_string[i] = '0' + station.clockwise[0][i];
     }
-    QString s2 =clockwise_string;
-    QString s22 = QString("clockwise:")+s2;
-    p.drawText( 5, 110, s22);
+    QString s2 = clockwise_string;
+    QString s22 = QString("clockwise:") + s2;
+    p.drawText(5, 110, s22);
 
-    char target_string[env.TOTAL_STATION+1];
-    target_string[env.TOTAL_STATION]='\0';
-    for(int i=0;i<env.TOTAL_STATION;i++)
-    {
-        target_string[i]='0'+car.target[0][i];
+    char target_string[env.TOTAL_STATION + 1];
+    target_string[env.TOTAL_STATION] = '\0';
+    for (int i = 0; i < env.TOTAL_STATION; i++) {
+        target_string[i] = '0' + car.target[0][i];
     }
-    QString s3 =target_string;
+    QString s3 = target_string;
     s3.prepend("target:");
-    p.drawText( 5, 80,s3);
+    p.drawText(5, 80, s3);
 
     char position_string[3];
-    position_string[2]='\0';
-    if(car.position<=9)
-    {
-        position_string[1]='\0';
-        position_string[0]='0'+car.position;
+    position_string[2] = '\0';
+    if (car.position <= 9) {
+        position_string[1] = '\0';
+        position_string[0] = '0' + car.position;
+    } else {
+        position_string[0] = '1';
+        position_string[1] = '0' + car.position % 10;
     }
-    else
-    {
-        position_string[0]='1';
-        position_string[1]='0'+car.position%10;
-    }
-    QString s4 =position_string;
+    QString s4 = position_string;
     s4.prepend("position:");
-    p.drawText( 5, 50, s4);
+    p.drawText(5, 50, s4);
 
-    QString s5 =QString();
-    s5.setNum(TIME,10);
+    QString s5 = QString();
+    s5.setNum(TIME, 10);
     s5.prepend("TIME:");
-    p.drawText( 5, 20, s5);
+    p.drawText(5, 20, s5);
 }
