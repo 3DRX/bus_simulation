@@ -4,11 +4,13 @@
 #include "mainwindow.h"
 
 #include <QDialog>
+#include <QLabel>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
 #include <cmath>
 #include <cstdio>
+#include <qnamespace.h>
 #include <sys/time.h>
 
 #define PI 3.1415926535897932384626
@@ -161,15 +163,29 @@ void MainWindow::paintStations(void)
 
 void MainWindow::paintBus(void)
 {
+    // 车两种方向的车头朝向变化是读取两个图片（懒得写代码去变换）
+    // 车停车后会保持停车之前的车头朝向
+    static auto last_state = GLOB::COUNTERCLOCKWISE;
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.translate(512, 350);
     p.rotate(global.car_theta);
-    // draw the bus
-    QRectF rectangle(240, -20, 40, 40);
-    p.setPen(Qt::red);
-    p.setBrush(Qt::red);
-    p.drawRect(rectangle);
+    QString imgname;
+    if (global.car_state == GLOB::CLOCKWISE) {
+        imgname = QString("./resources/bus_icon2.png");
+        last_state = GLOB::CLOCKWISE;
+    } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+        imgname = QString("./resources/bus_icon.png");
+        last_state = GLOB::COUNTERCLOCKWISE;
+    } else {
+        if (last_state == GLOB::CLOCKWISE) {
+            imgname = QString("./resources/bus_icon2.png");
+        } else {
+            imgname = QString("./resources/bus_icon.png");
+        }
+    }
+    QPixmap pixmap(imgname);
+    p.drawPixmap(240, -20, 40, 40, pixmap);
 }
 
 void MainWindow::moveBus(void)
