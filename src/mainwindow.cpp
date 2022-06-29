@@ -103,6 +103,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     }
     paintBus();
     paintoutput();
+    paintlight();
     QPainter painter(this);
     painter.drawPixmap(0, 0, pix);
     pix.fill(Qt::white);
@@ -250,7 +251,7 @@ void MainWindow::paintoutput(void)
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
 
-    //counterclockwise的输出
+    // counterclockwise的输出
     char counterclockwise_string[env.TOTAL_STATION + 1];
     counterclockwise_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -259,9 +260,13 @@ void MainWindow::paintoutput(void)
     QString s1 = counterclockwise_string;
     s1.prepend("counterclockwise:");
     p.translate(700, 25);
-    p.drawText(5, 140, s1);
+    p.drawText(20, 140, s1);
+    QRectF rectangle11(5, 130, 10, 10); //右上角红色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::red);
+    p.drawEllipse(rectangle11);
 
-    //clockwise的输出
+    // clockwise的输出
     char clockwise_string[env.TOTAL_STATION + 1];
     clockwise_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -269,9 +274,13 @@ void MainWindow::paintoutput(void)
     }
     QString s2 = clockwise_string;
     QString s22 = QString("clockwise:") + s2;
-    p.drawText(5, 110, s22);
+    p.drawText(20, 110, s22);
+    QRectF rectangle22(5, 100, 10, 10); //右上角黄色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::yellow);
+    p.drawEllipse(rectangle22);
 
-    //target的输出
+    // target的输出
     char target_string[env.TOTAL_STATION + 1];
     target_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -279,17 +288,56 @@ void MainWindow::paintoutput(void)
     }
     QString s3 = target_string;
     s3.prepend("target:");
-    p.drawText(5, 80, s3);
+    p.drawText(20, 80, s3);
+    QRectF rectangle33(5, 70, 10, 10); //右上角蓝色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::blue);
+    p.drawEllipse(rectangle33);
 
-    //position的输出
+    // position的输出
     QString s4 = QString();
     s4.setNum(car.position, 10);
     s4.prepend("position:");
     p.drawText(5, 50, s4);
 
-    //TIME的输出
+    // TIME的输出
     QString s5 = QString();
     s5.setNum(TIME, 10);
     s5.prepend("TIME:");
     p.drawText(5, 20, s5);
+}
+
+void MainWindow::paintlight(void) //画出站点指示灯
+{
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.translate(390, 350);
+    for (int i = 0; i < (env.TOTAL_STATION); i++) {
+        // draw light
+        QRectF rectangle1(330, -25, 10, 10);
+        p.setPen(Qt::black);
+        if (station.counterclockwise[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::red);
+        }
+        p.drawEllipse(rectangle1);
+
+        QRectF rectangle2(330, -5, 10, 10);
+        if (station.clockwise[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::yellow);
+        }
+        p.drawEllipse(rectangle2);
+
+        QRectF rectangle3(330, 15, 10, 10);
+        if (car.target[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::blue);
+        }
+        p.drawEllipse(rectangle3);
+        p.rotate((double)360 / (env.TOTAL_STATION));
+    }
 }

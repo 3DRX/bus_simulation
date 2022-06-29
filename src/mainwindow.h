@@ -42,6 +42,7 @@ private:
     /**绘制输出区
      */
     void paintoutput(void);
+    void paintlight(void);
 
 protected:
     void paintEvent(QPaintEvent*);
