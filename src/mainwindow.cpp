@@ -299,51 +299,36 @@ void MainWindow::paintoutput(void)
 
 void MainWindow::paintlight(void)
 {
-    double theta = (double)360 / (env.TOTAL_STATION * env.DISTANCE);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.translate(390, 350);
-    for (int i = 0; i < (env.TOTAL_STATION * env.DISTANCE); i++)
-    {
-            // draw light
-            QRectF rectangle1(330, -25, 10, 10);
-            p.setPen(Qt::black);
-            if(station.counterclockwise[0][i]==0)
-            {
-                p.setBrush(Qt::gray);
-            }
-            else
-            {
-                p.setBrush(Qt::red);
-            }
-            p.drawEllipse(rectangle1);
-            p.save();
+    for (int i = 0; i < (env.TOTAL_STATION * env.DISTANCE); i++) {
+        printf("target:%d\n", car.target[0][i]);
+        // draw light
+        QRectF rectangle1(330, -25, 10, 10);
+        p.setPen(Qt::black);
+        if (station.counterclockwise[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::red);
+        }
+        p.drawEllipse(rectangle1);
 
-            QRectF rectangle2(330, -5, 10, 10);
-            p.setPen(Qt::black);
-            if(station.clockwise[0][i]==0)
-            {
-                p.setBrush(Qt::gray);
-            }
-            else
-            {
-                p.setBrush(Qt::yellow);
-            }
-            p.drawEllipse(rectangle2);
-            p.save();
+        QRectF rectangle2(330, -5, 10, 10);
+        if (station.clockwise[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::yellow);
+        }
+        p.drawEllipse(rectangle2);
 
-            QRectF rectangle3(330, 15, 10, 10);
-            p.setPen(Qt::black);
-            if(car.target[0][i]==0)
-            {
-                p.setBrush(Qt::gray);
-            }
-            else
-            {
-                p.setBrush(Qt::blue);
-            }
-            p.drawEllipse(rectangle3);
-            p.save();
+        QRectF rectangle3(330, 15, 10, 10);
+        if (car.target[0][i] == 0) {
+            p.setBrush(Qt::gray);
+        } else {
+            p.setBrush(Qt::blue);
+        }
+        p.drawEllipse(rectangle3);
 
         p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
     }
