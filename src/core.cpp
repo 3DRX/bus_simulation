@@ -63,8 +63,8 @@ void initGame(void)
     // 输出TIME: 0
     // printLines();
     // ============test
-    // car.target[0][6] = 1;
-    // car.target[1][6] = 1;
+    car.target[0][6] = 1;
+    car.target[1][6] = 1;
 }
 
 /**按照自然时间的变化，每过一秒将TIME+1

@@ -241,6 +241,7 @@ void MainWindow::moveBus(void)
 
 void MainWindow::paintoutput(void)
 {
+    //画出右上角长方形
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(QPen(Qt::black, 2));
@@ -249,6 +250,7 @@ void MainWindow::paintoutput(void)
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
 
+    //counterclockwise的输出
     char counterclockwise_string[env.TOTAL_STATION + 1];
     counterclockwise_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -259,6 +261,7 @@ void MainWindow::paintoutput(void)
     p.translate(700, 25);
     p.drawText(5, 140, s1);
 
+    //clockwise的输出
     char clockwise_string[env.TOTAL_STATION + 1];
     clockwise_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -268,6 +271,7 @@ void MainWindow::paintoutput(void)
     QString s22 = QString("clockwise:") + s2;
     p.drawText(5, 110, s22);
 
+    //target的输出
     char target_string[env.TOTAL_STATION + 1];
     target_string[env.TOTAL_STATION] = '\0';
     for (int i = 0; i < env.TOTAL_STATION; i++) {
@@ -277,19 +281,13 @@ void MainWindow::paintoutput(void)
     s3.prepend("target:");
     p.drawText(5, 80, s3);
 
-    char position_string[3];
-    position_string[2] = '\0';
-    if (car.position <= 9) {
-        position_string[1] = '\0';
-        position_string[0] = '0' + car.position;
-    } else {
-        position_string[0] = '1';
-        position_string[1] = '0' + car.position % 10;
-    }
-    QString s4 = position_string;
+    //position的输出
+    QString s4 = QString();
+    s4.setNum(car.position, 10);
     s4.prepend("position:");
     p.drawText(5, 50, s4);
 
+    //TIME的输出
     QString s5 = QString();
     s5.setNum(TIME, 10);
     s5.prepend("TIME:");
