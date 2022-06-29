@@ -55,9 +55,13 @@ void finishRequest(int stationNumber, int direction, int ifDelay);
  */
 void carClockwise(void);
 
-/**车辆拟时针移动一个单位长度
+/**车辆逆时针移动一个单位长度
  */
 void carCounterClockwise(void);
+
+/**车辆原地不动
+ */
+void carStop(void);
 
 /**检测car当前的位置有没有请求
  * direction: 1 顺时针，2 逆时针
@@ -102,7 +106,7 @@ void strategy(void)
             } else if (env.STRATEGY == ENVIRONMENT::SCAN) {
                 modeSCAN();
             }
-            printf("update strategy\n");
+            // printf("update strategy\n");
         }
     }
 }
@@ -110,9 +114,11 @@ void strategy(void)
 void modeSSTF(void)
 {
     // 状态变量，初始化为STOP
-    static enum { STOP,
+    static enum {
+        STOP,
         CLOCKWISE,
-        COUNTERCLOCKWISE } state
+        COUNTERCLOCKWISE
+    } state
         = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if (state == STOP) {
@@ -122,6 +128,7 @@ void modeSSTF(void)
         }
         // 确定行驶方向
         if (s_dest_stationNumber == -1) { // 如果当前没有请求，什么也不做
+            carStop();
         } else if (orient(getPositionIndex(s_dest_stationNumber)) == 1) {
             state = CLOCKWISE;
             carClockwise();
@@ -132,6 +139,7 @@ void modeSSTF(void)
     } else if (state == CLOCKWISE) {
         if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
             state = STOP;
+            carStop();
             finishRequest(s_dest_stationNumber, 0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
@@ -141,6 +149,7 @@ void modeSSTF(void)
             s_dest_stationNumber = -1; // 重置
         } else if (haveRequest(CLOCKWISE) == TRUE) { // 没到目标站但是途径站
             state = STOP;
+            carStop();
             finishRequest(getStationNumber(car.position), 1, TRUE);
         } else {
             carClockwise();
@@ -148,6 +157,7 @@ void modeSSTF(void)
     } else if (state == COUNTERCLOCKWISE) {
         if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
             state = STOP;
+            carStop();
             finishRequest(s_dest_stationNumber, 0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
@@ -157,6 +167,7 @@ void modeSSTF(void)
             s_dest_stationNumber = -1; // 重置
         } else if (haveRequest(COUNTERCLOCKWISE) == TRUE) { // 没到目标站但是途径站
             state = STOP;
+            carStop();
             finishRequest(getStationNumber(car.position), 2, TRUE);
         } else {
             carCounterClockwise();
@@ -185,10 +196,10 @@ void modeFCFS(void)
             env.presentWorkingPtr = env.presentWorkingPtr->next;
             state = WORKING;
             dest_positionIndex = getPositionIndex(env.presentWorkingPtr->stationNumber);
-            if (car.position == dest_positionIndex) /*停车状态新请求为本站请求，
-          直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
-          若无其他请求则仍回到NO_TASK状态*/
-            {
+            if (car.position == dest_positionIndex) {
+                // 停车状态新请求为本站请求，
+                //直接跳过所有本站请求,如果后续有其他请求则直接开始执行，
+                // 若无其他请求则仍回到NO_TASK状态
                 while (env.presentWorkingPtr->next) {
                     if (env.presentWorkingPtr->next->stationNumber == env.presentWorkingPtr->stationNumber) {
                         env.presentWorkingPtr = env.presentWorkingPtr->next;
@@ -197,9 +208,8 @@ void modeFCFS(void)
                     }
                     //将指针定位到最后一个与当前请求相同的节点，以上请求视为全部同时完成
                 }
-                if (env.presentWorkingPtr
-                        ->next) //如果后续有其他非本站节点则开始执行
-                {
+                if (env.presentWorkingPtr->next) {
+                    //如果后续有其他非本站节点则开始执行
                     updateBuf(env.presentWorkingPtr->next);
                     env.presentWorkingPtr = env.presentWorkingPtr->next;
                     dest_positionIndex = getPositionIndex(env.presentWorkingPtr->stationNumber);
@@ -208,11 +218,12 @@ void modeFCFS(void)
                     } else {
                         carCounterClockwise();
                     }
-                } else /*新的一秒中所有请求都为停车位置本站请求，视为瞬间全部完成，
-                   状态保持为NO_TASK*/
-                {
+                } else {
+                    // 新的一秒中所有请求都为停车位置本站请求，视为瞬间全部完成，
+                    // 状态保持为NO_TASK
                     updateBuf(NULL);
                     state = NO_TASK;
+                    carStop();
                 }
             } else {
                 if (orient(dest_positionIndex) == 1) {
@@ -227,6 +238,7 @@ void modeFCFS(void)
     {
         if (car.position == dest_positionIndex) //当前请求已完成，判定后续节点请求可否同时完成
         {
+            carStop();
             state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
             while (env.presentWorkingPtr->next) {
                 if (env.presentWorkingPtr->next->stationNumber == env.presentWorkingPtr->stationNumber) {
@@ -271,6 +283,7 @@ void modeSCAN(void)
         //首先无脑完成本站请求
         if (SSTFfindNearestStationNumber() == -1) {
             state = STOP; //没有非本站新请求，继续保持停运停车状态
+            carStop();
         } else if (orient(getPositionIndex(SSTFfindNearestStationNumber())) == 1) {
             //有非本站新请求，顺时针方向距离更近
             state = CLOCKWISE;
@@ -290,6 +303,7 @@ void modeSCAN(void)
         if (AreThereAnyRequest() == -1) {
             finishRequest(getStationNumber(car.position), 0, FALSE);
             state = STOP;
+            carStop();
         } else if (nearestDistance * 2 > env.TOTAL_STATION * env.DISTANCE) {
             state = COUNTERCLOCKWISE;
             carCounterClockwise();
@@ -303,6 +317,7 @@ void modeSCAN(void)
         if (AreThereAnyRequest() == -1) {
             finishRequest(getStationNumber(car.position), 0, FALSE);
             state = STOP;
+            carStop();
         } else if (nearestDistance * 2 > env.TOTAL_STATION * env.DISTANCE) {
             state = CLOCKWISE;
             carClockwise();
@@ -321,6 +336,7 @@ void modeSCAN(void)
             if (AreThereAnyRequest() == -1) {
                 finishRequest(getStationNumber(car.position), 0, FALSE);
                 state = STOP;
+                carStop();
             }
         } else {
             carClockwise();
@@ -332,6 +348,7 @@ void modeSCAN(void)
             if (AreThereAnyRequest() == -1) {
                 finishRequest(getStationNumber(car.position), 0, FALSE);
                 state = STOP;
+                carStop();
             }
         } else {
             carCounterClockwise();
@@ -497,22 +514,29 @@ void finishRequest(int stationNumber, int direction, int ifDelay)
     }
 }
 
-void carClockwise()
+void carClockwise(void)
 {
-    if (car.position != env.DISTANCE * env.TOTAL_STATION - 1) {
-        car.position++;
-    } else {
-        car.position = 0;
-    }
+    // if (car.position != env.DISTANCE * env.TOTAL_STATION - 1) {
+    // car.position++;
+    //} else {
+    // car.position = 0;
+    //}
+    global.car_state = GLOB::CLOCKWISE;
 }
 
-void carCounterClockwise()
+void carCounterClockwise(void)
 {
-    if (car.position != 0) {
-        car.position--;
-    } else {
-        car.position = env.DISTANCE * env.TOTAL_STATION - 1;
-    }
+    // if (car.position != 0) {
+    // car.position--;
+    //} else {
+    // car.position = env.DISTANCE * env.TOTAL_STATION - 1;
+    //}
+    global.car_state = GLOB::COUNTERCLOCKWISE;
+}
+
+void carStop(void)
+{
+    global.car_state = GLOB::STOP;
 }
 
 short haveRequest(short direction)

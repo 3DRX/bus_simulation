@@ -58,7 +58,13 @@ void initGame(void)
     // 初始化env.presentWorkingPtr
     env.presentWorkingPtr = NULL;
     // 输出TIME: 0
-    printLines();
+    // printLines();
+}
+
+/**按照自然时间的变化，每过一秒将TIME+1
+ */
+void timeControl(void)
+{
 }
 
 /**当输入检测到end之后，mainLoop会结束
@@ -71,7 +77,8 @@ void mainLoop()
         // readOrder();
     }
     strategy();
-    outPut();
+    // outPut();
+    timeControl();
 }
 
 CoreThread::CoreThread() { }

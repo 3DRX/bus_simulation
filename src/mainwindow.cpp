@@ -68,8 +68,7 @@ void MainWindow::clockwisePressed()
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::CLOCKWISE;
         button_clockwise->setDisabled(true);
-    } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
-        // TODO: 这里应不应该直接掉头？
+        button_counterclockwise->setDisabled(true);
     }
 }
 
@@ -77,9 +76,8 @@ void MainWindow::counterclockwisePressed()
 {
     if (global.car_state == GLOB::STOP) {
         global.car_state = GLOB::COUNTERCLOCKWISE;
+        button_clockwise->setDisabled(true);
         button_counterclockwise->setDisabled(true);
-    } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
-        // TODO: 这里应不应该直接掉头？
     }
 }
 
@@ -188,7 +186,7 @@ void MainWindow::paintBus(void)
         }
     }
     QPixmap pixmap(imgname);
-    p.drawPixmap(240, -20, 40, 40, pixmap);
+    p.drawPixmap(210, -30, 60, 60, pixmap);
 }
 
 void MainWindow::moveBus(void)
