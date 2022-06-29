@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstdio>
 #include <qnamespace.h>
+#include <qsize.h>
 #include <sys/time.h>
 
 #define PI 3.1415926535897932384626
@@ -32,65 +33,53 @@ MainWindow::MainWindow(QWidget* parent)
     resize(1024, 768);
     pix = QPixmap(1024, 700);
     pix.fill(Qt::white);
+    setMinimumSize(1024, 768);
+    setMaximumSize(1024, 768);
     // 创建按钮
-    button_next = new QPushButton(this);
-    button_next->setText(tr("next"));
-    button_next->move(920, 701);
-    connect(button_next, SIGNAL(clicked()), this, SLOT(next()));
     button_start = new QPushButton(this);
     button_start->setText(tr("start"));
     button_start->move(0, 701);
-    connect(button_start, SIGNAL(clicked()), this, SLOT(start()));
-    button_clockwise = new QPushButton(this);
-    button_clockwise->setText(tr("clockwise"));
-    button_clockwise->move(920, 740);
-    connect(button_clockwise, SIGNAL(clicked()), this,
-        SLOT(clockwisePressed()));
-    button_counterclockwise = new QPushButton(this);
-    button_counterclockwise->setText(tr("counterclockwise"));
-    button_counterclockwise->move(0, 740);
-    connect(button_counterclockwise, SIGNAL(clicked()), this,
-        SLOT(counterclockwisePressed()));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
     button_stop = new QPushButton(this);
     button_stop->setText(tr("stop"));
-    button_stop->move(460, 740);
+    button_stop->move(0, 740);
     connect(button_stop, SIGNAL(clicked()), this, SLOT(stopPressed()));
+    button_stop->setDisabled(true);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::next() { global.ifWait = false; }
+void MainWindow::restartPressed()
+{
+    // global.ifWait = false;
+    // TODO: 删除ifWait
+    button_start->setText(tr("start"));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
+    button_stop->setDisabled(true);
+    button_start->setDisabled(false);
+    global.ifWait = true;
+    global.car_theta = 0;
+    global.car_state = GLOB::STOP;
+    global.glob_state_refresh = false;
+    global.startGame = false;
+    initGame();
+}
 
-void MainWindow::start()
+void MainWindow::startPressed()
 {
     global.startGame = true;
     global.glob_state_refresh = true;
     button_start->setDisabled(true);
-}
-
-void MainWindow::clockwisePressed()
-{
-    if (global.car_state == GLOB::STOP) {
-        global.car_state = GLOB::CLOCKWISE;
-        button_clockwise->setDisabled(true);
-        button_counterclockwise->setDisabled(true);
-    }
-}
-
-void MainWindow::counterclockwisePressed()
-{
-    if (global.car_state == GLOB::STOP) {
-        global.car_state = GLOB::COUNTERCLOCKWISE;
-        button_clockwise->setDisabled(true);
-        button_counterclockwise->setDisabled(true);
-    }
+    button_stop->setDisabled(false);
 }
 
 void MainWindow::stopPressed()
 {
-    global.car_state = GLOB::STOP;
-    button_counterclockwise->setDisabled(false);
-    button_clockwise->setDisabled(false);
+    global.startGame = false;
+    button_start->setDisabled(false);
+    button_stop->setDisabled(true);
+    button_start->setText(tr("restart"));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(restartPressed()));
 }
 
 void MainWindow::paintEvent(QPaintEvent*)
@@ -246,7 +235,7 @@ void MainWindow::paintoutput(void)
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(QPen(Qt::black, 2));
-    QFont font("arial", 10, QFont::Bold, false);
+    QFont font("arial", 11, QFont::Bold, false);
     p.setFont(font);
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);

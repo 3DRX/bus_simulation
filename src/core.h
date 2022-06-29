@@ -6,11 +6,13 @@
 class CoreThread : public QThread {
     Q_OBJECT
 
-  public:
+public:
     CoreThread();
 
-  protected:
+protected:
     void run();
 };
+
+void initGame(void);
 
 #endif

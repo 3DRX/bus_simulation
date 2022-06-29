@@ -21,10 +21,7 @@ public:
 private:
     Ui::MainWindow* ui;
     QPixmap pix;
-    QPushButton* button_next;
     QPushButton* button_start;
-    QPushButton* button_clockwise;
-    QPushButton* button_counterclockwise;
     QPushButton* button_stop;
 
     //=====private functions=====
@@ -39,7 +36,7 @@ private:
     void paintBus(void);
     void moveBus(void);
 
-    /**绘制输出区
+    /**绘制输出区和指示灯
      */
     void paintoutput(void);
     void paintlight(void);
@@ -48,14 +45,10 @@ protected:
     void paintEvent(QPaintEvent*);
 
 private slots:
-    // 按next按钮触发的回调函数
-    void next();
+    // 按restart按钮触发的回调函数
+    void restartPressed();
     // 按start按钮触发的回调函数
-    void start();
-    // 按clockwise按钮出发的回调函数
-    void clockwisePressed();
-    // 按counterclockwise按钮出发的回调函数
-    void counterclockwisePressed();
+    void startPressed();
     // 按stop按钮触发的回调函数
     void stopPressed();
 };
