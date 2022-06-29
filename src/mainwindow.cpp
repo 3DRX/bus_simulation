@@ -258,7 +258,11 @@ void MainWindow::paintoutput(void)
     QString s1 = counterclockwise_string;
     s1.prepend("counterclockwise:");
     p.translate(700, 25);
-    p.drawText(5, 140, s1);
+    p.drawText(20, 140, s1);
+    QRectF rectangle11(5, 130, 10, 10);//右上角红色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::red);
+    p.drawEllipse(rectangle11);
 
     char clockwise_string[env.TOTAL_STATION + 1];
     clockwise_string[env.TOTAL_STATION] = '\0';
@@ -267,7 +271,11 @@ void MainWindow::paintoutput(void)
     }
     QString s2 = clockwise_string;
     QString s22 = QString("clockwise:") + s2;
-    p.drawText(5, 110, s22);
+    p.drawText(20, 110, s22);
+    QRectF rectangle22(5, 100, 10, 10);//右上角黄色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::yellow);
+    p.drawEllipse(rectangle22);
 
     char target_string[env.TOTAL_STATION + 1];
     target_string[env.TOTAL_STATION] = '\0';
@@ -276,18 +284,14 @@ void MainWindow::paintoutput(void)
     }
     QString s3 = target_string;
     s3.prepend("target:");
-    p.drawText(5, 80, s3);
+    p.drawText(20, 80, s3);
+    QRectF rectangle33(5, 70, 10, 10);//右上角蓝色图例
+    p.setPen(Qt::black);
+    p.setBrush(Qt::blue);
+    p.drawEllipse(rectangle33);
 
-    char position_string[3];
-    position_string[2] = '\0';
-    if (car.position <= 9) {
-        position_string[1] = '\0';
-        position_string[0] = '0' + car.position;
-    } else {
-        position_string[0] = '1';
-        position_string[1] = '0' + car.position % 10;
-    }
-    QString s4 = position_string;
+    QString s4 = QString();
+    s4.setNum(car.position, 10);
     s4.prepend("position:");
     p.drawText(5, 50, s4);
 
@@ -297,13 +301,12 @@ void MainWindow::paintoutput(void)
     p.drawText(5, 20, s5);
 }
 
-void MainWindow::paintlight(void)
+void MainWindow::paintlight(void)//画出站点指示灯
 {
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.translate(390, 350);
-    for (int i = 0; i < (env.TOTAL_STATION * env.DISTANCE); i++) {
-        printf("target:%d\n", car.target[0][i]);
+    for (int i = 0; i < (env.TOTAL_STATION); i++) {
         // draw light
         QRectF rectangle1(330, -25, 10, 10);
         p.setPen(Qt::black);
@@ -329,7 +332,7 @@ void MainWindow::paintlight(void)
             p.setBrush(Qt::blue);
         }
         p.drawEllipse(rectangle3);
-
-        p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
+        p.rotate((double)360 / (env.TOTAL_STATION));
     }
 }
+
