@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #include <QApplication>
 
@@ -15,6 +16,8 @@ ENVIRONMENT env;
 CAR car;
 STATION station;
 int TIME = 0;
+
+extern GLOB global;
 
 void initGame(void)
 {
@@ -59,26 +62,40 @@ void initGame(void)
     env.presentWorkingPtr = NULL;
     // 输出TIME: 0
     // printLines();
+    // ============test
+    // car.target[0][6] = 1;
+    // car.target[1][6] = 1;
 }
 
 /**按照自然时间的变化，每过一秒将TIME+1
  */
 void timeControl(void)
 {
+    static int lastTIME = 0;
+    struct timeval tp;
+    gettimeofday(&tp, NULL);
+    if (lastTIME == 0 && TIME == 0) {
+        lastTIME = tp.tv_sec;
+    } else if (lastTIME != tp.tv_sec) {
+        lastTIME = tp.tv_sec;
+        TIME++;
+    }
 }
 
 /**当输入检测到end之后，mainLoop会结束
  */
 void mainLoop()
 {
-    if (env.STRATEGY == ENVIRONMENT::FCFS) {
-        // FCFS_readOrder();
-    } else {
-        // readOrder();
+    if (global.startGame == true) {
+        if (env.STRATEGY == ENVIRONMENT::FCFS) {
+            // FCFS_readOrder();
+        } else {
+            // readOrder();
+        }
+        strategy();
+        // outPut();
+        timeControl();
     }
-    strategy();
-    // outPut();
-    timeControl();
 }
 
 CoreThread::CoreThread() { }

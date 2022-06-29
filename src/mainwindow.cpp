@@ -37,10 +37,10 @@ MainWindow::MainWindow(QWidget* parent)
     button_next->setText(tr("next"));
     button_next->move(920, 701);
     connect(button_next, SIGNAL(clicked()), this, SLOT(next()));
-    button_previous = new QPushButton(this);
-    button_previous->setText(tr("previous"));
-    button_previous->move(0, 701);
-    connect(button_previous, SIGNAL(clicked()), this, SLOT(previous()));
+    button_start = new QPushButton(this);
+    button_start->setText(tr("start"));
+    button_start->move(0, 701);
+    connect(button_start, SIGNAL(clicked()), this, SLOT(start()));
     button_clockwise = new QPushButton(this);
     button_clockwise->setText(tr("clockwise"));
     button_clockwise->move(920, 740);
@@ -61,7 +61,12 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::next() { global.ifWait = false; }
 
-void MainWindow::previous() { printf("button_previous pressed\n"); }
+void MainWindow::start()
+{
+    global.startGame = true;
+    global.glob_state_refresh = true;
+    button_start->setDisabled(true);
+}
 
 void MainWindow::clockwisePressed()
 {
@@ -93,7 +98,9 @@ void MainWindow::paintEvent(QPaintEvent*)
     // 主绘图函数
     paintBackground();
     paintStations();
-    moveBus();
+    if (global.startGame == true) {
+        moveBus();
+    }
     paintBus();
     paintoutput();
     QPainter painter(this);

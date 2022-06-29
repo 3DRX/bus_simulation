@@ -93,21 +93,21 @@ int AreThereAnyRequest(void);
 
 void strategy(void)
 {
-    static auto last_car_pos = car.position;
-    static auto last_car_state = global.car_state;
+    // static auto last_car_pos = car.position;
+    // static auto last_car_state = global.car_state;
     if (global.glob_state_refresh == true) {
-        if (car.position != last_car_pos || global.car_state != last_car_state) {
-            last_car_pos = car.position;
-            last_car_state = global.car_state;
-            if (env.STRATEGY == ENVIRONMENT::FCFS) {
-                modeFCFS();
-            } else if (env.STRATEGY == ENVIRONMENT::SSTF) {
-                modeSSTF();
-            } else if (env.STRATEGY == ENVIRONMENT::SCAN) {
-                modeSCAN();
-            }
-            // printf("update strategy\n");
+        // if (car.position != last_car_pos || global.car_state != last_car_state) {
+        // last_car_pos = car.position;
+        // last_car_state = global.car_state;
+        if (env.STRATEGY == ENVIRONMENT::FCFS) {
+            modeFCFS();
+        } else if (env.STRATEGY == ENVIRONMENT::SSTF) {
+            modeSSTF();
+        } else if (env.STRATEGY == ENVIRONMENT::SCAN) {
+            modeSCAN();
         }
+        // printf("update strategy\n");
+        //}
     }
 }
 

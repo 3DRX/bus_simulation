@@ -14,18 +14,18 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
-  public:
-    MainWindow(QWidget *parent = nullptr);
+public:
+    MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-  private:
-    Ui::MainWindow *ui;
+private:
+    Ui::MainWindow* ui;
     QPixmap pix;
-    QPushButton *button_next;
-    QPushButton *button_previous;
-    QPushButton *button_clockwise;
-    QPushButton *button_counterclockwise;
-    QPushButton *button_stop;
+    QPushButton* button_next;
+    QPushButton* button_start;
+    QPushButton* button_clockwise;
+    QPushButton* button_counterclockwise;
+    QPushButton* button_stop;
 
     //=====private functions=====
 
@@ -43,15 +43,14 @@ class MainWindow : public QMainWindow {
      */
     void paintoutput(void);
 
+protected:
+    void paintEvent(QPaintEvent*);
 
-  protected:
-    void paintEvent(QPaintEvent *);
-
-  private slots:
+private slots:
     // 按next按钮触发的回调函数
     void next();
-    // 按previous按钮触发的回调函数
-    void previous();
+    // 按start按钮触发的回调函数
+    void start();
     // 按clockwise按钮出发的回调函数
     void clockwisePressed();
     // 按counterclockwise按钮出发的回调函数

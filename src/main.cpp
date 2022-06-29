@@ -34,6 +34,7 @@ void initMain(void)
     global.car_theta = 0;
     global.car_state = GLOB::STOP;
     global.glob_state_refresh = false;
+    global.startGame = false;
 }
 
 int main(int argc, char** argv)

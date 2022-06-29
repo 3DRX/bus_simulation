@@ -12,12 +12,14 @@
 typedef struct {
     int TOTAL_STATION;
     int DISTANCE;
-    enum { FCFS, SSTF, SCAN } STRATEGY;
-    struct Node *headnode;
-    struct Node *presentPtr;
-    struct Node *presentWorkingPtr;
-    FILE *input;
-    FILE *output;
+    enum { FCFS,
+        SSTF,
+        SCAN } STRATEGY;
+    struct Node* headnode;
+    struct Node* presentPtr;
+    struct Node* presentWorkingPtr;
+    FILE* input;
+    FILE* output;
 
 } ENVIRONMENT;
 
@@ -35,10 +37,10 @@ typedef struct {
 } STATION;
 
 typedef struct Node {
-    struct Node *prev; // always NULL in headnode
+    struct Node* prev; // always NULL in headnode
     int where; // -1 not FCFS; 1 car.target; 2 clockwise; 3 counterclockwise
     int stationNumber; // -1 not FCFS
-    struct Node *next;
+    struct Node* next;
 } NODE;
 
 // 用于线程之间共享信息
@@ -50,11 +52,15 @@ typedef struct {
 
     // 车的位置（角度theta）
     int car_theta;
-    enum { CLOCKWISE, COUNTERCLOCKWISE, STOP } car_state;
+    enum { CLOCKWISE,
+        COUNTERCLOCKWISE,
+        STOP } car_state;
 
     // 由车到每一个小站点触发，
     // strategy模块依靠这个判断是否更新策略
     bool glob_state_refresh;
+
+    bool startGame;
 } GLOB;
 
 #endif
