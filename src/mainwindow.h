@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QPushButton>
@@ -11,7 +12,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
@@ -23,6 +25,10 @@ private:
     QPixmap pix;
     QPushButton* button_start;
     QPushButton* button_stop;
+    QPushButton* button_input;
+    QLineEdit* editT;
+    QLineEdit* editC;
+    QLineEdit* editU;
 
     //=====private functions=====
 
@@ -41,6 +47,10 @@ private:
     void paintoutput(void);
     void paintlight(void);
 
+    /**绘制输入区
+     */
+    void paintInput(void);
+
 protected:
     void paintEvent(QPaintEvent*);
 
@@ -51,5 +61,7 @@ private slots:
     void startPressed();
     // 按stop按钮触发的回调函数
     void stopPressed();
+    // 按input按钮触发的回调函数
+    void inputPressed();
 };
 #endif // MAINWINDOW_H

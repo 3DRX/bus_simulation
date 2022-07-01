@@ -55,7 +55,8 @@ void initGame(void)
         env.headnode->stationNumber = -1;
         env.headnode->where = -1;
         env.presentPtr = env.headnode;
-    } else {
+    }
+    else {
         env.headnode = NULL;
     }
     // 初始化env.presentWorkingPtr
@@ -63,8 +64,8 @@ void initGame(void)
     // 输出TIME: 0
     // printLines();
     // ============test
-    car.target[0][6] = 1;
-    car.target[1][6] = 1;
+    // car.target[0][6] = 1;
+    // car.target[1][6] = 1;
 }
 
 /**按照自然时间的变化，每过一秒将TIME+1
@@ -76,7 +77,8 @@ void timeControl(void)
     gettimeofday(&tp, NULL);
     if (lastTIME == 0 && TIME == 0) {
         lastTIME = tp.tv_sec;
-    } else if (lastTIME != tp.tv_sec) {
+    }
+    else if (lastTIME != tp.tv_sec) {
         lastTIME = tp.tv_sec;
         TIME++;
     }
@@ -89,7 +91,8 @@ void mainLoop()
     if (global.startGame == true) {
         if (env.STRATEGY == ENVIRONMENT::FCFS) {
             // FCFS_readOrder();
-        } else {
+        }
+        else {
             // readOrder();
         }
         strategy();

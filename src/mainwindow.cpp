@@ -1,15 +1,20 @@
+#include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "core.h"
 #include "main.h"
-#include "mainwindow.h"
 
 #include <QDialog>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <ostream>
+#include <qlineedit.h>
 #include <qnamespace.h>
 #include <qsize.h>
 #include <sys/time.h>
@@ -45,6 +50,17 @@ MainWindow::MainWindow(QWidget* parent)
     button_stop->move(0, 740);
     connect(button_stop, SIGNAL(clicked()), this, SLOT(stopPressed()));
     button_stop->setDisabled(true);
+    // 创建文本框以及确认按钮
+    editT = new QLineEdit(this);
+    editC = new QLineEdit(this);
+    editU = new QLineEdit(this);
+    editT->setGeometry(700 + 90, 440 + 20, 100, 20);
+    editC->setGeometry(700 + 90, 440 + 20 + 50, 100, 20);
+    editU->setGeometry(700 + 90, 440 + 20 + 100, 100, 20);
+    button_input = new QPushButton(this);
+    button_input->setText(tr("input"));
+    button_input->move(900, 701);
+    connect(button_input, SIGNAL(clicked()), this, SLOT(inputPressed()));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -82,6 +98,98 @@ void MainWindow::stopPressed()
     connect(button_start, SIGNAL(clicked()), this, SLOT(restartPressed()));
 }
 
+int FCFS_checklist_gui(int where, int stationNumber)
+{
+    //用于检查新请求是否已有相同的未完成请求，若有则抛弃新请求
+    NODE* presentPtr = env.presentWorkingPtr;
+    while (presentPtr) {
+        if (where == presentPtr->where && stationNumber == presentPtr->stationNumber) {
+            return 1;
+        }
+        else {
+            presentPtr = presentPtr->next;
+        }
+    }
+    return 0;
+}
+
+void MainWindow::inputPressed()
+{
+    QString Tinput = editT->text();
+    QString Cinput = editC->text();
+    QString Uinput = editU->text();
+    editT->clear();
+    editC->clear();
+    editU->clear();
+    if (env.STRATEGY == ENVIRONMENT::FCFS) {
+        if (Tinput.toInt() <= env.TOTAL_STATION && Tinput.toInt() >= 1) {
+            if (FCFS_checklist_gui(1, Tinput.toInt()) != 1) {
+                NODE* prePtr = (NODE*)malloc(sizeof(NODE));
+                env.presentPtr->next = prePtr;
+                prePtr->prev = env.presentPtr;
+                prePtr->next = NULL;
+                env.presentPtr = env.presentPtr->next;
+                env.presentPtr->where = 1;
+                env.presentPtr->stationNumber = Tinput.toInt();
+            }
+        }
+        else {
+        }
+        if (Cinput.toInt() <= env.TOTAL_STATION && Cinput.toInt() >= 1) {
+            if (FCFS_checklist_gui(2, Tinput.toInt()) != 1) {
+                NODE* prePtr = (NODE*)malloc(sizeof(NODE));
+                env.presentPtr->next = prePtr;
+                prePtr->prev = env.presentPtr;
+                prePtr->next = NULL;
+                env.presentPtr = env.presentPtr->next;
+                env.presentPtr->where = 1;
+                env.presentPtr->stationNumber = Cinput.toInt();
+            }
+        }
+        else {
+        }
+        if (Uinput.toInt() <= env.TOTAL_STATION && Uinput.toInt() >= 1) {
+            if (FCFS_checklist_gui(3, Tinput.toInt()) != 1) {
+                NODE* prePtr = (NODE*)malloc(sizeof(NODE));
+                env.presentPtr->next = prePtr;
+                prePtr->prev = env.presentPtr;
+                prePtr->next = NULL;
+                env.presentPtr = env.presentPtr->next;
+                env.presentPtr->where = 1;
+                env.presentPtr->stationNumber = Uinput.toInt();
+            }
+        }
+        else {
+        }
+    }
+    else { // 非 FCFS 模式
+        if (Tinput.toInt() <= env.TOTAL_STATION && Tinput.toInt() >= 1) {
+            if (car.target[0][Tinput.toInt() - 1] != 1) {
+                car.target[0][Tinput.toInt() - 1] = 1;
+                car.target[1][Tinput.toInt() - 1] = 1;
+            }
+        }
+        else {
+        }
+        if (Cinput.toInt() <= env.TOTAL_STATION && Cinput.toInt() >= 1) {
+            if (station.clockwise[0][Cinput.toInt() - 1] != 1) {
+                station.clockwise[0][Cinput.toInt() - 1] = 1;
+                station.clockwise[1][Cinput.toInt() - 1] = 1;
+            }
+        }
+        else {
+        }
+        if (Uinput.toInt() <= env.TOTAL_STATION && Uinput.toInt() >= 1) {
+            if (station.counterclockwise[0][Uinput.toInt() - 1] != 1) {
+                station.counterclockwise[0][Uinput.toInt() - 1] = 1;
+                station.counterclockwise[1][Uinput.toInt() - 1] = 1;
+            }
+        }
+        else {
+        }
+    }
+}
+
 void MainWindow::paintEvent(QPaintEvent*)
 {
     // 主绘图函数
@@ -93,6 +201,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     paintBus();
     paintoutput();
     paintlight();
+    paintInput();
     QPainter painter(this);
     painter.drawPixmap(0, 0, pix);
     pix.fill(Qt::white);
@@ -124,17 +233,20 @@ void MainWindow::paintStations(void)
             p.setPen(Qt::black);
             p.setBrush(Qt::black);
             p.drawEllipse(rectangle);
-        } else {
+        }
+        else {
             char a[3];
             a[1] = '\0';
             a[2] = '\0';
             if (i == 0) {
                 a[0] = '1';
-            } else { // 咱就当他最多是10站吧
+            }
+            else { // 咱就当他最多是10站吧
                 if (i / env.DISTANCE == 9) {
                     a[0] = '1';
                     a[1] = '0';
-                } else {
+                }
+                else {
                     a[0] = '1' + i / env.DISTANCE;
                 }
             }
@@ -165,20 +277,23 @@ void MainWindow::paintBus(void)
     // 车停车后会保持停车之前的车头朝向
     static auto last_state = GLOB::COUNTERCLOCKWISE;
     QPainter p(&pix);
-    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     p.translate(390, 350);
     p.rotate(global.car_theta);
     QString imgname;
     if (global.car_state == GLOB::CLOCKWISE) {
         imgname = QString("./resources/bus_icon2.png");
         last_state = GLOB::CLOCKWISE;
-    } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+    }
+    else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
         imgname = QString("./resources/bus_icon.png");
         last_state = GLOB::COUNTERCLOCKWISE;
-    } else {
+    }
+    else {
         if (last_state == GLOB::CLOCKWISE) {
             imgname = QString("./resources/bus_icon2.png");
-        } else {
+        }
+        else {
             imgname = QString("./resources/bus_icon.png");
         }
     }
@@ -198,24 +313,30 @@ void MainWindow::moveBus(void)
     if (last_time == 10000 || ms - last_time >= 1000 / FPS || ms - last_time < 0) {
         if (last_time == 10000) {
             last_time = ms;
-        } else if (last_time >= 1000 - 1000 / FPS) {
+        }
+        else if (last_time >= 1000 - 1000 / FPS) {
             last_time = 0;
-        } else {
+        }
+        else {
             last_time += 1000 / FPS;
         }
         if (global.car_state == GLOB::CLOCKWISE) {
             if (global.car_theta + 1 == 360) {
                 global.car_theta = 0;
-            } else {
+            }
+            else {
                 global.car_theta++;
             }
-        } else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+        }
+        else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
             if (global.car_theta - 1 == -1) {
                 global.car_theta = 359;
-            } else {
+            }
+            else {
                 global.car_theta--;
             }
-        } else {
+        }
+        else {
             last_time = 10000;
         }
     }
@@ -233,9 +354,9 @@ void MainWindow::paintoutput(void)
 {
     //画出右上角长方形
     QPainter p(&pix);
-    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     p.setPen(QPen(Qt::black, 2));
-    QFont font("arial", 11, QFont::Bold, false);
+    QFont font("arial", 14, QFont::Bold, false);
     p.setFont(font);
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
@@ -307,7 +428,8 @@ void MainWindow::paintlight(void) //画出站点指示灯
         p.setPen(Qt::black);
         if (station.counterclockwise[0][i] == 0) {
             p.setBrush(Qt::gray);
-        } else {
+        }
+        else {
             p.setBrush(Qt::red);
         }
         p.drawEllipse(rectangle1);
@@ -315,7 +437,8 @@ void MainWindow::paintlight(void) //画出站点指示灯
         QRectF rectangle2(330, -5, 10, 10);
         if (station.clockwise[0][i] == 0) {
             p.setBrush(Qt::gray);
-        } else {
+        }
+        else {
             p.setBrush(Qt::yellow);
         }
         p.drawEllipse(rectangle2);
@@ -323,10 +446,38 @@ void MainWindow::paintlight(void) //画出站点指示灯
         QRectF rectangle3(330, 15, 10, 10);
         if (car.target[0][i] == 0) {
             p.setBrush(Qt::gray);
-        } else {
+        }
+        else {
             p.setBrush(Qt::blue);
         }
         p.drawEllipse(rectangle3);
         p.rotate((double)360 / (env.TOTAL_STATION));
     }
+}
+
+void MainWindow::paintInput(void)
+{
+    //画出右下角长方形
+    QPainter p(&pix);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setPen(QPen(Qt::black, 2));
+    QFont font("arial", 25, QFont::Bold, false);
+    p.setFont(font);
+    QRectF rectangle(700, 430, 300, 250);
+    p.drawRect(rectangle);
+    p.translate(700, 430);
+    //画T C U
+    QRectF rectangleT(20, 20, 40, 40);
+    p.drawEllipse(rectangleT);
+    p.drawText(30, 50, QString("T"));
+    QRectF rectangleC(20, 20 + 50, 40, 40);
+    p.drawEllipse(rectangleC);
+    p.drawText(30, 50 + 50, QString("C"));
+    QRectF rectangleU(20, 20 + 100, 40, 40);
+    p.drawEllipse(rectangleU);
+    p.drawText(30, 50 + 100, QString("U"));
+    // 画文本框
+    editT->show();
+    editC->show();
+    editU->show();
 }
