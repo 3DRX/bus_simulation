@@ -164,7 +164,13 @@ void MainWindow::inputPressed()
     }
     else { // 非 FCFS 模式
         if (Tinput.toInt() <= env.TOTAL_STATION && Tinput.toInt() >= 1) {
-            if (car.target[0][Tinput.toInt() - 1] != 1) {
+            if (global.startGame == true) {
+                if (car.target[0][Tinput.toInt() - 1] != 1) {
+                    car.target[0][Tinput.toInt() - 1] = 1;
+                    car.target[1][Tinput.toInt() - 1] = 1;
+                }
+            }
+            else {
                 car.target[0][Tinput.toInt() - 1] = 1;
                 car.target[1][Tinput.toInt() - 1] = 1;
             }
@@ -172,7 +178,13 @@ void MainWindow::inputPressed()
         else {
         }
         if (Cinput.toInt() <= env.TOTAL_STATION && Cinput.toInt() >= 1) {
-            if (station.clockwise[0][Cinput.toInt() - 1] != 1) {
+            if (global.startGame == true) {
+                if (station.clockwise[0][Cinput.toInt() - 1] != 1) {
+                    station.clockwise[0][Cinput.toInt() - 1] = 1;
+                    station.clockwise[1][Cinput.toInt() - 1] = 1;
+                }
+            }
+            else {
                 station.clockwise[0][Cinput.toInt() - 1] = 1;
                 station.clockwise[1][Cinput.toInt() - 1] = 1;
             }
@@ -180,7 +192,13 @@ void MainWindow::inputPressed()
         else {
         }
         if (Uinput.toInt() <= env.TOTAL_STATION && Uinput.toInt() >= 1) {
-            if (station.counterclockwise[0][Uinput.toInt() - 1] != 1) {
+            if (global.startGame == true) {
+                if (station.counterclockwise[0][Uinput.toInt() - 1] != 1) {
+                    station.counterclockwise[0][Uinput.toInt() - 1] = 1;
+                    station.counterclockwise[1][Uinput.toInt() - 1] = 1;
+                }
+            }
+            else {
                 station.counterclockwise[0][Uinput.toInt() - 1] = 1;
                 station.counterclockwise[1][Uinput.toInt() - 1] = 1;
             }
