@@ -45,11 +45,6 @@ MainWindow::MainWindow(QWidget* parent)
     button_start->setText(tr("start"));
     button_start->move(0, 701);
     connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
-    button_stop = new QPushButton(this);
-    button_stop->setText(tr("stop"));
-    button_stop->move(0, 740);
-    connect(button_stop, SIGNAL(clicked()), this, SLOT(stopPressed()));
-    button_stop->setDisabled(true);
     // 创建文本框以及确认按钮
     editT = new QLineEdit(this);
     editC = new QLineEdit(this);
@@ -71,37 +66,27 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::restartPressed()
+void MainWindow::continuePressed()
 {
-    // global.ifWait = false;
-    // TODO: 删除ifWait
-    button_start->setText(tr("start"));
-    connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
-    button_stop->setDisabled(true);
-    button_start->setDisabled(false);
-    global.ifWait = true;
-    global.car_theta = 0;
-    global.car_state = GLOB::STOP;
-    global.glob_state_refresh = false;
-    global.startGame = false;
-    initGame();
+    button_start->setText(QString("stop"));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(stopPressed()));
+    global.startGame = true;
+    global.glob_state_refresh = true;
 }
 
 void MainWindow::startPressed()
 {
     global.startGame = true;
     global.glob_state_refresh = true;
-    button_start->setDisabled(true);
-    button_stop->setDisabled(false);
+    button_start->setText(tr("stop"));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(stopPressed()));
 }
 
 void MainWindow::stopPressed()
 {
     global.startGame = false;
-    button_start->setDisabled(false);
-    button_stop->setDisabled(true);
-    button_start->setText(tr("restart"));
-    connect(button_start, SIGNAL(clicked()), this, SLOT(restartPressed()));
+    button_start->setText(tr("continue"));
+    connect(button_start, SIGNAL(clicked()), this, SLOT(continuePressed()));
 }
 
 int FCFS_checklist_gui(int where, int stationNumber)
