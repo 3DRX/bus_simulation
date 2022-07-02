@@ -18,7 +18,7 @@
 #include <qnamespace.h>
 #include <qsize.h>
 #include <sys/time.h>
-#include <QSound>
+
 
 #define PI 3.1415926535897932384626
 #define FPS 15
@@ -227,6 +227,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     paintoutput();
     paintlight();
     paintInput();
+    paintstrategy();
     QPainter painter(this);
     painter.drawPixmap(0, 0, pix);
     pix.fill(Qt::white);
@@ -533,11 +534,33 @@ void MainWindow::paintInput(void)
     editU->show();
 }
 
+void MainWindow::paintstrategy(void)
+{
+    //画出左上角长方形
+    QPainter p(&pix);
+    p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    p.setPen(QPen(Qt::black, 2));
+    QFont font("arial", 18, QFont::Bold, false);
+    p.setFont(font);
+    QRectF rectangle(50, 25, 100, 40);
+    p.drawRect(rectangle);
 
-//首先添加模块 QT += multimedia
+    //写入策略
+    QString s;
+    if(env.STRATEGY==ENVIRONMENT::FCFS)
+    {
+        s ="FCFS";
+    }
+    else if(env.STRATEGY==ENVIRONMENT::SCAN)
+    {
+        s ="SCAN";
+    }
+    else if(env.STRATEGY==ENVIRONMENT::SSTF)
+    {
+        s ="SSTF";
+    }
+    p.translate(50, 25);
+    p.drawText(20, 30, s);
 
-//QSound* sound = new QSound("音效文件路径",this);
-//sound->setLoops(1);  //设置循环次数 如果是  -1  代表无限循环
-//sound->play(); //音效开始
-
+}
 

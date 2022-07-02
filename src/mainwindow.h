@@ -49,6 +49,7 @@ private:
      */
     void paintoutput(void);
     void paintlight(void);
+    void paintstrategy(void);
 
     /**绘制输入区
      */
