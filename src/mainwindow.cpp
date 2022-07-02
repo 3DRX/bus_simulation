@@ -148,7 +148,7 @@ void MainWindow::inputPressed()
                 prePtr->prev = env.presentPtr;
                 prePtr->next = NULL;
                 env.presentPtr = env.presentPtr->next;
-                env.presentPtr->where = 1;
+                env.presentPtr->where = 2;
                 env.presentPtr->stationNumber = Cinput.toInt();
             }
         }
@@ -161,7 +161,7 @@ void MainWindow::inputPressed()
                 prePtr->prev = env.presentPtr;
                 prePtr->next = NULL;
                 env.presentPtr = env.presentPtr->next;
-                env.presentPtr->where = 1;
+                env.presentPtr->where = 3;
                 env.presentPtr->stationNumber = Uinput.toInt();
             }
         }
@@ -394,6 +394,7 @@ void MainWindow::paintoutput(void)
         }
         NODE* Nptr = env.presentWorkingPtr;
         while (Nptr) {
+            printf("%d\n", Nptr->where);
             if (Nptr->where == 1) {
                 target_string[Nptr->stationNumber - 1] = '1';
             }
@@ -405,18 +406,17 @@ void MainWindow::paintoutput(void)
             }
             Nptr = Nptr->next;
         }
-        if (GLOB.ifFCFSRequestFinished==1){
+        if (global.ifFCFSRequestFinished == 1) {
             if (env.presentWorkingPtr->where == 1) {
-                target_string[Nptr->stationNumber - 1] = '0';
+                target_string[env.presentWorkingPtr->stationNumber - 1] = '0';
             }
             else if (env.presentWorkingPtr->where == 2) {
-                clockwise_string[Nptr->stationNumber - 1] = '0';
+                clockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
             }
             else if (env.presentWorkingPtr->where == 3) {
-                counterclockwise_string[Nptr->stationNumber - 1] = '0';
+                counterclockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
             }
         }
-
     }
     else {
         for (int i = 0; i < env.TOTAL_STATION; i++) {
