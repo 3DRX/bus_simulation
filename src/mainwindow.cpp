@@ -378,13 +378,41 @@ void MainWindow::paintoutput(void)
     p.setFont(font);
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
-
-    // counterclockwise的输出
+    
     char counterclockwise_string[env.TOTAL_STATION + 1];
     counterclockwise_string[env.TOTAL_STATION] = '\0';
-    for (int i = 0; i < env.TOTAL_STATION; i++) {
-        counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
+    char clockwise_string[env.TOTAL_STATION + 1];
+    clockwise_string[env.TOTAL_STATION] = '\0';
+    char target_string[env.TOTAL_STATION + 1];
+    target_string[env.TOTAL_STATION] = '\0';
+    //fcfs链表输出为字符数
+    if (env.STRATEGY==ENVIRONMENT::FCFS){
+        for (int i = 0; i < env.TOTAL_STATION; i++) {
+            counterclockwise_string[i] = '0';
+            clockwise_string[i] = '0';
+            target_string[i] = '0';
+        }
+        NODE* Nptr = env.presentPtr;
+        while (Nptr) {
+            if (Nptr->where == 1) {
+                target_string[Nptr->stationNumber - 1] = '1';
+            } else if (Nptr->where == 2) {
+                clockwise_string[Nptr->stationNumber - 1] = '1';
+            } else if (Nptr->where == 3) {
+                counterclockwise_string[Nptr->stationNumber - 1] = '1';
+            }
+            Nptr = Nptr->next;
+        }
     }
+    else{
+        for (int i = 0; i < env.TOTAL_STATION; i++) {
+            counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
+            clockwise_string[i] = '0' + station.clockwise[0][i];
+            target_string[i] = '0' + car.target[0][i];
+        }
+    }
+
+    // counterclockwise的输出
     QString s1 = counterclockwise_string;
     s1.prepend("counterclockwise:");
     p.translate(700, 25);
@@ -395,11 +423,6 @@ void MainWindow::paintoutput(void)
     p.drawEllipse(rectangle11);
 
     // clockwise的输出
-    char clockwise_string[env.TOTAL_STATION + 1];
-    clockwise_string[env.TOTAL_STATION] = '\0';
-    for (int i = 0; i < env.TOTAL_STATION; i++) {
-        clockwise_string[i] = '0' + station.clockwise[0][i];
-    }
     QString s2 = clockwise_string;
     QString s22 = QString("clockwise:") + s2;
     p.drawText(20, 110, s22);
@@ -409,11 +432,6 @@ void MainWindow::paintoutput(void)
     p.drawEllipse(rectangle22);
 
     // target的输出
-    char target_string[env.TOTAL_STATION + 1];
-    target_string[env.TOTAL_STATION] = '\0';
-    for (int i = 0; i < env.TOTAL_STATION; i++) {
-        target_string[i] = '0' + car.target[0][i];
-    }
     QString s3 = target_string;
     s3.prepend("target:");
     p.drawText(20, 80, s3);
