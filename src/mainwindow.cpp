@@ -394,7 +394,6 @@ void MainWindow::paintoutput(void)
         }
         NODE* Nptr = env.presentWorkingPtr;
         while (Nptr) {
-            printf("%d\n", Nptr->where);
             if (Nptr->where == 1) {
                 target_string[Nptr->stationNumber - 1] = '1';
             }

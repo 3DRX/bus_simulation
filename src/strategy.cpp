@@ -144,7 +144,6 @@ void modeSSTF(void)
     else if (state == CLOCKWISE) {
         if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
             state = STOP;
-            carStop();
             finishRequest(s_dest_stationNumber, 0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
@@ -152,6 +151,7 @@ void modeSSTF(void)
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1; // 重置
+            carStop();
         }
         else if (haveRequest(CLOCKWISE) == TRUE) { // 没到目标站但是途径站
             state = STOP;
@@ -165,7 +165,6 @@ void modeSSTF(void)
     else if (state == COUNTERCLOCKWISE) {
         if (car.position == getPositionIndex(s_dest_stationNumber)) { // 说明到站了
             state = STOP;
-            carStop();
             finishRequest(s_dest_stationNumber, 0, TRUE); // 完成请求
             s_dest_stationNumber = SSTFfindNearestStationNumber();
             if (s_dest_stationNumber == getStationNumber(car.position)) {
@@ -173,6 +172,7 @@ void modeSSTF(void)
                 finishRequest(getStationNumber(car.position), 0, FALSE);
             }
             s_dest_stationNumber = -1; // 重置
+            carStop();
         }
         else if (haveRequest(COUNTERCLOCKWISE) == TRUE) { // 没到目标站但是途径站
             state = STOP;
@@ -364,6 +364,7 @@ void modeSCAN(void)
         if (haveRequest(1) == TRUE || haveRequest(2) == TRUE) {
             finishRequest(getStationNumber(car.position), 0, TRUE);
             state = CLOCKWISE_STOP;
+            carStop();
             if (AreThereAnyRequest() == -1) {
                 finishRequest(getStationNumber(car.position), 0, FALSE);
                 state = STOP;
@@ -378,6 +379,7 @@ void modeSCAN(void)
         if (haveRequest(1) == TRUE || haveRequest(2) == TRUE) {
             finishRequest(getStationNumber(car.position), 0, TRUE);
             state = COUNTERCLOCKWISE_STOP;
+            carStop();
             if (AreThereAnyRequest() == -1) {
                 finishRequest(getStationNumber(car.position), 0, FALSE);
                 state = STOP;
@@ -542,40 +544,37 @@ void finishRequest(int stationNumber, int direction, int ifDelay)
     if (direction == 0 || direction == 1) {
         if (station.clockwise[0][stationNumber - 1] == 1 && (station.clockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.clockwise[0][stationNumber - 1] = 0;
-            // printf("clockwise完成请求: %d\n",stationNumber);
         }
     }
     if (direction == 0 || direction == 2) {
         if (station.counterclockwise[0][stationNumber - 1] == 1 && (station.counterclockwise[1][stationNumber - 1] == 0 || !ifDelay)) {
             station.counterclockwise[0][stationNumber - 1] = 0;
-            // printf("counterclockwise完成请求: %d\n",stationNumber);
         }
     }
 }
 
 void carClockwise(void)
 {
-    // if (car.position != env.DISTANCE * env.TOTAL_STATION - 1) {
-    // car.position++;
-    //} else {
-    // car.position = 0;
-    //}
     global.car_state = GLOB::CLOCKWISE;
 }
 
 void carCounterClockwise(void)
 {
-    // if (car.position != 0) {
-    // car.position--;
-    //} else {
-    // car.position = env.DISTANCE * env.TOTAL_STATION - 1;
-    //}
     global.car_state = GLOB::COUNTERCLOCKWISE;
 }
 
 void carStop(void)
 {
     global.car_state = GLOB::STOP;
+    struct timeval tp;
+    long ms;
+    gettimeofday(&tp, NULL);
+    ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    long temp = ms;
+    while (temp < ms + 1000) {
+        gettimeofday(&tp, NULL);
+        temp = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    }
 }
 
 short haveRequest(short direction)
