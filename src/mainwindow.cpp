@@ -18,6 +18,7 @@
 #include <qnamespace.h>
 #include <qsize.h>
 #include <sys/time.h>
+#include <QSound>
 
 #define PI 3.1415926535897932384626
 #define FPS 15
@@ -530,3 +531,12 @@ void MainWindow::paintInput(void)
     editC->show();
     editU->show();
 }
+
+
+//首先添加模块 QT += multimedia
+
+//QSound* sound = new QSound("音效文件路径",this);
+//sound->setLoops(1);  //设置循环次数 如果是  -1  代表无限循环
+//sound->play(); //音效开始
+
+
