@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QPushButton>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +32,7 @@ private:
     char* counterclockwise_string;
     char* clockwise_string;
     char* target_string;
+    QTimer* busTimer;
 
     //=====private functions=====
 
@@ -66,5 +68,8 @@ private slots:
     void stopPressed();
     // 按input按钮触发的回调函数
     void inputPressed();
+    // 计时器回调函数
+    void busTimeout();
 };
+
 #endif // MAINWINDOW_H

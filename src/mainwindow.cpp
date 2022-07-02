@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
+#include <QTimer>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -16,9 +17,9 @@
 #include <ostream>
 #include <qlineedit.h>
 #include <qnamespace.h>
+#include <qobjectdefs.h>
 #include <qsize.h>
 #include <sys/time.h>
-
 
 #define PI 3.1415926535897932384626
 #define FPS 15
@@ -63,9 +64,43 @@ MainWindow::MainWindow(QWidget* parent)
     counterclockwise_string[env.TOTAL_STATION] = '\0';
     clockwise_string[env.TOTAL_STATION] = '\0';
     target_string[env.TOTAL_STATION] = '\0';
+    // 创建计时器（用于控制车速和显示游戏时间）
+    busTimer = new QTimer(this);
+    busTimer->QTimer::setTimerType(Qt::PreciseTimer);
+    connect(busTimer, SIGNAL(timeout()), SLOT(busTimeout()));
+    busTimer->setInterval(1);
+    busTimer->start(20);
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::busTimeout()
+{
+    // 大约一秒（因为相除之后变成整数有精度损失不一定是准确的一秒）之内，
+    // 车走过一站，同时TIME++
+    static int ms = 0;
+    static int frame = 0;
+    if (global.startGame == true) {
+        if (frame == 360 / (env.DISTANCE * env.TOTAL_STATION)) {
+            frame = 0;
+            TIME++;
+        }
+        if (ms > ((50 / 18) * env.DISTANCE * env.TOTAL_STATION)) {
+            frame++;
+            if (global.car_state == GLOB::CLOCKWISE) {
+                global.car_theta++;
+            }
+            else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
+                global.car_theta--;
+            }
+            else {
+                ms = 0;
+            }
+            ms = 0;
+        }
+        ms += 20;
+    }
+}
 
 void MainWindow::continuePressed()
 {
@@ -314,44 +349,6 @@ void MainWindow::paintBus(void)
 
 void MainWindow::moveBus(void)
 {
-    static int last_time = 10000;
-    struct timeval tp;
-    int ms;
-    gettimeofday(&tp, NULL);
-    ms = tp.tv_usec / 1000;
-    // 我也不知道这个if是怎么使代码正确运行起来的
-    // 反正经过一通魔幻操作，它就是跑起来了
-    if (last_time == 10000 || ms - last_time >= 1000 / FPS || ms - last_time < 0) {
-        if (last_time == 10000) {
-            last_time = ms;
-        }
-        else if (last_time >= 1000 - 1000 / FPS) {
-            last_time = 0;
-        }
-        else {
-            last_time += 1000 / FPS;
-        }
-        if (global.car_state == GLOB::CLOCKWISE) {
-            if (global.car_theta + 1 == 360) {
-                global.car_theta = 0;
-            }
-            else {
-                global.car_theta++;
-            }
-        }
-        else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
-            if (global.car_theta - 1 == -1) {
-                global.car_theta = 359;
-            }
-            else {
-                global.car_theta--;
-            }
-        }
-        else {
-            last_time = 10000;
-        }
-    }
-    // update bus position
     int theta = 360 / (env.TOTAL_STATION * env.DISTANCE);
     for (int i = 0; i < env.TOTAL_STATION * env.DISTANCE; i++) {
         if (global.car_theta == theta * i) {
@@ -531,20 +528,15 @@ void MainWindow::paintstrategy(void)
 
     //写入策略
     QString s;
-    if(env.STRATEGY==ENVIRONMENT::FCFS)
-    {
-        s ="FCFS";
+    if (env.STRATEGY == ENVIRONMENT::FCFS) {
+        s = "FCFS";
     }
-    else if(env.STRATEGY==ENVIRONMENT::SCAN)
-    {
-        s ="SCAN";
+    else if (env.STRATEGY == ENVIRONMENT::SCAN) {
+        s = "SCAN";
     }
-    else if(env.STRATEGY==ENVIRONMENT::SSTF)
-    {
-        s ="SSTF";
+    else if (env.STRATEGY == ENVIRONMENT::SSTF) {
+        s = "SSTF";
     }
     p.translate(50, 25);
     p.drawText(20, 30, s);
-
 }
-

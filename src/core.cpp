@@ -97,7 +97,7 @@ void mainLoop()
         }
         strategy();
         // outPut();
-        timeControl();
+        // timeControl();
     }
 }
 
