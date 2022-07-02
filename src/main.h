@@ -49,6 +49,9 @@ typedef struct {
     // output模块中检测的值为true之后调用一次printLines()函数，
     // 之后将值重置为true
     bool ifWait;
+    //用于指示fcfs模式下当前指向的节点任务是否完成
+    int ifFCFSRequestFinished;
+
 
     // 车的位置（角度theta）
     int car_theta;

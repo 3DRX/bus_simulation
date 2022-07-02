@@ -232,12 +232,14 @@ void modeFCFS(void)
                     carCounterClockwise();
                 }
                 updateBuf(env.presentWorkingPtr);
+                GLOB.ifFCFSRequestFinished=0;
             }
         }
     } else //当前有任务
     {
         if (car.position == dest_positionIndex) //当前请求已完成，判定后续节点请求可否同时完成
         {
+            GLOB.ifFCFSRequestFinished=1;
             carStop();
             state = NO_TASK; //下一次clock指令调用本模块时再次进入working状态
             while (env.presentWorkingPtr->next) {

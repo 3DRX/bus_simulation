@@ -392,7 +392,7 @@ void MainWindow::paintoutput(void)
             clockwise_string[i] = '0';
             target_string[i] = '0';
         }
-        NODE* Nptr = env.presentPtr;
+        NODE* Nptr = env.presentWorkingPtr;
         while (Nptr) {
             if (Nptr->where == 1) {
                 target_string[Nptr->stationNumber - 1] = '1';
@@ -405,6 +405,18 @@ void MainWindow::paintoutput(void)
             }
             Nptr = Nptr->next;
         }
+        if (GLOB.ifFCFSRequestFinished==1){
+            if (env.presentWorkingPtr->where == 1) {
+                target_string[Nptr->stationNumber - 1] = '0';
+            }
+            else if (env.presentWorkingPtr->where == 2) {
+                clockwise_string[Nptr->stationNumber - 1] = '0';
+            }
+            else if (env.presentWorkingPtr->where == 3) {
+                counterclockwise_string[Nptr->stationNumber - 1] = '0';
+            }
+        }
+
     }
     else {
         for (int i = 0; i < env.TOTAL_STATION; i++) {
