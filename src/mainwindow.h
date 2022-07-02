@@ -29,6 +29,9 @@ private:
     QLineEdit* editT;
     QLineEdit* editC;
     QLineEdit* editU;
+    char* counterclockwise_string;
+    char* clockwise_string;
+    char* target_string;
 
     //=====private functions=====
 

@@ -61,6 +61,12 @@ MainWindow::MainWindow(QWidget* parent)
     button_input->setText(tr("input"));
     button_input->move(900, 701);
     connect(button_input, SIGNAL(clicked()), this, SLOT(inputPressed()));
+    counterclockwise_string = (char*)malloc(sizeof(char) * (env.TOTAL_STATION + 1));
+    clockwise_string = (char*)malloc(sizeof(char) * (env.TOTAL_STATION + 1));
+    target_string = (char*)malloc(sizeof(char) * (env.TOTAL_STATION + 1));
+    counterclockwise_string[env.TOTAL_STATION] = '\0';
+    clockwise_string[env.TOTAL_STATION] = '\0';
+    target_string[env.TOTAL_STATION] = '\0';
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -378,15 +384,9 @@ void MainWindow::paintoutput(void)
     p.setFont(font);
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
-    
-    char counterclockwise_string[env.TOTAL_STATION + 1];
-    counterclockwise_string[env.TOTAL_STATION] = '\0';
-    char clockwise_string[env.TOTAL_STATION + 1];
-    clockwise_string[env.TOTAL_STATION] = '\0';
-    char target_string[env.TOTAL_STATION + 1];
-    target_string[env.TOTAL_STATION] = '\0';
-    //fcfs链表输出为字符数
-    if (env.STRATEGY==ENVIRONMENT::FCFS){
+
+    // fcfs链表输出为字符数
+    if (env.STRATEGY == ENVIRONMENT::FCFS) {
         for (int i = 0; i < env.TOTAL_STATION; i++) {
             counterclockwise_string[i] = '0';
             clockwise_string[i] = '0';
@@ -396,15 +396,17 @@ void MainWindow::paintoutput(void)
         while (Nptr) {
             if (Nptr->where == 1) {
                 target_string[Nptr->stationNumber - 1] = '1';
-            } else if (Nptr->where == 2) {
+            }
+            else if (Nptr->where == 2) {
                 clockwise_string[Nptr->stationNumber - 1] = '1';
-            } else if (Nptr->where == 3) {
+            }
+            else if (Nptr->where == 3) {
                 counterclockwise_string[Nptr->stationNumber - 1] = '1';
             }
             Nptr = Nptr->next;
         }
     }
-    else{
+    else {
         for (int i = 0; i < env.TOTAL_STATION; i++) {
             counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
             clockwise_string[i] = '0' + station.clockwise[0][i];
@@ -462,7 +464,7 @@ void MainWindow::paintlight(void) //画出站点指示灯
         // draw light
         QRectF rectangle1(330, -25, 10, 10);
         p.setPen(Qt::black);
-        if (station.counterclockwise[0][i] == 0) {
+        if (counterclockwise_string[i] == '0') {
             p.setBrush(Qt::gray);
         }
         else {
@@ -471,7 +473,7 @@ void MainWindow::paintlight(void) //画出站点指示灯
         p.drawEllipse(rectangle1);
 
         QRectF rectangle2(330, -5, 10, 10);
-        if (station.clockwise[0][i] == 0) {
+        if (clockwise_string[i] == '0') {
             p.setBrush(Qt::gray);
         }
         else {
@@ -480,7 +482,7 @@ void MainWindow::paintlight(void) //画出站点指示灯
         p.drawEllipse(rectangle2);
 
         QRectF rectangle3(330, 15, 10, 10);
-        if (car.target[0][i] == 0) {
+        if (target_string[i] == '0') {
             p.setBrush(Qt::gray);
         }
         else {
