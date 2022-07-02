@@ -45,13 +45,8 @@ typedef struct Node {
 
 // 用于线程之间共享信息
 typedef struct {
-    // 大多是时候是true，只有当next按钮按下之后变为false
-    // output模块中检测的值为true之后调用一次printLines()函数，
-    // 之后将值重置为true
-    bool ifWait;
     //用于指示fcfs模式下当前指向的节点任务是否完成
     int ifFCFSRequestFinished;
-
 
     // 车的位置（角度theta）
     int car_theta;

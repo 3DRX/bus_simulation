@@ -24,7 +24,6 @@ private:
     Ui::MainWindow* ui;
     QPixmap pix;
     QPushButton* button_start;
-    QPushButton* button_stop;
     QPushButton* button_input;
     QLineEdit* editT;
     QLineEdit* editC;
@@ -59,7 +58,7 @@ protected:
 
 private slots:
     // 按restart按钮触发的回调函数
-    void restartPressed();
+    void continuePressed();
     // 按start按钮触发的回调函数
     void startPressed();
     // 按stop按钮触发的回调函数

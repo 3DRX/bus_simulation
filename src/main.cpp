@@ -1,6 +1,6 @@
+#include "main.h"
 #include "core.h"
 #include "input.h"
-#include "main.h"
 #include "mainwindow.h"
 #include "output.h"
 #include "strategy.h"
@@ -30,7 +30,6 @@ void initMain(void)
     }
     readfile(fPtr);
     fclose(fPtr);
-    global.ifWait = true;
     global.car_theta = 0;
     global.car_state = GLOB::STOP;
     global.glob_state_refresh = false;
