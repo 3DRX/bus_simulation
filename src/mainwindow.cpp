@@ -307,7 +307,7 @@ void MainWindow::paintStations(void)
                 }
             }
             // draw big circle
-            QRectF rectangle(280, -20, 40, 40);
+            QRectF rectangle(285, -15, 30, 30);
             p.setPen(Qt::black);
             p.setBrush(Qt::black);
             p.drawEllipse(rectangle);
@@ -315,12 +315,12 @@ void MainWindow::paintStations(void)
             // draw text
             // 转回原来的角度，使数字是正的
             p.rotate((double)(360 - (i * ((double)360 / (env.TOTAL_STATION * env.DISTANCE)))));
-            QFont font("arial", 12, QFont::Bold, false);
+            QFont font("arial", 16, QFont::Bold, false);
             p.setFont(font);
             p.setPen(Qt::white);
             // 手动极坐标，+5-5是为了让字（而不是字的左下角）在圆中央
-            p.drawText((300 * std::cos(angle * PI / 180)) - 10,
-                (300 * std::sin(angle * PI / 180)) + 7, tr(a));
+            p.drawText((300 * std::cos(angle * PI / 180)) - 5,
+                (300 * std::sin(angle * PI / 180)) + 5, tr(a));
             p.restore();
         }
         p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
@@ -374,7 +374,7 @@ void MainWindow::paintoutput(void)
     QPainter p(&pix);
     p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     p.setPen(QPen(Qt::black, 2));
-    QFont font("arial", 14, QFont::Bold, false);
+    QFont font("arial", 18, QFont::Bold, false);
     p.setFont(font);
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
