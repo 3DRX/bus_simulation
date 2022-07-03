@@ -19,7 +19,7 @@
 
 ## 开发环境说明
 
-- Windows 10：使用 [QtCreator](https://www.qt.io/product/development-tools) IDE 开发
+- Windows 10：使用 [QtCreator](https://www.qt.io/product/development-tools)7.0.2 IDE 开发
 - MacOS 12.4：使用 [NeoVim](https://github.com/neovim/neovim) 0.7.0 开发
 - Ubuntu 22.04 LTS：使用 [NeoVim](https://github.com/neovim/neovim) 0.8.0 开发
 
