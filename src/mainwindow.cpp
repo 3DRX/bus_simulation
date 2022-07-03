@@ -88,10 +88,20 @@ void MainWindow::busTimeout()
         if (ms > ((50 / 18) * env.DISTANCE * env.TOTAL_STATION)) {
             frame++;
             if (global.car_state == GLOB::CLOCKWISE) {
-                global.car_theta++;
+                if (global.car_theta + 1 == 360) {
+                    global.car_theta = 0;
+                }
+                else {
+                    global.car_theta++;
+                }
             }
             else if (global.car_state == GLOB::COUNTERCLOCKWISE) {
-                global.car_theta--;
+                if (global.car_theta - 1 == -1) {
+                    global.car_theta = 359;
+                }
+                else {
+                    global.car_theta--;
+                }
             }
             else {
                 ms = 0;
