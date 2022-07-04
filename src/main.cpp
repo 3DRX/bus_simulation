@@ -2,7 +2,6 @@
 #include "core.h"
 #include "input.h"
 #include "mainwindow.h"
-#include "output.h"
 #include "strategy.h"
 #include <cstdio>
 #include <qnamespace.h>
@@ -14,11 +13,12 @@
 #include <QThread>
 
 extern ENVIRONMENT env;
-extern CAR car;
-extern STATION station;
-extern int TIME;
+extern CAR         car;
+extern STATION     station;
+extern int         TIME;
 
-GLOB global;
+GLOB        global;
+CoreThread* corethread;
 
 void initMain(void)
 {
@@ -34,19 +34,19 @@ void initMain(void)
     global.car_state = GLOB::STOP;
     global.glob_state_refresh = false;
     global.startGame = false;
+    global.terminate = false;
 }
 
 int main(int argc, char** argv)
 {
     initMain();
-    CoreThread* corethread;
     corethread = new CoreThread();
     corethread->start();
     // TODO corethread需要terminate吗，应该放在哪？
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow   w;
     w.show();
     return a.exec();
 }

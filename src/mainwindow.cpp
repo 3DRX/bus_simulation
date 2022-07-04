@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "core.h"
+#include "input.h"
 #include "main.h"
 
 #include <QDialog>
@@ -25,14 +26,14 @@
 #define FPS 15
 
 extern ENVIRONMENT env;
-extern GLOB global;
-extern CAR car;
-extern STATION station;
-extern int TIME;
+extern GLOB        global;
+extern CAR         car;
+extern STATION     station;
+extern int         TIME;
+extern CoreThread* corethread;
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowTitle("Bus-simulation");
@@ -47,6 +48,10 @@ MainWindow::MainWindow(QWidget* parent)
     button_start->setText(tr("start"));
     button_start->move(0, 701);
     connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
+    button_end = new QPushButton(this);
+    button_end->setText(tr("end"));
+    button_end->move(0, 735);
+    connect(button_end, SIGNAL(clicked()), this, SLOT(endPressed()));
     // 创建文本框以及确认按钮
     editT = new QLineEdit(this);
     editC = new QLineEdit(this);
@@ -72,7 +77,10 @@ MainWindow::MainWindow(QWidget* parent)
     busTimer->start(20);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
 
 void MainWindow::busTimeout()
 {
@@ -110,6 +118,17 @@ void MainWindow::busTimeout()
         }
         ms += 20;
     }
+}
+
+void MainWindow::endPressed()
+{
+    global.terminate = true;
+    button_end->setDisabled(true);
+    FCFS_freeList(env.headnode);
+    free(counterclockwise_string);
+    free(target_string);
+    free(clockwise_string);
+    corethread->terminate();
 }
 
 void MainWindow::continuePressed()
@@ -277,7 +296,7 @@ void MainWindow::paintBackground(void)
 
 void MainWindow::paintStations(void)
 {
-    double theta = (double)360 / (env.TOTAL_STATION * env.DISTANCE);
+    double   theta = (double)360 / (env.TOTAL_STATION * env.DISTANCE);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing);
     p.translate(390, 350);
@@ -320,7 +339,7 @@ void MainWindow::paintStations(void)
             p.setPen(Qt::white);
             // 手动极坐标，+5-5是为了让字（而不是字的左下角）在圆中央
             p.drawText((300 * std::cos(angle * PI / 180)) - 5,
-                (300 * std::sin(angle * PI / 180)) + 5, tr(a));
+                       (300 * std::sin(angle * PI / 180)) + 5, tr(a));
             p.restore();
         }
         p.rotate((double)360 / (env.TOTAL_STATION * env.DISTANCE));
@@ -332,7 +351,7 @@ void MainWindow::paintBus(void)
     // 车两种方向的车头朝向变化是读取两个图片（懒得写代码去变换）
     // 车停车后会保持停车之前的车头朝向
     static auto last_state = GLOB::COUNTERCLOCKWISE;
-    QPainter p(&pix);
+    QPainter    p(&pix);
     p.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     p.translate(390, 350);
     p.rotate(global.car_theta);
@@ -379,85 +398,95 @@ void MainWindow::paintoutput(void)
     QRectF rectangle(700, 25, 300, 150);
     p.drawRect(rectangle);
 
-    // fcfs链表输出为字符数
-    if (env.STRATEGY == ENVIRONMENT::FCFS) {
-        for (int i = 0; i < env.TOTAL_STATION; i++) {
-            counterclockwise_string[i] = '0';
-            clockwise_string[i] = '0';
-            target_string[i] = '0';
+    if (global.terminate == false) {
+        // fcfs链表输出为字符数
+        if (env.STRATEGY == ENVIRONMENT::FCFS) {
+            for (int i = 0; i < env.TOTAL_STATION; i++) {
+                counterclockwise_string[i] = '0';
+                clockwise_string[i] = '0';
+                target_string[i] = '0';
+            }
+            NODE* Nptr = env.presentWorkingPtr;
+            while (Nptr) {
+                if (Nptr->where == 1) {
+                    target_string[Nptr->stationNumber - 1] = '1';
+                }
+                else if (Nptr->where == 2) {
+                    clockwise_string[Nptr->stationNumber - 1] = '1';
+                }
+                else if (Nptr->where == 3) {
+                    counterclockwise_string[Nptr->stationNumber - 1] = '1';
+                }
+                Nptr = Nptr->next;
+            }
+            if (global.ifFCFSRequestFinished == 1) {
+                if (env.presentWorkingPtr->where == 1) {
+                    target_string[env.presentWorkingPtr->stationNumber - 1] = '0';
+                }
+                else if (env.presentWorkingPtr->where == 2) {
+                    clockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
+                }
+                else if (env.presentWorkingPtr->where == 3) {
+                    counterclockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
+                }
+            }
         }
-        NODE* Nptr = env.presentWorkingPtr;
-        while (Nptr) {
-            if (Nptr->where == 1) {
-                target_string[Nptr->stationNumber - 1] = '1';
-            }
-            else if (Nptr->where == 2) {
-                clockwise_string[Nptr->stationNumber - 1] = '1';
-            }
-            else if (Nptr->where == 3) {
-                counterclockwise_string[Nptr->stationNumber - 1] = '1';
-            }
-            Nptr = Nptr->next;
-        }
-        if (global.ifFCFSRequestFinished == 1) {
-            if (env.presentWorkingPtr->where == 1) {
-                target_string[env.presentWorkingPtr->stationNumber - 1] = '0';
-            }
-            else if (env.presentWorkingPtr->where == 2) {
-                clockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
-            }
-            else if (env.presentWorkingPtr->where == 3) {
-                counterclockwise_string[env.presentWorkingPtr->stationNumber - 1] = '0';
+        else {
+            for (int i = 0; i < env.TOTAL_STATION; i++) {
+                counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
+                clockwise_string[i] = '0' + station.clockwise[0][i];
+                target_string[i] = '0' + car.target[0][i];
             }
         }
+
+        // counterclockwise的输出
+        QString s1 = counterclockwise_string;
+        s1.prepend("counterclockwise:");
+        p.translate(700, 25);
+        p.drawText(20, 140, s1);
+        QRectF rectangle11(5, 130, 10, 10); //右上角红色图例
+        p.setPen(Qt::black);
+        p.setBrush(Qt::red);
+        p.drawEllipse(rectangle11);
+
+        // clockwise的输出
+        QString s2 = clockwise_string;
+        QString s22 = QString("clockwise:") + s2;
+        p.drawText(20, 110, s22);
+        QRectF rectangle22(5, 100, 10, 10); //右上角黄色图例
+        p.setPen(Qt::black);
+        p.setBrush(Qt::yellow);
+        p.drawEllipse(rectangle22);
+
+        // target的输出
+        QString s3 = target_string;
+        s3.prepend("target:");
+        p.drawText(20, 80, s3);
+        QRectF rectangle33(5, 70, 10, 10); //右上角蓝色图例
+        p.setPen(Qt::black);
+        p.setBrush(Qt::blue);
+        p.drawEllipse(rectangle33);
+
+        // position的输出
+        QString s4 = QString();
+        s4.setNum(car.position, 10);
+        s4.prepend("position:");
+        p.drawText(5, 50, s4);
+
+        // TIME的输出
+        QString s5 = QString();
+        s5.setNum(TIME, 10);
+        s5.prepend("TIME:");
+        p.drawText(5, 20, s5);
     }
     else {
-        for (int i = 0; i < env.TOTAL_STATION; i++) {
-            counterclockwise_string[i] = '0' + station.counterclockwise[0][i];
-            clockwise_string[i] = '0' + station.clockwise[0][i];
-            target_string[i] = '0' + car.target[0][i];
-        }
+        // 输出END
+        p.translate(700, 25);
+        QString s6 = QString("END");
+        QFont   font2("arial", 30, QFont::Bold, false);
+        p.setFont(font2);
+        p.drawText(5, 30, s6);
     }
-
-    // counterclockwise的输出
-    QString s1 = counterclockwise_string;
-    s1.prepend("counterclockwise:");
-    p.translate(700, 25);
-    p.drawText(20, 140, s1);
-    QRectF rectangle11(5, 130, 10, 10); //右上角红色图例
-    p.setPen(Qt::black);
-    p.setBrush(Qt::red);
-    p.drawEllipse(rectangle11);
-
-    // clockwise的输出
-    QString s2 = clockwise_string;
-    QString s22 = QString("clockwise:") + s2;
-    p.drawText(20, 110, s22);
-    QRectF rectangle22(5, 100, 10, 10); //右上角黄色图例
-    p.setPen(Qt::black);
-    p.setBrush(Qt::yellow);
-    p.drawEllipse(rectangle22);
-
-    // target的输出
-    QString s3 = target_string;
-    s3.prepend("target:");
-    p.drawText(20, 80, s3);
-    QRectF rectangle33(5, 70, 10, 10); //右上角蓝色图例
-    p.setPen(Qt::black);
-    p.setBrush(Qt::blue);
-    p.drawEllipse(rectangle33);
-
-    // position的输出
-    QString s4 = QString();
-    s4.setNum(car.position, 10);
-    s4.prepend("position:");
-    p.drawText(5, 50, s4);
-
-    // TIME的输出
-    QString s5 = QString();
-    s5.setNum(TIME, 10);
-    s5.prepend("TIME:");
-    p.drawText(5, 20, s5);
 }
 
 void MainWindow::paintlight(void) //画出站点指示灯

@@ -2,7 +2,6 @@
 #include "input.h"
 #include "main.h"
 #include "mainwindow.h"
-#include "output.h"
 #include "strategy.h"
 #include <cstdio>
 #include <stdio.h>
@@ -11,25 +10,15 @@
 
 #include <QApplication>
 
-// #variables (global)
 ENVIRONMENT env;
-CAR car;
-STATION station;
-int TIME = 0;
+CAR         car;
+STATION     station;
+int         TIME = 0;
 
 extern GLOB global;
 
 void initGame(void)
 {
-    //打开输入输出文件
-    if ((env.input = fopen("input.io", "r")) == NULL) {
-        printf("Can't open file \"input.io\"\n");
-        exit(EXIT_FAILURE);
-    }
-    if ((env.output = fopen("output.io", "w")) == NULL) {
-        printf("Can't open file \"output.io\"\n");
-        exit(EXIT_FAILURE);
-    }
     // init car & station
     // 使用 env.TOTAL_STATION 令输出长度可变（如果规则要求输出长度永远是10
     // 就把本函数中所有的 env.TOTAL_STATION 替换为10）
@@ -61,56 +50,18 @@ void initGame(void)
     }
     // 初始化env.presentWorkingPtr
     env.presentWorkingPtr = NULL;
-    // 输出TIME: 0
-    // printLines();
-    // ============test
-    // car.target[0][6] = 1;
-    // car.target[1][6] = 1;
 }
 
-/**按照自然时间的变化，每过一秒将TIME+1
- */
-void timeControl(void)
-{
-    static int lastTIME = 0;
-    struct timeval tp;
-    gettimeofday(&tp, NULL);
-    if (lastTIME == 0 && TIME == 0) {
-        lastTIME = tp.tv_sec;
-    }
-    else if (lastTIME != tp.tv_sec) {
-        lastTIME = tp.tv_sec;
-        TIME++;
-    }
-}
-
-/**当输入检测到end之后，mainLoop会结束
- */
-void mainLoop()
-{
-    if (global.startGame == true) {
-        if (env.STRATEGY == ENVIRONMENT::FCFS) {
-            // FCFS_readOrder();
-        }
-        else {
-            // readOrder();
-        }
-        strategy();
-        // outPut();
-        // timeControl();
-    }
-}
-
-CoreThread::CoreThread() { }
+CoreThread::CoreThread() {}
 
 void CoreThread::run()
 {
     // 后台（核心部分）入口函数
     initGame();
     while (1) {
-        mainLoop();
+        if (global.startGame == true) {
+            strategy();
+        }
     }
-    fclose(env.input);
-    fclose(env.output);
     return;
 }

@@ -5,10 +5,10 @@
 #include <stdlib.h>
 
 extern ENVIRONMENT env;
-extern CAR car;
-extern STATION station;
-extern int TIME;
-extern GLOB global;
+extern CAR         car;
+extern STATION     station;
+extern int         TIME;
+extern GLOB        global;
 
 void modeFCFS();
 void modeSSTF();
@@ -120,8 +120,7 @@ void modeSSTF(void)
         STOP,
         CLOCKWISE,
         COUNTERCLOCKWISE
-    } state
-        = STOP;
+    } state = STOP;
     static int s_dest_stationNumber = -1; // 目标站请求完成时被置-1
     if (state == STOP) {
         if (s_dest_stationNumber == -1) {
@@ -194,8 +193,7 @@ void modeSSTF(void)
 void modeFCFS(void)
 {
     static enum { NO_TASK,
-        WORKING } state
-        = NO_TASK;
+                  WORKING } state = NO_TASK;
     if (env.presentWorkingPtr == NULL) {
         env.presentWorkingPtr = env.headnode;
     }
@@ -295,8 +293,7 @@ void modeSCAN(void)
         COUNTERCLOCKWISE_STOP,
         CLOCKWISE,
         COUNTERCLOCKWISE
-    } state
-        = STOP;
+    } state = STOP;
     if (state == STOP) { // stop表示停运停车状态
         /*停运停车状态特点：瞬间完成本站请求，无视提前一秒原则
         停运停车状态进入运行状态时与上次运行方向无关，以最短路径方向为准
@@ -567,7 +564,7 @@ void carStop(void)
 {
     global.car_state = GLOB::STOP;
     struct timeval tp;
-    long ms;
+    long           ms;
     gettimeofday(&tp, NULL);
     ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
     long temp = ms;
@@ -685,7 +682,7 @@ void FCFS_haveOnStationRequest(NODE* presentWorkingPtr)
     {
         if (getPositionIndex(presentWorkingPtr->next->stationNumber) == car.position) {
             FCFS_finishRequest(presentWorkingPtr->next->where,
-                presentWorkingPtr->next->stationNumber);
+                               presentWorkingPtr->next->stationNumber);
             NODE* freeMe = presentWorkingPtr->next;
             if (presentWorkingPtr->next->next) {
                 presentWorkingPtr->next->next->prev = presentWorkingPtr;

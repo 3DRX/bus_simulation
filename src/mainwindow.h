@@ -23,16 +23,17 @@ public:
 
 private:
     Ui::MainWindow* ui;
-    QPixmap pix;
-    QPushButton* button_start;
-    QPushButton* button_input;
-    QLineEdit* editT;
-    QLineEdit* editC;
-    QLineEdit* editU;
-    char* counterclockwise_string;
-    char* clockwise_string;
-    char* target_string;
-    QTimer* busTimer;
+    QPixmap         pix;
+    QPushButton*    button_start;
+    QPushButton*    button_input;
+    QPushButton*    button_end;
+    QLineEdit*      editT;
+    QLineEdit*      editC;
+    QLineEdit*      editU;
+    char*           counterclockwise_string;
+    char*           clockwise_string;
+    char*           target_string;
+    QTimer*         busTimer;
 
     //=====private functions=====
 
@@ -68,6 +69,8 @@ private slots:
     void stopPressed();
     // 按input按钮触发的回调函数
     void inputPressed();
+    // 按end按钮触发的回调函数
+    void endPressed();
     // 计时器回调函数
     void busTimeout();
 };

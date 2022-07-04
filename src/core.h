@@ -3,7 +3,8 @@
 
 #include <QThread>
 
-class CoreThread : public QThread {
+class CoreThread : public QThread
+{
     Q_OBJECT
 
 public:
@@ -12,7 +13,5 @@ public:
 protected:
     void run();
 };
-
-void initGame(void);
 
 #endif
