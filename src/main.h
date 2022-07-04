@@ -18,9 +18,6 @@ typedef struct {
     struct Node* headnode;
     struct Node* presentPtr;
     struct Node* presentWorkingPtr;
-    FILE*        input;
-    FILE*        output;
-
 } ENVIRONMENT;
 
 // 数组第二行定义：
@@ -58,8 +55,11 @@ typedef struct {
     // strategy模块依靠这个判断是否更新策略
     bool glob_state_refresh;
 
+    // 控制游戏的暂停、继续
     bool startGame;
 
+    // 控制游戏是否结束
+    // （是否释放内存，结束进程）
     bool terminate;
 } GLOB;
 
