@@ -156,8 +156,40 @@ void busTimeout();
 
 ```cpp
 void modeFCFS();
+static enum { NO_TASK,WORKING } state = NO_TASK;
+/*
+分为停站与工作两种状态，初始为停站状态
+NO_TASK状态：直接跳过所有本站请求,如果后续有其他请求则直接开始执行（转为WORKING状态并进行一次位置移动）
+             若无其他请求则仍回到NO_TASK状态。
+WORKING状态：若当前请求已完成，则判定后续节点请求可否同时完成，将指针定位到最后一个与当前请求相同的节点
+             以上请求视为全部同时完成，并进入NO_TASK状态。若当前请求未完成，则进行一次位置移动。
+*/
 void modeSSTF();
+static enum {STOP,CLOCKWISE,COUNTERCLOCKWISE} state = STOP;
+/*
+分为停站与顺时针行驶、逆时针行驶三种状态，初始为停站状态
+STOP状态：直接跳过所有本站请求,如果后续有其他请求则直接开始执行（转为最短行驶方向的行驶状态并进行一次位置移动）
+          若无其他请求则仍回到STOP状态。
+CLOCKWISE状态：若当前请求已完成，则判定后续节点请求可否同时完成，若可以则以上请求视为全部同时完成，
+               并进入STOP状态。若当前请求未完成，则进行一次顺时针位置移动。
+COUNTERCLOCKWISE状态：若当前请求已完成，则判定后续节点请求可否同时完成，若可以则以上请求视为全部同时完成，
+                      并进入STOP状态。若当前请求未完成，则进行一次逆时针位置移动。
+*/
 void modeSCAN();
+static enum {STOP,CLOCKWISE_STOP,COUNTERCLOCKWISE_STOP,CLOCKWISE,COUNTERCLOCKWISE} state = STOP;
+/*
+分为停运、顺时针停车、逆时针停车、顺时针行驶、逆时针行驶五种状态，初始为停站状态
+STOP状态：直接跳过所有本站请求,如果后续有其他请求则直接开始执行（转为最短行驶方向的行驶状态并进行一次位置移动）
+          若无其他请求则仍回到STOP状态。
+CLOCKWISE_STOP状态：检测是否有新请求，无请求则转为STOP状态。有新请求则根据新请求位置决定是否变向，
+                    进入对应的行驶状态并进行一次位置移动。
+COUNTERCLOCKWISE_STOP状态：检测是否有新请求，无请求则转为STOP状态。有新请求则根据新请求位置决定是否变向，
+                           进入对应的行驶状态并进行一次位置移动。
+CLOCKWISE状态：若当前请求已完成，则判定后续节点请求可否同时完成，若可以则以上请求视为全部同时完成，
+               并进入CLOCKWISE_STOP状态。若无后续请求，则直接进入STOP状态。若当前请求未完成，则进行一次顺时针位置移动。
+COUNTERCLOCKWISE状态：若当前请求已完成，则判定后续节点请求可否同时完成，若可以则以上请求视为全部同时完成，
+                      并进入COUNTERCLOCKWISE_STOP状态。若无后续请求，则直接进入STOP状态。若当前请求未完成，则进行一次逆时针位置移动。
+*/
 ```
 
 #### 三种策略函数自动机模型
