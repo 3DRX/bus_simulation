@@ -196,15 +196,15 @@ COUNTERCLOCKWISE状态：若当前请求已完成，则判定后续节点请求�
 
 - FCFS
 
-<img title="" src="GUI版本概要设计_assets/2022-07-06-12-06-34-image.png" alt="" data-align="center" width="570">
+![FCFS](./GUI版本概要设计_assets/2022-07-06-12-06-34-image.png)
 
 - SSTF
 
-<img title="" src="GUI版本概要设计_assets/2022-07-06-12-06-58-image.png" alt="" data-align="center" width="570">
+![SSTf](./GUI版本概要设计_assets/2022-07-06-12-06-58-image.png)
 
 - SCAN
 
-<img title="" src="GUI版本概要设计_assets/2022-07-06-12-08-22-image.png" alt="" data-align="center" width="570">
+![SCAN](./GUI版本概要设计_assets/2022-07-06-12-08-22-image.png)
 
 内部函数：
 
