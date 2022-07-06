@@ -60,7 +60,6 @@ typedef struct {
 } GLOB;
 ```
 
-
 ```cpp
 ENVIRONMENT env;
 CAR         car;
@@ -69,7 +68,6 @@ int         TIME = 0;
 GLOB        global;
 CoreThread* corethread;
 ```
-
 
 ## 模块划分
 
@@ -110,33 +108,31 @@ CoreThread* corethread;
    
    > 注：此处回调函数与按钮并不一一对应，同一个按钮在不同的状态下会连接至不同的函数。详见按钮回调函数的实现以及MainWindow类的构造函数实现。
    
-    
-   
    MainWindow构造函数中输入相关对象的创建：
-   
-   ```cpp
-   // 创建按钮
-   button_start = new QPushButton(this);
-   button_start->setText(tr("start"));
-   button_start->move(0, 701);
-   connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
-   button_end = new QPushButton(this);
-   button_end->setText(tr("end"));
-   button_end->move(0, 735);
-   connect(button_end, SIGNAL(clicked()), this, SLOT(endPressed()));
-   
-   // 创建文本框以及确认按钮
-   editT = new QLineEdit(this);
-   editC = new QLineEdit(this);
-   editU = new QLineEdit(this);
-   editT->setGeometry(700 + 90, 440 + 20, 100, 20);
-   editC->setGeometry(700 + 90, 440 + 20 + 50, 100, 20);
-   editU->setGeometry(700 + 90, 440 + 20 + 100, 100, 20);
-   button_input = new QPushButton(this);
-   button_input->setText(tr("input"));
-   button_input->move(900, 701);
-   connect(button_input, SIGNAL(clicked()), this, SLOT(inputPressed()));
-   ```
+
+```cpp
+// 创建按钮
+button_start = new QPushButton(this);
+button_start->setText(tr("start"));
+button_start->move(0, 701);
+connect(button_start, SIGNAL(clicked()), this, SLOT(startPressed()));
+button_end = new QPushButton(this);
+button_end->setText(tr("end"));
+button_end->move(0, 735);
+connect(button_end, SIGNAL(clicked()), this, SLOT(endPressed()));
+
+// 创建文本框以及确认按钮
+editT = new QLineEdit(this);
+editC = new QLineEdit(this);
+editU = new QLineEdit(this);
+editT->setGeometry(700 + 90, 440 + 20, 100, 20);
+editC->setGeometry(700 + 90, 440 + 20 + 50, 100, 20);
+editU->setGeometry(700 + 90, 440 + 20 + 100, 100, 20);
+button_input = new QPushButton(this);
+button_input->setText(tr("input"));
+button_input->move(900, 701);
+connect(button_input, SIGNAL(clicked()), this, SLOT(inputPressed()));
+```
 
 ### - 策略
 
@@ -163,6 +159,20 @@ void modeFCFS();
 void modeSSTF();
 void modeSCAN();
 ```
+
+#### 三种策略函数自动机模型
+
+- FCFS
+
+<img title="" src="GUI版本概要设计_assets/2022-07-06-12-06-34-image.png" alt="" data-align="center" width="570">
+
+- SSTF
+
+<img title="" src="GUI版本概要设计_assets/2022-07-06-12-06-58-image.png" alt="" data-align="center" width="570">
+
+- SCAN
+
+<img title="" src="GUI版本概要设计_assets/2022-07-06-12-08-22-image.png" alt="" data-align="center" width="570">
 
 内部函数：
 
@@ -211,7 +221,8 @@ int getStationNumber( int positionIndex );
 int getPositionIndex( int stationNumber );
 ```
 
-5.  
+
+5. 
 
 
 ```c
@@ -238,7 +249,7 @@ void carCounterClockwise(void);
 void carStop(void);
 ```
 
-7.  
+7. 
 
 
 ```c
@@ -277,21 +288,21 @@ int orient( int stationPosition );
 int SCAN_stationDistance( int stationPosition, int state );
 ```
 
-11.  
+11. 
 
 
 ```c
 void FCFS_haveOnStationRequest( NODE* presentWorkingPtr );
 ```
 
-12.  
+12. 
 
 
 ```c
 void updateBuf( NODE* presentPtr );
 ```
 
-13.  
+13. 
 
 
 ```c
